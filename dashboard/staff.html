@@ -1,68 +1,120 @@
 <!DOCTYPE html>
 <html lang="id">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Dashboard Peserta — LMS</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --brand: #a80308;
-      --muted: #6b7280;
-      --card-shadow: 0 10px 30px rgba(2,6,23,0.06);
-      --pink: #f6b0d6;
-    }
-    body { font-family: "Inter",sans-serif; background:#f3f4f6; color:#111827; }
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Dashboard Peserta — LMS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --brand: #a80308;
+        --muted: #6b7280;
+        --card-shadow: 0 10px 30px rgba(2, 6, 23, 0.06);
+        --pink: #f6b0d6;
+      }
+      body {
+        font-family: "Inter", sans-serif;
+        /* background: #f3f4f6; */
+        color: #111827;
+      }
 
-    /* common card */
-    .card { background: #fff; border-radius: 12px; box-shadow: var(--card-shadow); }
+      /* common card */
+      .card {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: var(--card-shadow);
+      }
 
-    /* big hero */
-    .hero {
-      background: linear-gradient(180deg, #0b1220 0%, #0f1724 100%);
-      color: #fff;
-      border-radius: 12px;
-      box-shadow: 0 25px 50px rgba(2,6,23,0.35);
-    }
+      /* big hero */
+      .hero {
+        background: linear-gradient(180deg, #0b1220 0%, #0f1724 100%);
+        color: #fff;
+        border-radius: 12px;
+        box-shadow: 0 25px 50px rgba(2, 6, 23, 0.35);
+      }
 
-    .red-header {
-      background: var(--brand);
-      color: #fff;
-      border-radius: 8px;
-      padding: 10px 14px;
-      font-weight: 700;
-    }
+      /* sedikit polishing untuk progress */
+      .progress-fill {
+        transition: width 350ms ease;
+      }
 
-    /* small dot center between stat cards */
-    .center-dot {
-      width: 16px;
-      height: 16px;
-      background: var(--pink);
-      border: 3px solid #fff;
-      border-radius: 999px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.12);
-    }
+      .red-header {
+        background: var(--brand);
+        color: #fff;
+        border-radius: 8px;
+        padding: 10px 14px;
+        font-weight: 700;
+      }
 
-    /* donut simple */
-    .donut-outer { width: 120px; height: 120px; border-radius: 9999px; display:flex; align-items:center; justify-content:center; }
-    /* activity list item */
-    .activity-item { padding: 12px 0; border-bottom: 1px solid rgba(17,24,39,0.05); }
+      /* small dot center between stat cards */
+      .center-dot {
+        width: 16px;
+        height: 16px;
+        background: var(--pink);
+        border: 3px solid #fff;
+        border-radius: 999px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+      }
 
-    /* status badge small */
-    .badge-green { background: #e6f7ee; color: #047857; padding:6px 10px; border-radius: 8px; font-weight:700; font-size:12px; }
-    .badge-yellow { background: #fffbeb; color: #92400e; padding:6px 10px; border-radius: 8px; font-weight:700; font-size:12px; }
-    .badge-red { background: #fef2f2; color: var(--brand); padding:6px 10px; border-radius: 8px; font-weight:700; font-size:12px; }
+      /* donut simple */
+      .donut-outer {
+        width: 120px;
+        height: 120px;
+        border-radius: 9999px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      /* activity list item */
+      .activity-item {
+        padding: 12px 0;
+        border-bottom: 1px solid rgba(17, 24, 39, 0.05);
+      }
 
-    /* responsive tweaks */
-    @media (max-width: 1024px) {
-      .lg\\:col-span-8 { grid-column: span 8 / span 8; }
-      .lg\\:col-span-4 { grid-column: span 4 / span 4; }
-    }
-  </style>
-</head>
-<body>
-<!-- NAVBAR -->
+      /* status badge small */
+      .badge-green {
+        background: #e6f7ee;
+        color: #047857;
+        padding: 6px 10px;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 12px;
+      }
+      .badge-yellow {
+        background: #fffbeb;
+        color: #92400e;
+        padding: 6px 10px;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 12px;
+      }
+      .badge-red {
+        background: #fef2f2;
+        color: var(--brand);
+        padding: 6px 10px;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 12px;
+      }
+
+      /* responsive tweaks */
+      @media (max-width: 1024px) {
+        .lg\\:col-span-8 {
+          grid-column: span 8 / span 8;
+        }
+        .lg\\:col-span-4 {
+          grid-column: span 4 / span 4;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAVBAR -->
     <nav
       class="flex items-center justify-between px-8 py-4 border-b-2 border-gray-200 mb-4 bg-white"
     >
@@ -103,9 +155,9 @@
       </div>
     </nav>
 
-    <main class=" mx-8 mb-12">
-    <!-- HERO -->
-    <section class="flex flex-col gap-6 h-70 md:flex-row">
+    <main class="mx-8 mb-12">
+      <!-- HERO -->
+      <section class="flex flex-col gap-6 h-70 md:flex-row">
       <div class="text-white bg-black rounded-2xl flex-3 w-2/3 p-8 my-auto">
         <h1 class="mb-3 max-w-4xl text-4xl font-bold capitalize">
           Alur proses pembelian dan pelunasan cabang
@@ -131,7 +183,7 @@
         </div>
 
         <a
-          href="../login/index.html"
+          href="../course/user.html"
           class="inline-block px-6 py-3 font-semibold text-white transition-colors rounded-lg bg-[#a80308] hover:bg-[#8a0206]"
         >
           Lanjutkan
@@ -165,197 +217,357 @@
       </div>
     </section>
 
-    <!-- STAT CARDS (donut left, 4 cards center style) -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch">
-      <div class="lg:col-span-12 card p-4">
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
-          <!-- left donut already above; here replicate layout similar to original: left donut + 4 stat boxes center + ranking at right -->
-          <div class="md:col-span-3 flex items-center justify-center">
-            <!-- small donut summary -->
-            <div class="w-28 h-28 rounded-full bg-white flex items-center justify-center">
-              <svg viewBox="0 0 36 36" class="w-20 h-20">
-                <circle cx="18" cy="18" r="15" fill="#f3f4f6"></circle>
-                <circle cx="18" cy="18" r="15" fill="none" stroke="var(--brand)" stroke-width="4" stroke-dasharray="65 35" stroke-linecap="round" transform="rotate(-90 18 18)"></circle>
-                <text x="18" y="20.5" text-anchor="middle" font-size="6" font-weight="700" fill="#111827">65%</text>
-              </svg>
-            </div>
-          </div>
-
-          <div class="md:col-span-6 relative">
-            <!-- 2x2 grid stats with center pink dot -->
-            <div class="grid grid-cols-2 gap-4">
-              <div class="rounded-lg bg-[#fdeedb] p-4 flex flex-col justify-center items-start">
-                <div class="text-sm font-semibold">Jumlah Pelatihan Harus Diikuti</div>
-                <div class="text-2xl font-extrabold mt-2">12</div>
+     
+        <!-- Top grid: donut + stats + leaderboard -->
+        <div class="my-6 grid grid-cols-1 md:grid-cols-8 gap-4">
+          <!-- Donut -->
+          <div class="col-span-1 md:col-span-2 bg-[#FFF4E5] rounded-lg shadow p-4">
+            <!-- <h3 class="text-gray-600 font-semibold mb-4">Summary</h3> -->
+            <div class="flex flex-col items-center gap-10">
+              <div class="w-44 h-44">
+                <canvas id="donutChart"></canvas>
               </div>
-
-              <div class="rounded-lg bg-[#ffeef0] p-4 flex flex-col justify-center items-start">
-                <div class="text-sm font-semibold">Pelatihan Berlangsung</div>
-                <div class="text-2xl font-extrabold mt-2">3</div>
-              </div>
-
-              <div class="rounded-lg bg-[#e9f9ee] p-4 flex flex-col justify-center items-start">
-                <div class="text-sm font-semibold">Pelatihan Selesai</div>
-                <div class="text-2xl font-extrabold text-green-600 mt-2">8</div>
-              </div>
-
-              <div class="rounded-lg bg-[#fff0f3] p-4 flex flex-col justify-center items-start">
-                <div class="text-sm font-semibold">Pelatihan Belum Dimulai</div>
-                <div class="text-2xl font-extrabold text-yellow-600 mt-2">1</div>
-              </div>
-            </div>
-
-            <!-- center small pink dot -->
-            <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-              <div class="center-dot"></div>
-            </div>
-          </div>
-
-          <div class="md:col-span-3">
-            <!-- right ranking (also shown earlier), but keep a compact card here to match design -->
-            <div class="card p-3">
-              <div class="flex items-center justify-between mb-2">
-                <div class="font-semibold text-sm">Peringkat Saya</div>
-                <a href="#" class="text-xs text-gray-500">Lihat</a>
-              </div>
-              <ol class="text-sm space-y-2">
-                <li class="flex items-center justify-between">
-                  <div class="flex items-center gap-3">
-                    <div class="w-7 h-7 bg-yellow-100 flex items-center justify-center rounded-md font-bold text-sm">1</div>
-                    <div>
-                      <div class="font-semibold">Wardah Cahyani</div>
-                      <div class="text-xs text-gray-500">Score 430</div>
-                    </div>
+              <div class="flex-1 flex gap-x-24">
+                <div>
+                  <div class="flex items-center">
+                    <span class="legend-dot bg-[#388E3C] w-3 h-3 mr-1"></span>
+                      <div class="text-xs text-gray-500">Selesai</div>
                   </div>
-                  <div class="text-xs text-gray-600">430</div>
-                </li>
-                <li class="flex items-center justify-between">
-                  <div class="flex items-center gap-3">
-                    <div class="w-7 h-7 bg-gray-100 flex items-center justify-center rounded-md font-bold text-sm">2</div>
-                    <div>
-                      <div class="font-semibold">Eka Oktavia</div>
-                      <div class="text-xs text-gray-500">300</div>
-                    </div>
+                </div>
+                <div>
+                  <div class="flex items-center">
+                    <span class="legend-dot bg-[#FFB300] w-3 h-3 mr-1"></span>
+                      <div class="text-xs text-gray-500">Berlangsung</div>
                   </div>
-                  <div class="text-xs text-gray-600">300</div>
-                </li>
-              </ol>
+                </div>
+                <div>
+                  <div class="flex items-center">
+                    <span class="legend-dot bg-[#A80308] w-3 h-3 mr-1"></span>
+                      <div class="text-xs text-gray-500">Belum Mulai</div>
+                  </div>
+                </div>
+              </div>
             </div>
+          </div>
+
+          <!-- Big stat cards -->
+          <div
+            class="col-span-1 md:col-span-4 grid grid-cols-2 md:grid-cols-2 gap-4"
+          >
+            <div class="bg-[#FFDAB3] rounded-lg p-2 px-10 shadow flex flex-col items-center text-center gap-2">
+              <div class="text-3xl font-bold text-black">
+                Jumlah Pelatihan Harus Diikuti
+              </div>
+              <div class="text-6xl font-medium mt-2">12</div>
+            </div>
+            <div class="bg-[#FFF4E5] rounded-lg p-2 px-10 shadow flex flex-col items-center text-center gap-2">
+              <div class="text-3xl font-bold text-black">
+                Pelatihan Berlangsung
+              </div>
+              <div class="text-6xl font-medium mt-2">8</div>
+            </div><div class="bg-[#DFF5E1] rounded-lg p-2 px-10 shadow flex flex-col items-center text-center gap-2">
+              <div class="text-3xl font-bold text-black">
+                Pelatihan Selesai
+              </div>
+              <div class="text-6xl font-medium mt-2">3</div>
+            </div><div class="bg-[#FFE5E5] rounded-lg p-2 px-10 shadow flex flex-col items-center text-center gap-2">
+              <div class="text-3xl font-bold text-black">
+                Pelatihan Belum Dimulai
+              </div>
+              <div class="text-6xl font-medium mt-2">1</div>
+            </div>
+          </div>
+
+          <!-- Leaderboard -->
+          <div class="col-span-1 md:col-span-2 bg-[#FFDAB3] rounded-lg shadow p-4">
+            <h4 class="font-semibold text-gray-700 mb-3">Peringkat Saya</h4>
+            <ol class="space-y-2">
+              <li class="flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                  <div
+                    class="w-8 h-8 rounded-full bg-yellow-400 flex items-center justify-center font-semibold"
+                  >
+                    1
+                  </div>
+                  <div>
+                    <div class="text-sm font-medium">Wardah Cahyani</div>
+                    <div class="text-xs text-gray-500">40 pts</div>
+                  </div>
+                </div>
+              </li>
+              <li class="flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                  <div
+                    class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center font-semibold"
+                  >
+                    2
+                  </div>
+                  <div>
+                    <div class="text-sm font-medium">Ervisa Oktavia</div>
+                    <div class="text-xs text-gray-500">300 pts</div>
+                  </div>
+                </div>
+              </li>
+              <li class="flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                  <div
+                    class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center font-semibold"
+                  >
+                    3
+                  </div>
+                  <div>
+                    <div class="text-sm font-medium">Sarah Amelia</div>
+                    <div class="text-xs text-gray-500">290 pts</div>
+                  </div>
+                </div>
+              </li>
+              <li class="mt-2 text-xs text-gray-500">...dan seterusnya</li>
+            </ol>
           </div>
         </div>
-      </div>
-    </div>
 
-    <!-- Aktifitas Terbaru header -->
-    <div>
-      <div class="red-header">Aktifitas Terbaru</div>
-      <div class="card mt-3 p-4">
-        <div class="space-y-2">
-          <div class="activity-item flex gap-4">
-            <div class="w-36 text-xs text-gray-500">3 Agustus 2025</div>
-            <div>
-              <div class="font-semibold">Menyelesaikan "Product Knowledge 1"</div>
-              <div class="text-xs text-gray-500 mt-1">Selesai 14/14</div>
+        <!-- Aktifitas Terbaru -->
+        <section class="my-6">
+          <div
+            class="bg-red-700 text-white rounded-t-md px-4 py-2 font-semibold"
+          >
+            Aktifitas Terbaru
+          </div>
+          <div class="bg-white border border-t-0 rounded-b-md p-4">
+            <ul class="divide-y">
+              <!-- contoh item; nanti bisa di-render dari data -->
+              <li class="py-3 flex gap-4">
+                <div class="w-36 text-xs text-gray-500">3 Agustus 2025</div>
+                <div class="flex-1">Menyelesaikan "Product Knowledge 1"</div>
+              </li>
+              <li class="py-3 flex gap-4">
+                <div class="w-36 text-xs text-gray-500">1 Agustus 2025</div>
+                <div class="flex-1">
+                  Mulai "Soft Skills: Komunikasi Efektif"
+                </div>
+              </li>
+              <li class="py-3 flex gap-4">
+                <div class="w-36 text-xs text-gray-500">30 Juli 2025</div>
+                <div class="flex-1">Mengerjakan kuis ERP Modul 1</div>
+              </li>
+              <li class="py-3 flex gap-4">
+                <div class="w-36 text-xs text-gray-500">28 Juli 2025</div>
+                <div class="flex-1">Memberikan feedback untuk course</div>
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- Pelatihan Selesai -->
+        <section class="my-6">
+          <div
+            class="bg-red-700 text-white rounded-t-md px-4 py-2 font-semibold"
+          >
+            Pelatihan Selesai
+          </div>
+          <div class="bg-white border border-t-0 rounded-b-md p-4 space-y-4">
+            <!-- controls: search + kategori + status -->
+            <div class="flex flex-col md:flex-row gap-3 md:items-center">
+              <input
+                id="searchInput"
+                type="text"
+                placeholder="Search"
+                class="flex-1 border rounded px-3 py-2"
+              />
+              <select id="kategori" class="border rounded px-3 py-2 w-48">
+                <option value="">Semua Kategori</option>
+                <option>Soft Skills</option>
+                <option>Teknis</option>
+              </select>
+              <select id="status" class="border rounded px-3 py-2 w-48">
+                <option value="">Semua Status</option>
+                <option>Selesai</option>
+                <option>Belum</option>
+              </select>
+            </div>
+
+            <!-- items grid -->
+            <div id="doneGrid" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <!-- contoh card -->
+              <div class="border rounded p-4 flex flex-col justify-between">
+                <div>
+                  <div class="text-sm font-semibold">Product Knowledge 1</div>
+                  <div class="text-xs text-gray-500 mt-1">Kategori: Teknis</div>
+                </div>
+                <div class="mt-4 flex items-center justify-between">
+                  <div class="text-xs text-gray-500">
+                    Selesai: 3 Agustus 2025
+                  </div>
+                  <button
+                    class="bg-emerald-500 text-white rounded px-3 py-1 text-xs"
+                  >
+                    Selesai
+                  </button>
+                </div>
+              </div>
+
+              <div class="border rounded p-4 flex flex-col justify-between">
+                <div>
+                  <div class="text-sm font-semibold">
+                    Soft Skills: Komunikasi Efektif
+                  </div>
+                  <div class="text-xs text-gray-500 mt-1">
+                    Kategori: Soft Skills
+                  </div>
+                </div>
+                <div class="mt-4 flex items-center justify-between">
+                  <div class="text-xs text-gray-500">
+                    Selesai: 1 Agustus 2025
+                  </div>
+                  <button
+                    class="bg-emerald-500 text-white rounded px-3 py-1 text-xs"
+                  >
+                    Selesai
+                  </button>
+                </div>
+              </div>
+
+              <div class="border rounded p-4 flex flex-col justify-between">
+                <div>
+                  <div class="text-sm font-semibold">ERP Modul 1</div>
+                  <div class="text-xs text-gray-500 mt-1">Kategori: Teknis</div>
+                </div>
+                <div class="mt-4 flex items-center justify-between">
+                  <div class="text-xs text-gray-500">Selesai: 30 Juli 2025</div>
+                  <button
+                    class="bg-emerald-500 text-white rounded px-3 py-1 text-xs"
+                  >
+                    Selesai
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
+        </section>
+      
 
-          <div class="activity-item flex gap-4">
-            <div class="w-36 text-xs text-gray-500">1 Agustus 2025</div>
-            <div>
-              <div class="font-semibold">Mulai "Soft Skills: Komunikasi Efektif"</div>
-              <div class="text-xs text-gray-500 mt-1">Berlangsung</div>
-            </div>
-          </div>
+      <footer class="text-center text-xs text-gray-500 mt-6">
+        &copy; 2025 LMS Ekatunggal
+      </footer>
+    </main>
 
-          <div class="activity-item flex gap-4">
-            <div class="w-36 text-xs text-gray-500">30 Juli 2025</div>
-            <div>
-              <div class="font-semibold">Mengerjakan kuis ERP Modul 1</div>
-              <div class="text-xs text-gray-500 mt-1">Dalam progress</div>
-            </div>
-          </div>
+    <!-- small JS for demo -->
+    <script>
+      // (Optional) animate hero progress a bit
+      document.addEventListener("DOMContentLoaded", () => {
+        const inner =
+          document.querySelector(".hero .bg-[color\\:var\\(--brand\\)]") ||
+          document.querySelector('.hero div[style*="background"]');
+        // nothing required — progress shown by inline width
+      });
 
-          <div class="activity-item flex gap-4">
-            <div class="w-36 text-xs text-gray-500">28 Juli 2025</div>
-            <div>
-              <div class="font-semibold">Memberikan feedback untuk course</div>
-              <div class="text-xs text-gray-500 mt-1">Komentar dikirim</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+      /* -------- Progress auto-update logic -------- */
 
-    <!-- Pelatihan Selesai -->
-    <div>
-      <div class="red-header">Pelatihan Selesai</div>
+      function parseProgressText(text) {
+        // Match "3 / 13" or "3/13" or with spaces
+        const m = String(text).match(/(\d+)\s*\/\s*(\d+)/);
+        if (!m) return null;
+        return [parseInt(m[1], 10), parseInt(m[2], 10)];
+      }
 
-      <div class="card mt-3 p-4">
-        <!-- search bar row -->
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-4">
-          <div class="flex items-center gap-2">
-            <input type="text" placeholder="Search" class="px-3 py-2 border rounded-md text-sm" />
-            <select class="px-3 py-2 border rounded-md text-sm">
-              <option>Kategori</option>
-            </select>
-            <select class="px-3 py-2 border rounded-md text-sm">
-              <option>Status</option>
-            </select>
-          </div>
-          <div class="text-sm text-gray-500">Menampilkan 3 modul</div>
-        </div>
+      function updateProgress(wrapper) {
+        const span = wrapper.querySelector(".progress-text");
+        const fill = wrapper.querySelector(".progress-fill");
+        if (!span || !fill) return;
 
-        <!-- cards grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          <!-- module card -->
-          <article class="rounded overflow-hidden border">
-            <div class="relative">
-              <img src="https://via.placeholder.com/600x300.png?text=Modul+1" alt="modul" class="w-full h-40 object-cover">
-              <div class="absolute left-3 top-3 bg-white text-sm px-3 py-1 rounded-md font-semibold">Selesai</div>
-            </div>
-            <div class="p-3">
-              <div class="text-sm font-extrabold">ALUR PROSES PENERIMAAN PESANAN</div>
-              <div class="text-xs text-gray-500 mt-2">14 / 14</div>
-            </div>
-          </article>
+        const nums = parseProgressText(span.textContent);
+        if (!nums) {
+          // jika format tak sesuai, kita set 0
+          fill.style.width = "0%";
+          fill.setAttribute("aria-valuenow", 0);
+          return;
+        }
 
-          <article class="rounded overflow-hidden border">
-            <div class="relative">
-              <img src="https://via.placeholder.com/600x300.png?text=Modul+2" alt="modul" class="w-full h-40 object-cover">
-              <div class="absolute left-3 top-3 bg-white text-sm px-3 py-1 rounded-md font-semibold">Selesai</div>
-            </div>
-            <div class="p-3">
-              <div class="text-sm font-extrabold">PROSES PEMBUATAN DOKUMEN SALES ORDER (SO)</div>
-              <div class="text-xs text-gray-500 mt-2">14 / 14</div>
-            </div>
-          </article>
+        const [cur, total] = nums;
+        let pct = 0;
+        if (total === 0) pct = 0;
+        else pct = (cur / total) * 100;
 
-          <article class="rounded overflow-hidden border">
-            <div class="relative">
-              <img src="https://via.placeholder.com/600x300.png?text=Modul+3" alt="modul" class="w-full h-40 object-cover">
-              <div class="absolute left-3 top-3 bg-white text-sm px-3 py-1 rounded-md font-semibold">Selesai</div>
-            </div>
-            <div class="p-3">
-              <div class="text-sm font-extrabold">PERSIAPAN PENGIRIMAN BARANG</div>
-              <div class="text-xs text-gray-500 mt-2">14 / 14</div>
-            </div>
-          </article>
-        </div>
-      </div>
-    </div>
+        // batasi antara 0 - 100
+        pct = Math.max(0, Math.min(100, pct));
 
-    <footer class="text-center text-xs text-gray-500 mt-6">
-      &copy; 2025 LMS Ekatunggal
-    </footer>
-  </main>
+        // Two decimal precision untuk tampilan halus
+        const pctStr = Math.round(pct * 100) / 100 + "%";
 
-  <!-- small JS for demo -->
-  <script>
-    // (Optional) animate hero progress a bit
-    document.addEventListener('DOMContentLoaded', () => {
-      const inner = document.querySelector('.hero .bg-[color\\:var\\(--brand\\)]') || document.querySelector('.hero div[style*="background"]');
-      // nothing required — progress shown by inline width
-    });
-  </script>
-</body>
+        fill.style.width = pctStr;
+        // accessibility attributes -> kita gunakan current absolute value (cur) dan total
+        fill.setAttribute("aria-valuenow", cur);
+        fill.setAttribute("aria-valuemax", total);
+        fill.setAttribute("aria-valuemin", 0);
+      }
+
+      function initProgressWrappers() {
+        const wrappers = document.querySelectorAll(".progress-wrapper");
+        wrappers.forEach((wrapper) => {
+          // initial update
+          updateProgress(wrapper);
+
+          // Observe perubahan teks di dalam .progress-text
+          const span = wrapper.querySelector(".progress-text");
+          if (span) {
+            const mo = new MutationObserver(() => {
+              updateProgress(wrapper);
+            });
+
+            mo.observe(span, { characterData: true, childList: true, subtree: true });
+
+            // Jika angka diubah melalui input/form di JS, mungkin Anda juga ingin
+            // memanggil updateProgress(wrapper) langsung setelah mengubah teks.
+          }
+        });
+      }
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initProgressWrappers);
+      } else {
+        initProgressWrappers();
+      }
+
+      // Donut Chart
+      const ctx = document.getElementById("donutChart").getContext("2d");
+      const donut = new Chart(ctx, {
+        type: "doughnut",
+        data: {
+          labels: ["Selesai", "Berlangsung", "Belum Mulai"],
+          datasets: [
+            {
+              data: [8, 3, 1],
+              backgroundColor: ["#388E3C", "#FFB300", "#A80308"],
+              borderWidth: 0,
+            },
+          ],
+        },
+        options: {
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+          },
+          cutout: "60%",
+        },
+      });
+
+      // (Opsional) fitur search sederhana untuk "Pelatihan Selesai"
+      const searchInput = document.getElementById("searchInput");
+      const grid = document.getElementById("doneGrid");
+      const items = Array.from(grid.children);
+
+      searchInput.addEventListener("input", function () {
+        const q = this.value.toLowerCase();
+        items.forEach((card) => {
+          const title =
+            card.querySelector(".text-sm")?.textContent?.toLowerCase() || "";
+          if (!q || title.includes(q)) {
+            card.style.display = "";
+          } else {
+            card.style.display = "none";
+          }
+        });
+      });
+    </script>
+  </body>
 </html>

@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>LMS — Pelatihan</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+      }
+
+      /* Progress shared styles */
+      .progress-bar {
+        overflow: hidden;
+      }
+      .progress-fill {
+        transition: width 450ms cubic-bezier(0.2, 0.9, 0.2, 1);
+        will-change: width;
+      }
+
+      /* small helper for FAQ indent */
+      .faq-content .ml-10 {
+        margin-left: 2.5rem;
+      }
+
+      /* timeline styles for Learning Path */
+       .timeline {
+        --tl-left: 64px;
+        --tl-cap: 18px;
+        position: relative;
+        display: grid;
+        grid-template-columns: var(--tl-left) 1fr;
+        gap: 0;
+        align-items: start;
+      }
+
+      /* vertical line centered inside left column,
+         top & bottom trimmed using --tl-cap so it doesn't stick out under last marker */
+      .timeline::before {
+        content: "";
+        position: absolute;
+        left: calc(var(--tl-left) / 2);
+        top: var(--tl-cap);
+        bottom: var(--tl-cap);
+        width: 4px;
+        background: #111827; /* dark line */
+        transform: translateX(-50%);
+        border-radius: 2px;
+      }
+
+      /* each logical row uses both columns; "display: contents" keeps grid alignment */
+      .timeline-row {
+        display: contents;
+      }
+
+      /* left column: center marker on the vertical line */
+      .timeline-cell-marker {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        padding: 10px 0;
+        min-height: 36px;
+      }
+
+      /* right column: label area, align center vertically with marker */
+      .timeline-cell-content {
+        display: flex;
+        align-items: center; /* center vertically with marker */
+        padding: 10px 12px;
+        min-height: 36px;
+      }
+
+      /* default small marker */
+      .marker {
+        width: 20px;
+        height: 20px;
+        border-radius: 9999px;
+        background: #ffffff;
+        border: 2px solid #111827;
+        display: inline-block;
+        flex-shrink: 0;
+      }
+
+      /* larger marker for level headers */
+      .marker.big {
+        width: 30px;
+        height: 30px;
+        border-width: 2px;
+        border-color: #374151; /* darker border */
+        background: #fff;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 12px;
+        color: #111827;
+      }
+
+      /* current/active marker */
+      .marker.active {
+        background: #a80308;
+        border-color: #a80308;
+        box-shadow: 0 0 0 8px rgba(168, 3, 8, 0.08);
+      }
+
+      /* label styles */
+      .level-label {
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: #111827;
+        margin-left: 6px; /* small gap from marker */
+      }
+      .sublevel-label {
+        font-size: 0.85rem;
+        color: #6b7280;
+        margin-left: 6px;
+      }
+
+      /* remove extra bottom spacing when timeline shorter */
+      .timeline-wrapper {
+        display: inline-block; /* shrink to content height so trimming (--tl-cap) works visually */
+      }
+
+      /* responsive small screens */
+      @media (max-width: 768px) {
+        .timeline {
+          --tl-left: 48px;
+          --tl-cap: 14px;
+        }
+        .marker.big {
+          width: 20px;
+          height: 20px;
+          font-size: 11px;
+        }
+        .marker {
+          width: 12px;
+          height: 12px;
+        }
+        .timeline-cell-content {
+          padding-left: 8px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAVBAR -->
+    <nav
+      class="flex items-center justify-between px-8 py-4 border-b-2 border-gray-200 mb-4 bg-white"
+    >
+      <div class="flex items-center font-semibold">
+        <img src="../img/logo.png" alt="Logo" class="w-10 mr-2" />
+        <a
+          href="../home/user.html"
+          class="px-4 py-1 rounded-full font-semibold text-black hover:bg-gray-100"
+          >Home</a
+        >
+        <a
+          href="../dashboard/staff.html"
+          class="px-4 py-1 rounded-full font-semibold text-black hover:bg-gray-100"
+          >Dashboard</a
+        >
+        <a
+          href="../course/user.html"
+          class="px-4 py-1 rounded-full font-semibold text-black hover:bg-gray-100"
+          >MyCourse</a
+        >
+        <a
+          href="#"
+          class="px-4 py-1 rounded-full font-semibold text-black hover:bg-gray-100"
+          >Site Administrator</a
+        >
+      </div>
+      <div class="flex items-center gap-2">
+        <img
+          src="../img/pp.png"
+          alt="notification"
+          class="w-12 h-12 rounded-lg mr-12"
+        />
+        <div class="text-end">
+          <p class="font-bold">Nama Pengguna</p>
+          <p class="text-gray-400 text-[11px]">Nama Learning Staff</p>
+        </div>
+        <img src="../img/pp.png" alt="Profile" class="w-12 h-12 rounded-lg" />
+      </div>
+    </nav>
+
+    <main class="mx-8 mb-12">
+      <!-- Section Header (tabs) -->
+      <div class="flex justify-center items-center gap-3 mt-5">
+        <div role="tablist" aria-label="Pelatihan Tabs" class="flex w-full gap-3">
+          <button
+            id="tab-courses"
+            role="tab"
+            aria-selected="true"
+            data-target="panel-courses"
+            class="flex-1 h-[70px] bg-[#a80308] text-white font-extrabold text-2xl rounded-lg flex items-center px-6 justify-center focus:outline-none focus:ring-2 focus:ring-red-300"
+          >
+            Pelatihan Tersedia
+          </button>
+          <button
+            id="tab-path"
+            role="tab"
+            aria-selected="false"
+            data-target="panel-path"
+            class="flex-1 h-[70px] text-[#a80308] bg-gray-300 font-extrabold text-2xl rounded-lg flex items-center px-6 justify-center border border-gray-200 focus:outline-none focus:ring-2 focus:ring-red-100"
+          >
+            Learning Path
+          </button>
+        </div>
+      </div>
+
+      <!-- HERO -->
+      <!-- ======= TAB PANELS ======= -->
+      <!-- Panel: Courses Grid -->
+      <div id="panel-courses" role="tabpanel" aria-labelledby="tab-courses">
+      <section class="mt-4">
+        <div class="mx-auto">
+          <!-- Hero wrapper -->
+          <div
+            class="bg-black text-white rounded-xl p-6 md:p-10 shadow-2xl overflow-hidden"
+          >
+            <!-- Content -->
+            <div class="relative z-10 flex flex-col items-center">
+              <div class="w-full max-w-3xl text-center">
+                <h1
+                  class="text-2xl md:text-4xl font-extrabold leading-tight mb-3"
+                >
+                  Tingkatkan Skill Anda Sekarang!
+                </h1>
+                <p class="text-white/80 text-sm md:text-lg mb-6">
+                  Platform pembelajaran internal untuk meningkatkan kompetensi dan
+                  kinerja seluruh tim Ekatunggal. Pelajari materi sesuai jabatan,
+                  ikuti pelatihan, dan raih sertifikatmu!
+                </p>
+              </div>
+
+              <!-- Search + dropdowns card -->
+              <form
+                onsubmit="handleSearch(event)"
+                class="w-full max-w-7xl mt-4"
+                role="search"
+                aria-label="Cari kursus"
+              >
+                <div
+                  class="rounded-lg p-3 shadow-sm flex flex-col md:flex-row gap-3 items-center bg-white/5 "
+                >
+                  <!-- Search input (besar) -->
+                  <div
+                    class="flex items-center w-full md:flex-1 bg-white text-black rounded-md px-3 h-10"
+                  >
+                    <svg
+                      class="w-5 h-5 text-gray-500 mr-2"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M21 21l-4.35-4.35"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <circle
+                        cx="11"
+                        cy="11"
+                        r="6"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      />
+                    </svg>
+
+                    <input
+                      type="search"
+                      name="q"
+                      class="flex-1 bg-transparent border-0 outline-none text-black placeholder-gray-500 text-sm"
+                      placeholder="Cari kursus..."
+                      aria-label="Cari kursus"
+                    />
+
+                    <button
+                      type="submit"
+                      class="ml-3 inline-flex items-center gap-2 rounded-md px-3 py-1 text-sm font-semibold text-gray-500 bg-transparent"
+                      aria-label="Cari"
+                    >
+                      <svg
+                        class="w-4 h-4"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        aria-hidden="true"
+                      >
+                        <path
+                          d="M21 21l-4.35-4.35"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                        <circle
+                          cx="11"
+                          cy="11"
+                          r="6"
+                          stroke="currentColor"
+                          stroke-width="2"
+                        />
+                      </svg>
+                      Search
+                    </button>
+                  </div>
+
+                  <!-- Dropdowns (compact) -->
+                  <div class="flex gap-2 items-center w-full md:w-auto ">
+                    <label class="sr-only" for="kategori">Kategori</label>
+                    <select
+                      id="kategori"
+                      name="kategori"
+                      class="bg-white/8 text-gray-600 text-sm rounded-md px-4 h-10 border border-white/6 outline-none"
+                    >
+                      <option value="" class="text-black">Kategori</option>
+                      <option value="mandatory" class="text-black">Mandatory</option>
+                      <option value="functional-sop" class="text-black">Functional SOP</option>
+                      <option value="functional-skill" class="text-black">
+                        Functional Skill
+                      </option>
+                      <option value="development" class="text-black">
+                        Development
+                      </option>
+                    </select>
+
+                    <label class="sr-only" for="status">Status</label>
+                    <select
+                      id="status"
+                      name="status"
+                      class="bg-white/8 text-gray-600 text-sm rounded-md px-3 h-10 border border-white/6 outline-none"
+                    >
+                      <option value="" class="text-black">Status</option>
+                      <option value="private" class="text-black">
+                        Private
+                      </option>
+                      <option value="public" class="text-black">
+                        Public
+                      </option>
+                    </select>
+
+                    <label class="sr-only" for="progress">Progress</label>
+                    <select
+                      id="progress"
+                      name="progress"
+                      class="bg-white/8 text-gray-600 text-sm rounded-md px-3 h-10 border border-white/6 outline-none"
+                    >
+                      <option value="" class="text-black">Progress</option>
+                      <option value="not-started" class="text-black">Belum Dimulai</option>
+                      <option value="in-progress" class="text-black">Berlangsung</option>
+                      <option value="completed" class="text-black">Selesai</option>
+                    </select>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="mt-6">
+          <div
+            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6 course-grid-row"
+          >
+            <!-- CARD 1 -->
+            <div class="bg-white rounded-lg overflow-hidden shadow">
+              <div
+                class="flex justify-between items-center px-3 py-2 gap-2 text-sm font-semibold"
+              >
+                <div title="Terbuka">🔓</div>
+                <span class="bg-green-600 text-white px-3 py-1 rounded-lg"
+                  >Selesai</span
+                >
+              </div>
+              <img src="../img/course1.png" alt="course 1" class="w-full" />
+              <div class="p-4">
+                <h4 class="text-2xl font-extrabold text-center mb-3 h-16">
+                  ALUR PROSES PENERIMAAN PESANAN
+                </h4>
+                <div
+                  class="flex justify-between items-center text-sm text-gray-500 progress-wrapper"
+                >
+                  <div
+                    class="w-[87%] bg-gray-200 rounded h-1 relative progress-bar"
+                  >
+                    <div
+                      class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                      style="width: 0%"
+                      role="progressbar"
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                      aria-valuenow="0"
+                    ></div>
+                  </div>
+                  <span class="progress-text pl-2">14 / 14</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- CARD 2 -->
+            <div class="bg-white rounded-lg overflow-hidden shadow">
+              <div
+                class="flex justify-between items-center px-3 py-2 gap-2 text-sm font-semibold"
+              >
+                <div title="Terbuka">🔓</div>
+                <span class="bg-orange-500 text-white px-3 py-1 rounded-lg"
+                  >Lanjutkan</span
+                >
+              </div>
+              <img src="../img/course2.png" alt="course 2" class="w-full" />
+              <div class="p-4">
+                <h4 class="text-2xl font-extrabold text-center mb-3 h-16">
+                  PROSES PEMBUATAN DOKUMEN SALES ORDER (SO)
+                </h4>
+                <div
+                  class="flex justify-between items-center text-sm text-gray-500 progress-wrapper"
+                >
+                  <div
+                    class="w-[87%] bg-gray-200 rounded h-1 relative progress-bar"
+                  >
+                    <div
+                      class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                      style="width: 0%"
+                      role="progressbar"
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                      aria-valuenow="0"
+                    ></div>
+                  </div>
+                  <span class="progress-text pl-2">3 / 10</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- CARD 3 -->
+            <div class="bg-white rounded-lg overflow-hidden shadow">
+              <div
+                class="flex justify-between items-center px-3 py-2 gap-2 text-sm font-semibold"
+              >
+                <div title="Terkunci">🔒</div>
+                <span class="bg-[#a80308] text-white px-3 py-1 rounded-lg"
+                  >Mulai</span
+                >
+              </div>
+              <img src="../img/course3.png" alt="course 3" class="w-full" />
+              <div class="p-4">
+                <h4 class="text-2xl font-extrabold text-center mb-3 h-16">
+                  PERSIAPAN PENGIRIMAN BARANG
+                </h4>
+                <div
+                  class="flex justify-between items-center text-sm text-gray-500 progress-wrapper"
+                >
+                  <div
+                    class="w-[87%] bg-gray-200 rounded h-1 relative progress-bar"
+                  >
+                    <div
+                      class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                      style="width: 0%"
+                      role="progressbar"
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                      aria-valuenow="0"
+                    ></div>
+                  </div>
+                  <span class="progress-text pl-2">0 / 6</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- CARD 4 -->
+            <div class="bg-white rounded-lg overflow-hidden shadow">
+              <div class="flex justify-between items-center px-3 py-2 gap-2">
+                <div title="Terbuka">🔓</div>
+                <span class="bg-green-600 text-white px-3 py-1 rounded-lg"
+                  >Selesai</span
+                >
+              </div>
+              <img src="../img/course1.png" alt="course 1" class="w-full" />
+              <div class="p-4">
+                <h4 class="text-2xl font-extrabold text-center mb-3 h-16">
+                  ALUR PROSES PENERIMAAN PESANAN
+                </h4>
+                <div
+                  class="flex justify-between items-center text-sm text-gray-500 progress-wrapper"
+                >
+                  <div
+                    class="w-[87%] bg-gray-200 rounded h-1 relative progress-bar"
+                  >
+                    <div
+                      class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                      style="width: 0%"
+                      role="progressbar"
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                      aria-valuenow="0"
+                    ></div>
+                  </div>
+                  <span class="progress-text pl-2">14 / 14</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- CARD 5 -->
+            <div class="bg-white rounded-lg overflow-hidden shadow">
+              <div class="flex justify-between items-center px-3 py-2 gap-2">
+                <div title="Terbuka">🔓</div>
+                <span class="bg-orange-500 text-white px-3 py-1 rounded-lg"
+                  >Lanjutkan</span
+                >
+              </div>
+              <img src="../img/course2.png" alt="course 2" class="w-full" />
+              <div class="p-4">
+                <h4 class="text-2xl font-extrabold text-center mb-3 h-16">
+                  PROSES PEMBUATAN DOKUMEN SALES ORDER (SO)
+                </h4>
+                <div
+                  class="flex justify-between items-center text-sm text-gray-500 progress-wrapper"
+                >
+                  <div
+                    class="w-[87%] bg-gray-200 rounded h-1 relative progress-bar"
+                  >
+                    <div
+                      class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                      style="width: 0%"
+                      role="progressbar"
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                      aria-valuenow="0"
+                    ></div>
+                  </div>
+                  <span class="progress-text pl-2">3 / 10</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- CARD 6 -->
+            <div class="bg-white rounded-lg overflow-hidden shadow">
+              <div class="flex justify-between items-center px-3 py-2 gap-2">
+                <div title="Terkunci">🔒</div>
+                <span class="bg-[#a80308] text-white px-3 py-1 rounded-lg"
+                  >Mulai</span
+                >
+              </div>
+              <img src="../img/course3.png" alt="course 3" class="w-full" />
+              <div class="p-4">
+                <h4 class="text-2xl font-extrabold text-center mb-3 h-16">
+                  PERSIAPAN PENGIRIMAN BARANG
+                </h4>
+                <div
+                  class="flex justify-between items-center text-sm text-gray-500 progress-wrapper"
+                >
+                  <div
+                    class="w-[87%] bg-gray-200 rounded h-1 relative progress-bar"
+                  >
+                    <div
+                      class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                      style="width: 0%"
+                      role="progressbar"
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                      aria-valuenow="0"
+                    ></div>
+                  </div>
+                  <span class="progress-text pl-2">0 / 6</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- CARD 7 -->
+            <div class="bg-white rounded-lg overflow-hidden shadow">
+              <div class="flex justify-between items-center px-3 py-2 gap-2">
+                <div title="Terbuka">🔓</div>
+                <span class="bg-green-600 text-white px-3 py-1 rounded-lg"
+                  >Selesai</span
+                >
+              </div>
+              <img src="../img/course1.png" alt="course 1" class="w-full" />
+              <div class="p-4">
+                <h4 class="text-2xl font-extrabold text-center mb-3 h-16">
+                  ALUR PROSES PENERIMAAN PESANAN
+                </h4>
+                <div
+                  class="flex justify-between items-center text-sm text-gray-500 progress-wrapper"
+                >
+                  <div
+                    class="w-[87%] bg-gray-200 rounded h-1 relative progress-bar"
+                  >
+                    <div
+                      class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                      style="width: 0%"
+                      role="progressbar"
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                      aria-valuenow="0"
+                    ></div>
+                  </div>
+                  <span class="progress-text pl-2">14 / 14</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- CARD 8 -->
+            <div class="bg-white rounded-lg overflow-hidden shadow">
+              <div class="flex justify-between items-center px-3 py-2 gap-2">
+                <div title="Terbuka">🔓</div>
+                <span class="bg-orange-500 text-white px-3 py-1 rounded-lg"
+                  >Lanjutkan</span
+                >
+              </div>
+              <img src="../img/course2.png" alt="course 2" class="w-full" />
+              <div class="p-4">
+                <h4 class="text-2xl font-extrabold text-center mb-3 h-16">
+                  PROSES PEMBUATAN DOKUMEN SALES ORDER (SO)
+                </h4>
+                <div
+                  class="flex justify-between items-center text-sm text-gray-500 progress-wrapper"
+                >
+                  <div
+                    class="w-[87%] bg-gray-200 rounded h-1 relative progress-bar"
+                  >
+                    <div
+                      class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                      style="width: 0%"
+                      role="progressbar"
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                      aria-valuenow="0"
+                    ></div>
+                  </div>
+                  <span class="progress-text pl-2">3 / 10</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- CARD 9 -->
+            <div class="bg-white rounded-lg overflow-hidden shadow">
+              <div class="flex justify-between items-center px-3 py-2 gap-2">
+                <div title="Terkunci">🔒</div>
+                <span class="bg-[#a80308] text-white px-3 py-1 rounded-lg"
+                  >Mulai</span
+                >
+              </div>
+              <img src="../img/course3.png" alt="course 3" class="w-full" />
+              <div class="p-4">
+                <h4 class="text-2xl font-extrabold text-center mb-3 h-16">
+                  PERSIAPAN PENGIRIMAN BARANG
+                </h4>
+                <div
+                  class="flex justify-between items-center text-sm text-gray-500 progress-wrapper"
+                >
+                  <div
+                    class="w-[87%] bg-gray-200 rounded h-1 relative progress-bar"
+                  >
+                    <div
+                      class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                      style="width: 0%"
+                      role="progressbar"
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                      aria-valuenow="0"
+                    ></div>
+                  </div>
+                  <span class="progress-text pl-2">0 / 6</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel: Learning Path -->
+    <div id="panel-path" role="tabpanel" aria-labelledby="tab-path" class="hidden">
+        <section class="mt-6">
+          <div class="bg-white rounded-lg p-5 shadow overflow-hidden">
+            <h2 class="font-bold text-3xl mb-4">Sales Executive</h2>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+              <!-- LEFT: timeline (narrow) -->
+              <div class="lg:col-span-3 p-0">
+                <div class="timeline-wrapper">
+                  <div class="timeline" role="list" aria-label="Timeline level">
+                    <!-- Level 5 header -->
+                    <div class="timeline-row">
+                      <div class="timeline-cell-marker">
+                        <div class="marker big" aria-hidden="true"></div>
+                      </div>
+                      <div class="timeline-cell-content">
+                        <div class="level-label">LEVEL 5</div>
+                      </div>
+                    </div>
+
+                    <!-- sublevels 4D..4A -->
+                    <div class="timeline-row">
+                      <div class="timeline-cell-marker">
+                        <div class="marker" aria-hidden="true"></div>
+                      </div>
+                      <div class="timeline-cell-content">
+                        <div class="sublevel-label">4D</div>
+                      </div>
+                    </div>
+
+                    <div class="timeline-row">
+                      <div class="timeline-cell-marker">
+                        <div class="marker" aria-hidden="true"></div>
+                      </div>
+                      <div class="timeline-cell-content">
+                        <div class="sublevel-label">4C</div>
+                      </div>
+                    </div>
+
+                    <div class="timeline-row">
+                      <div class="timeline-cell-marker">
+                        <div class="marker" aria-hidden="true"></div>
+                      </div>
+                      <div class="timeline-cell-content">
+                        <div class="sublevel-label">4B</div>
+                      </div>
+                    </div>
+
+                    <div class="timeline-row">
+                      <div class="timeline-cell-marker">
+                        <div class="marker" aria-hidden="true"></div>
+                      </div>
+                      <div class="timeline-cell-content">
+                        <div class="sublevel-label">4A</div>
+                      </div>
+                    </div>
+
+                    <!-- Level 4 header -->
+                    <div class="timeline-row">
+                      <div class="timeline-cell-marker">
+                        <div class="marker big" aria-hidden="true"></div>
+                      </div>
+                      <div class="timeline-cell-content">
+                        <div class="level-label">LEVEL 4</div>
+                      </div>
+                    </div>
+
+                    <!-- 3D,3C,3B -->
+                    <div class="timeline-row">
+                      <div class="timeline-cell-marker">
+                        <div class="marker" aria-hidden="true"></div>
+                      </div>
+                      <div class="timeline-cell-content">
+                        <div class="sublevel-label">3D</div>
+                      </div>
+                    </div>
+
+                    <div class="timeline-row">
+                      <div class="timeline-cell-marker">
+                        <div class="marker" aria-hidden="true"></div>
+                      </div>
+                      <div class="timeline-cell-content">
+                        <div class="sublevel-label">3C</div>
+                      </div>
+                    </div>
+
+                    <div class="timeline-row">
+                      <div class="timeline-cell-marker">
+                        <div class="marker" aria-hidden="true"></div>
+                      </div>
+                      <div class="timeline-cell-content">
+                        <div class="sublevel-label">3B</div>
+                      </div>
+                    </div>
+
+                    <!-- 3A active -->
+                    <div class="timeline-row">
+                      <div class="timeline-cell-marker">
+                        <div class="marker active" aria-hidden="true"></div>
+                      </div>
+                      <div class="timeline-cell-content">
+                        <div class="sublevel-label">3A</div>
+                      </div>
+                    </div>
+
+                    <!-- Level 3 header -->
+                    <div class="timeline-row">
+                      <div class="timeline-cell-marker">
+                        <div class="marker big" aria-hidden="true"></div>
+                      </div>
+                      <div class="timeline-cell-content">
+                        <div class="level-label">LEVEL 3</div>
+                      </div>
+                    </div>
+
+                    <!-- 2D..2A -->
+                    <div class="timeline-row">
+                      <div class="timeline-cell-marker">
+                        <div class="marker" aria-hidden="true"></div>
+                      </div>
+                      <div class="timeline-cell-content">
+                        <div class="sublevel-label">2D</div>
+                      </div>
+                    </div>
+
+                    <div class="timeline-row">
+                      <div class="timeline-cell-marker">
+                        <div class="marker" aria-hidden="true"></div>
+                      </div>
+                      <div class="timeline-cell-content">
+                        <div class="sublevel-label">2C</div>
+                      </div>
+                    </div>
+
+                    <div class="timeline-row">
+                      <div class="timeline-cell-marker">
+                        <div class="marker" aria-hidden="true"></div>
+                      </div>
+                      <div class="timeline-cell-content">
+                        <div class="sublevel-label">2B</div>
+                      </div>
+                    </div>
+
+                    <div class="timeline-row">
+                      <div class="timeline-cell-marker">
+                        <div class="marker" aria-hidden="true"></div>
+                      </div>
+                      <div class="timeline-cell-content">
+                        <div class="sublevel-label">2A</div>
+                      </div>
+                    </div>
+
+                    <!-- Level 2 header (last) -->
+                    <div class="timeline-row">
+                      <div class="timeline-cell-marker">
+                        <div class="marker big" aria-hidden="true"></div>
+                      </div>
+                      <div class="timeline-cell-content">
+                        <div class="level-label">LEVEL 2</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- RIGHT: modules -->
+              <div class="lg:col-span-9 p-6 bg-white">
+                <div class="mb-8">
+                  <h3 class="text-xl font-extrabold mb-4">SOP Functional Learning</h3>
+                  <div class="space-y-3">
+                    <div class="flex items-center justify-between rounded-lg bg-red-50 border border-red-100 px-4 py-3">
+                      <div class="text-sm font-semibold text-gray-800">Judul Modul</div>
+                      <div><span class="text-sm font-extrabold bg-[#a80308] text-white px-3 py-1 rounded-md">Tersedia</span></div>
+                    </div>
+                    <div class="flex items-center justify-between rounded-lg bg-red-50 border border-red-100 px-4 py-3">
+                      <div class="text-sm font-semibold text-gray-800">Judul Modul</div>
+                      <div><span class="text-sm font-extrabold bg-[#a80308] text-white px-3 py-1 rounded-md">Tersedia</span></div>
+                    </div>
+                    <div class="flex items-center justify-between rounded-lg bg-red-50 border border-red-100 px-4 py-3">
+                      <div class="text-sm font-semibold text-gray-800">Judul Modul</div>
+                      <div><span class="text-sm font-extrabold bg-[#a80308] text-white px-3 py-1 rounded-md">Tersedia</span></div>
+                    </div>
+                    <div class="flex items-center justify-between rounded-lg bg-red-50 border border-red-100 px-4 py-3">
+                      <div class="text-sm font-semibold text-gray-800">Judul Modul</div>
+                      <div><span class="text-sm font-extrabold bg-[#a80308] text-white px-3 py-1 rounded-md">Tersedia</span></div>
+                    </div>
+                    <div class="flex items-center justify-between rounded-lg bg-yellow-50 border border-yellow-100 px-4 py-3">
+                      <div class="text-sm font-semibold text-gray-800">Judul Modul</div>
+                      <div><span class="text-sm font-extrabold bg-yellow-400 text-white px-3 py-1 rounded-md">Belum Tersedia</span></div>
+                    </div>
+                    <div class="flex items-center justify-between rounded-lg bg-yellow-50 border border-yellow-100 px-4 py-3">
+                      <div class="text-sm font-semibold text-gray-800">Judul Modul</div>
+                      <div><span class="text-sm font-extrabold bg-yellow-400 text-white px-3 py-1 rounded-md">Belum Tersedia</span></div>
+                    </div>
+                    <div class="flex items-center justify-between rounded-lg bg-yellow-50 border border-yellow-100 px-4 py-3">
+                      <div class="text-sm font-semibold text-gray-800">Judul Modul</div>
+                      <div><span class="text-sm font-extrabold bg-yellow-400 text-white px-3 py-1 rounded-md">Belum Tersedia</span></div>
+                    </div>
+                    <div class="flex items-center justify-between rounded-lg bg-yellow-50 border border-yellow-100 px-4 py-3">
+                      <div class="text-sm font-semibold text-gray-800">Judul Modul</div>
+                      <div><span class="text-sm font-extrabold bg-yellow-400 text-white px-3 py-1 rounded-md">Belum Tersedia</span></div>
+                    </div>
+                    <div class="flex items-center justify-between rounded-lg bg-green-50 border border-green-100 px-4 py-3">
+                      <div class="text-sm font-semibold text-gray-800">Judul Modul</div>
+                      <div><span class="text-sm font-extrabold bg-green-600 text-white px-3 py-1 rounded-md">Selesai</span></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 class="text-xl font-extrabold mb-4">Skill Functional Learning</h3>
+                  <div class="space-y-3">
+                    <div class="flex items-center justify-between rounded-lg bg-red-50 border border-red-100 px-4 py-3">
+                      <div class="text-sm font-semibold text-gray-800">Judul Modul</div>
+                      <div><span class="text-sm font-extrabold bg-[#a80308] text-white px-3 py-1 rounded-md">Tersedia</span></div>
+                    </div>
+                    <div class="flex items-center justify-between rounded-lg bg-red-50 border border-red-100 px-4 py-3">
+                      <div class="text-sm font-semibold text-gray-800">Judul Modul</div>
+                      <div><span class="text-sm font-extrabold bg-[#a80308] text-white px-3 py-1 rounded-md">Tersedia</span></div>
+                    </div>
+                    <div class="flex items-center justify-between rounded-lg bg-red-50 border border-red-100 px-4 py-3">
+                      <div class="text-sm font-semibold text-gray-800">Judul Modul</div>
+                      <div><span class="text-sm font-extrabold bg-[#a80308] text-white px-3 py-1 rounded-md">Tersedia</span></div>
+                    </div>
+                    <div class="flex items-center justify-between rounded-lg bg-red-50 border border-red-100 px-4 py-3">
+                      <div class="text-sm font-semibold text-gray-800">Judul Modul</div>
+                      <div><span class="text-sm font-extrabold bg-[#a80308] text-white px-3 py-1 rounded-md">Tersedia</span></div>
+                    </div>
+                    <div class="flex items-center justify-between rounded-lg bg-red-50 border border-red-100 px-4 py-3">
+                      <div class="text-sm font-semibold text-gray-800">Judul Modul</div>
+                      <div><span class="text-sm font-extrabold bg-[#a80308] text-white px-3 py-1 rounded-md">Tersedia</span></div>
+                    </div>
+                    <div class="flex items-center justify-between rounded-lg bg-yellow-50 border border-yellow-100 px-4 py-3">
+                      <div class="text-sm font-semibold text-gray-800">Judul Modul</div>
+                      <div><span class="text-sm font-extrabold bg-yellow-400 text-white px-3 py-1 rounded-md">Belum Tersedia</span></div>
+                    </div>
+                    <div class="flex items-center justify-between rounded-lg bg-green-50 border border-green-100 px-4 py-3">
+                      <div class="text-sm font-semibold text-gray-800">Judul Modul</div>
+                      <div><span class="text-sm font-extrabold bg-green-600 text-white px-3 py-1 rounded-md">Selesai</span></div>
+                    </div>
+                    <div class="flex items-center justify-between rounded-lg bg-green-50 border border-green-100 px-4 py-3">
+                      <div class="text-sm font-semibold text-gray-800">Judul Modul</div>
+                      <div><span class="text-sm font-extrabold bg-green-600 text-white px-3 py-1 rounded-md">Selesai</span></div>
+                    </div>
+                    <div class="flex items-center justify-between rounded-lg bg-green-50 border border-green-100 px-4 py-3">
+                      <div class="text-sm font-semibold text-gray-800">Judul Modul</div>
+                      <div><span class="text-sm font-extrabold bg-green-600 text-white px-3 py-1 rounded-md">Selesai</span></div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- FAQ -->
+      <section class="my-8">
+        <h2
+          class="px-4 py-2 mb-4 text-lg font-bold text-white bg-[#a80308] rounded-xl"
+        >
+          Frequently Asked Question
+        </h2>
+        <div class="bg-white rounded-lg shadow-sm">
+          <!-- FAQ Item -->
+          <div class="faq-item">
+            <button
+              class="flex items-center w-full p-4 text-left font-semibold gap-3"
+            >
+              <span class="toggle-icon text-[#a80308]">+</span>
+              <span>Bagaimana cara login?</span>
+            </button>
+            <div
+              class="faq-content max-h-0 overflow-hidden transition-all duration-500 ease-in-out"
+            >
+              <div class="text-gray-700 ml-10">
+                Untuk login ke LMS Ekatunggal, klik tombol "Masuk Sekarang" di
+                halaman utama.<br />
+                Masukkan username dan password yang sudah diberikan oleh
+                Admin.<br />
+                Jika Anda belum memiliki akun, hubungi Admin Learning &amp;
+                Development.
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button
+              class="flex items-center w-full p-4 text-left font-semibold gap-3"
+            >
+              <span class="toggle-icon text-[#a80308]">+</span>
+              <span>Lupa password, harus bagaimana?</span>
+            </button>
+            <div
+              class="faq-content max-h-0 overflow-hidden transition-all duration-500 ease-in-out"
+            >
+              <div class="text-gray-700 ml-10">
+                Hubungi Admin Learning &amp; Development untuk reset password.
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button
+              class="flex items-center w-full p-4 text-left font-semibold gap-3"
+            >
+              <span class="toggle-icon text-[#a80308]">+</span>
+              <span>Apa itu Learning Path?</span>
+            </button>
+            <div
+              class="faq-content max-h-0 overflow-hidden transition-all duration-500 ease-in-out"
+            >
+              <div class="text-gray-700 ml-10">
+                Learning Path adalah urutan materi belajar sesuai jalur karier
+                Anda.
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button
+              class="flex items-center w-full p-4 text-left font-semibold gap-3"
+            >
+              <span class="toggle-icon text-[#a80308]">+</span>
+              <span>Apa perbedaan Modul Private dan Public?</span>
+            </button>
+            <div
+              class="faq-content max-h-0 overflow-hidden transition-all duration-500 ease-in-out"
+            >
+              <div class="text-gray-700 ml-10">
+                Modul Private hanya dapat diakses oleh pengguna tertentu yang
+                sudah login, sedangkan Modul Public dapat diakses oleh semua
+                pengguna tanpa login.
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button
+              class="flex items-center w-full p-4 text-left font-semibold gap-3"
+            >
+              <span class="toggle-icon text-[#a80308]">+</span>
+              <span>Bagaimana cara mendapatkan sertifikat pelatihan?</span>
+            </button>
+            <div
+              class="faq-content max-h-0 overflow-hidden transition-all duration-500 ease-in-out"
+            >
+              <div class="text-gray-700 ml-10">
+                Sertifikat pelatihan dapat diperoleh setelah menyelesaikan semua
+                modul dalam suatu program pelatihan. Pastikan Anda telah
+                menyelesaikan semua tugas dan ujian yang diperlukan.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section class="my-8">
+        <h2
+          class="px-4 py-2 mb-4 text-lg font-bold text-white bg-[#a80308] rounded-xl"
+        >
+          Kontak
+        </h2>
+        <div class="p-6 rounded-lg bg-gray-50">
+          <p class="mb-2">
+            Ada pertanyaan atau kendala saat menggunakan LMS? Tim Learning &amp;
+            Development siap membantu Anda!
+          </p>
+          <div class="my-4">
+            <p class="font-semibold">WhatsApp Support</p>
+            <p>+62 857-1863-5009</p>
+            <p>(L&amp;D Support - LMS Ekatunggal)</p>
+          </div>
+          <div class="my-4">
+            <p class="font-semibold">Jam Operasional Dukungan</p>
+            <p>Senin - Sabtu</p>
+            <p>08.00 - 18.30 WIB</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Scripts -->
+    <script>
+      // Tab switching logic (accessible)
+      (function () {
+        const tabs = document.querySelectorAll('[role="tab"]');
+        function activateTab(tab) {
+          // deactivate all
+          tabs.forEach((t) => {
+            t.setAttribute("aria-selected", "false");
+            t.classList.remove("bg-[#a80308]", "text-white");
+            t.classList.add("text-[#a80308]", "bg-gray-300", "border", "border-gray-200");
+            const panelId = t.dataset.target;
+            if (panelId) {
+              const panel = document.getElementById(panelId);
+              if (panel) panel.classList.add("hidden");
+            }
+          });
+
+          // activate chosen
+          tab.setAttribute("aria-selected", "true");
+          tab.classList.remove("text-[#a80308]", "bg-gray-300", "border", "border-gray-200");
+          tab.classList.add("bg-[#a80308]", "text-white");
+          const target = tab.dataset.target;
+          if (target) {
+            const panel = document.getElementById(target);
+            if (panel) panel.classList.remove("hidden");
+          }
+
+          // save to localStorage (optional)
+          try {
+            localStorage.setItem("lms_active_tab", tab.id);
+          } catch (e) {}
+        }
+
+        tabs.forEach((tab) => {
+          tab.addEventListener("click", (e) => {
+            activateTab(tab);
+          });
+
+          tab.addEventListener("keydown", (e) => {
+            const index = Array.prototype.indexOf.call(tabs, tab);
+            if (e.key === "ArrowRight") {
+              const next = tabs[(index + 1) % tabs.length];
+              next.focus();
+              activateTab(next);
+            } else if (e.key === "ArrowLeft") {
+              const prev = tabs[(index - 1 + tabs.length) % tabs.length];
+              prev.focus();
+              activateTab(prev);
+            }
+          });
+        });
+
+        // Restore last tab or default
+        const last = (function () {
+          try {
+            return localStorage.getItem("lms_active_tab");
+          } catch (e) {
+            return null;
+          }
+        })();
+        const initial = last ? document.getElementById(last) : document.querySelector('[role="tab"][aria-selected="true"]');
+        if (initial) activateTab(initial);
+      })();
+
+      function handleSearch(e) {
+        e.preventDefault();
+        const form = e.target;
+        const q = form.q?.value ?? "";
+        const kategori = form.kategori?.value ?? "";
+        const status = form.status?.value ?? "";
+        const progress = form.progress?.value ?? "";
+        // Contoh: kirim ke API atau lakukan filtering di client
+        console.log({ q, kategori, status, progress });
+        // Demo kecil supaya terlihat reaksi:
+        alert(
+          "Mencari: " +
+            (q || "(kosong)") +
+            "\\nKategori: " +
+            (kategori || "Semua")
+        );
+      }
+
+      // FAQ toggle
+      document.querySelectorAll(".faq-item button").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const content = btn.nextElementSibling;
+          const icon = btn.querySelector(".toggle-icon");
+          if (content.classList.contains("max-h-0")) {
+            content.classList.remove("max-h-0");
+            content.classList.add("max-h-[500px]");
+            icon.textContent = "−";
+          } else {
+            content.classList.add("max-h-0");
+            content.classList.remove("max-h-[500px]");
+            icon.textContent = "+";
+          }
+        });
+      });
+
+      /* -------- Progress automatic + smooth animation for hero & grid -------- */
+      (function () {
+        function parseProgressText(text) {
+          const m = String(text).match(/(\d+)\s*\/\s*(\d+)/);
+          if (!m) return null;
+          return [parseInt(m[1], 10), parseInt(m[2], 10)];
+        }
+
+        function animateFillToPercent(fill, pctStr) {
+          if (fill.style.width === pctStr) return;
+          // start from computed px to ensure transition works
+          const currentPx = getComputedStyle(fill).width;
+          fill.style.width = currentPx;
+          // force reflow
+          fill.getBoundingClientRect();
+          requestAnimationFrame(() => (fill.style.width = pctStr));
+        }
+
+        function updateProgress(wrapper) {
+          const span = wrapper.querySelector(".progress-text");
+          const fill = wrapper.querySelector(".progress-fill");
+          if (!span || !fill) return;
+
+          const nums = parseProgressText(span.textContent);
+          if (!nums) {
+            animateFillToPercent(fill, "0%");
+            fill.setAttribute("aria-valuenow", 0);
+            return;
+          }
+
+          const [cur, total] = nums;
+          let pct = total === 0 ? 0 : (cur / total) * 100;
+          pct = Math.max(0, Math.min(100, Math.round(pct * 100) / 100));
+          const pctStr = pct + "%";
+
+          animateFillToPercent(fill, pctStr);
+
+          // Update aria (use percentage since it is more useful visually)
+          fill.setAttribute("aria-valuenow", pct);
+          fill.setAttribute("aria-valuemax", 100);
+          fill.setAttribute("aria-valuemin", 0);
+        }
+
+        function initProgressAll() {
+          // select both hero wrapper (top-level) and inside grid (scoped)
+          const wrappers = document.querySelectorAll(".progress-wrapper");
+          wrappers.forEach((wrapper) => {
+            // initial update after a tiny delay so first paint shows animation
+            setTimeout(() => updateProgress(wrapper), 50);
+
+            // observe span text changes to update dynamically
+            const span = wrapper.querySelector(".progress-text");
+            if (span) {
+              const mo = new MutationObserver(() => updateProgress(wrapper));
+              mo.observe(span, {
+                characterData: true,
+                childList: true,
+                subtree: true,
+              });
+            }
+          });
+        }
+
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", initProgressAll);
+        } else {
+          initProgressAll();
+        }
+      })();
+    </script>
+  </body>
+</html>

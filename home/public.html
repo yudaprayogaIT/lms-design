@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LMS Ekatunggal</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+     <style>
+      /* Progress visual */
+      .progress-fill {
+        transition: width 450ms cubic-bezier(.2,.9,.2,1);
+        will-change: width;
+      }
+
+      /* Optional: supaya progress bar terlihat sedikit rounded di ujung kanan */
+      .progress-bar {
+        overflow: hidden;
+      }
+
+      /* styling FAQ indented (agar ikon di kiri tidak menutupi) */
+      .faq-content .ml-10 {
+        margin-left: 2.5rem;
+      }
+    </style>
+  </head>
+  <body class="font-[Inter] text-[#0b1220] bg-white">
+    <!-- NAVBAR -->
+    <nav
+      class="flex items-center justify-between px-8 py-4 border-b-2 border-gray-200 mb-4 bg-white"
+    >
+      <div class="flex items-center font-semibold">
+        <img src="../img/logo.png" alt="Logo" class="w-10 mr-2" />
+        <a href="../home/public.html" class="px-4 py-1 rounded-full font-semibold text-black hover:bg-gray-100">Home</a>
+      </div>
+      <div class="flex items-center gap-2">
+        <a href="../login/index.html" class="px-4 py-1 rounded-full font-semibold text-black hover:bg-gray-100">Login</a>
+        <img src="../img/pp.png" alt="Profile" class="w-12 h-12 rounded-lg" />
+      </div>
+    </nav>
+
+    <main class="mx-8 mb-12">
+    <!-- HERO -->
+    <section
+      class="flex flex-col gap-6 p-8 text-white bg-black rounded-2xl md:flex-row md:items-center md:justify-between md:gap-10 md:px-20 md:py-12"
+    >
+      <div class="max-w-xl">
+        <h1 class="mb-3 text-4xl font-bold">Belajar tanpa henti, berkembang tanpa batas</h1>
+        <p class="mb-6">Pengetahuan adalah kunci semua pintu.</p>
+        <a
+          href="../login/index.html"
+          class="inline-block px-6 py-3 mr-3 font-semibold text-white transition-colors rounded-lg bg-[#a80308] hover:bg-[#8a0206]"
+        >
+          Masuk Sekarang
+        </a>
+        <a
+          href="../course/public.html"
+          class="inline-block px-6 py-3 font-semibold text-white transition-colors border rounded-lg border-white hover:bg-white hover:text-black"
+        >
+          Lihat Course
+        </a>
+      </div>
+      <img src="hero.png" alt="Ilustrasi" class="max-w-[350px] mx-auto md:mx-0" />
+    </section>
+
+    <!-- PELATIHAN -->
+    <section id="pelatihan" class="my-8">
+      <div class="flex flex-col mb-4">
+        <h2
+          class="px-4 py-2 text-lg font-bold text-white bg-[#a80308] rounded-xl"
+        >
+          Pelatihan Tersedia
+        </h2>
+        <a
+          href="../course/public.html"
+          class="self-end mt-2 font-semibold text-gray-500"
+          >Lihat Selengkapnya</a
+        >
+      </div>
+
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <!-- CARD 1 -->
+        <div class="bg-white rounded-lg overflow-hidden shadow">
+          <div
+            class="flex justify-between items-center px-3 py-2 gap-2 text-sm font-semibold"
+          >
+            <div title="Terbuka">🔓</div>
+            <span class="bg-green-600 text-white px-3 py-1 rounded-lg"
+              >Selesai</span
+            >
+          </div>
+          <img src="../img/course1.png" alt="course 1" class="w-full" />
+          <div class="p-4">
+            <h4 class="text-2xl font-extrabold text-center mb-3 h-16">
+              ALUR PROSES PENERIMAAN PESANAN
+            </h4>
+            <div
+              class="flex justify-between items-center text-sm text-gray-500 progress-wrapper"
+            >
+              <div class="w-[87%] bg-gray-200 rounded h-1 relative">
+                <div
+                  class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                  style="width: 0%;"
+                  role="progressbar"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                  aria-valuenow="0"
+                ></div>
+              </div>
+              <span class="progress-text pl-2">14 / 14</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 2 -->
+        <div class="bg-white rounded-lg overflow-hidden shadow">
+          <div
+            class="flex justify-between items-center px-3 py-2 gap-2 text-sm font-semibold"
+          >
+            <div title="Terbuka">🔓</div>
+            <span class="bg-orange-500 text-white px-3 py-1 rounded-lg"
+              >Lanjutkan</span
+            >
+          </div>
+          <img src="../img/course2.png" alt="course 2" class="w-full" />
+          <div class="p-4">
+            <h4 class="text-2xl font-extrabold text-center mb-3 h-16">
+              PROSES PEMBUATAN DOKUMEN SALES ORDER (SO)
+            </h4>
+            <div
+              class="flex justify-between items-center text-sm text-gray-500 progress-wrapper"
+            >
+              <div class="w-[87%] bg-gray-200 rounded h-1 relative">
+                <div
+                  class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                  style="width: 0%;"
+                  role="progressbar"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                  aria-valuenow="0"
+                ></div>
+              </div>
+              <span class="progress-text pl-2">3 / 10</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 3 -->
+        <div class="bg-white rounded-lg overflow-hidden shadow">
+          <div
+            class="flex justify-between items-center px-3 py-2 gap-2 text-sm font-semibold"
+          >
+            <div title="Terkunci">🔒</div>
+            <span class="bg-[#a80308] text-white px-3 py-1 rounded-lg"
+              >Mulai</span
+            >
+          </div>
+          <img src="../img/course3.png" alt="course 3" class="w-full" />
+          <div class="p-4">
+            <h4 class="text-2xl font-extrabold text-center mb-3 h-16">
+              PERSIAPAN PENGIRIMAN BARANG
+            </h4>
+            <div
+              class="flex justify-between items-center text-sm text-gray-500 progress-wrapper"
+            >
+              <div class="w-[87%] bg-gray-200 rounded h-1 relative">
+                <div
+                  class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                  style="width: 0%;"
+                  role="progressbar"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                  aria-valuenow="0"
+                ></div>
+              </div>
+              <span class="progress-text pl-2">0 / 6</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="my-8">
+      <h2
+        class="px-4 py-2 mb-4 text-lg font-bold text-white bg-[#a80308] rounded-xl"
+      >
+        Frequently Asked Question
+      </h2>
+      <div class="bg-white rounded-lg shadow-sm">
+        <!-- FAQ Item -->
+        <div class="faq-item">
+          <button
+            class="flex items-center w-full p-4 text-left font-semibold gap-3"
+          >
+            <span class="toggle-icon text-[#a80308]">+</span>
+            <span>Bagaimana cara login?</span>
+          </button>
+          <div
+            class="faq-content max-h-0 overflow-hidden transition-all duration-500 ease-in-out"
+          >
+            <div class="text-gray-700 ml-10">
+              Untuk login ke LMS Ekatunggal, klik tombol "Masuk Sekarang" di
+              halaman utama.<br />
+              Masukkan username dan password yang sudah diberikan oleh Admin.<br />
+              Jika Anda belum memiliki akun, hubungi Admin Learning &amp;
+              Development.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button
+            class="flex items-center w-full p-4 text-left font-semibold gap-3"
+          >
+            <span class="toggle-icon text-[#a80308]">+</span>
+            <span>Lupa password, harus bagaimana?</span>
+          </button>
+          <div
+            class="faq-content max-h-0 overflow-hidden transition-all duration-500 ease-in-out"
+          >
+            <div class="text-gray-700 ml-10">
+              Hubungi Admin Learning &amp; Development untuk reset password.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button
+            class="flex items-center w-full p-4 text-left font-semibold gap-3"
+          >
+            <span class="toggle-icon text-[#a80308]">+</span>
+            <span>Apa itu Learning Path?</span>
+          </button>
+          <div
+            class="faq-content max-h-0 overflow-hidden transition-all duration-500 ease-in-out"
+          >
+            <div class="text-gray-700 ml-10">
+              Learning Path adalah urutan materi belajar sesuai jalur karier
+              Anda.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button
+            class="flex items-center w-full p-4 text-left font-semibold gap-3"
+          >
+            <span class="toggle-icon text-[#a80308]">+</span>
+            <span>Apa perbedaan Modul Private dan Public?</span>
+          </button>
+          <div
+            class="faq-content max-h-0 overflow-hidden transition-all duration-500 ease-in-out"
+          >
+            <div class="text-gray-700 ml-10">
+              Modul Private hanya dapat diakses oleh pengguna tertentu yang
+              sudah login, sedangkan Modul Public dapat diakses oleh semua
+              pengguna tanpa login.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button
+            class="flex items-center w-full p-4 text-left font-semibold gap-3"
+          >
+            <span class="toggle-icon text-[#a80308]">+</span>
+            <span>Bagaimana cara mendapatkan sertifikat pelatihan?</span>
+          </button>
+          <div
+            class="faq-content max-h-0 overflow-hidden transition-all duration-500 ease-in-out"
+          >
+            <div class="text-gray-700 ml-10">
+              Sertifikat pelatihan dapat diperoleh setelah menyelesaikan semua
+              modul dalam suatu program pelatihan. Pastikan Anda telah
+              menyelesaikan semua tugas dan ujian yang diperlukan.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="my-8">
+      <h2
+        class="px-4 py-2 mb-4 text-lg font-bold text-white bg-[#a80308] rounded-xl"
+      >
+        Kontak
+      </h2>
+      <div class="p-6 rounded-lg bg-gray-50">
+        <p class="mb-2">
+          Ada pertanyaan atau kendala saat menggunakan LMS? Tim Learning &
+          Development siap membantu Anda!
+        </p>
+        <div class="my-4">
+          <p class="font-semibold">WhatsApp Support</p>
+          <p>+62 857-1863-5009</p>
+          <p>(L&amp;D Support - LMS Ekatunggal)</p>
+        </div>
+        <div class="my-4">
+          <p class="font-semibold">Jam Operasional Dukungan</p>
+          <p>Senin - Sabtu</p>
+          <p>08.00 - 18.30 WIB</p>
+        </div>
+      </div>
+    </section>
+    </main>
+
+    <!-- JS FAQ toggle + Progress auto-update -->
+    <script>
+      // FAQ toggle (tetap sama)
+      document.querySelectorAll(".faq-item button").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const content = btn.nextElementSibling;
+          const icon = btn.querySelector(".toggle-icon");
+
+          if (content.classList.contains("max-h-0")) {
+            content.classList.remove("max-h-0");
+            content.classList.add("max-h-[500px]");
+            icon.textContent = "−";
+          } else {
+            content.classList.add("max-h-0");
+            content.classList.remove("max-h-[500px]");
+            icon.textContent = "+";
+          }
+        });
+      });
+
+      /* -------- Progress auto-update logic -------- */
+
+      function parseProgressText(text) {
+        // Match "3 / 13" or "3/13" or with spaces
+        const m = String(text).match(/(\d+)\s*\/\s*(\d+)/);
+        if (!m) return null;
+        return [parseInt(m[1], 10), parseInt(m[2], 10)];
+      }
+
+      function updateProgress(wrapper) {
+        const span = wrapper.querySelector(".progress-text");
+        const fill = wrapper.querySelector(".progress-fill");
+        if (!span || !fill) return;
+
+        const nums = parseProgressText(span.textContent);
+        if (!nums) {
+          // jika format tak sesuai, kita set 0
+          fill.style.width = "0%";
+          fill.setAttribute("aria-valuenow", 0);
+          return;
+        }
+
+        const [cur, total] = nums;
+        let pct = 0;
+        if (total === 0) pct = 0;
+        else pct = (cur / total) * 100;
+
+        // batasi antara 0 - 100
+        pct = Math.max(0, Math.min(100, pct));
+
+        // Two decimal precision untuk tampilan halus
+        const pctStr = Math.round(pct * 100) / 100 + "%";
+
+        fill.style.width = pctStr;
+        // accessibility attributes -> kita gunakan current absolute value (cur) dan total
+        fill.setAttribute("aria-valuenow", cur);
+        fill.setAttribute("aria-valuemax", total);
+        fill.setAttribute("aria-valuemin", 0);
+      }
+
+      function initProgressWrappers() {
+        const wrappers = document.querySelectorAll(".progress-wrapper");
+        wrappers.forEach((wrapper) => {
+          // initial update
+          updateProgress(wrapper);
+
+          // Observe perubahan teks di dalam .progress-text
+          const span = wrapper.querySelector(".progress-text");
+          if (span) {
+            const mo = new MutationObserver(() => {
+              updateProgress(wrapper);
+            });
+
+            mo.observe(span, { characterData: true, childList: true, subtree: true });
+
+            // Jika angka diubah melalui input/form di JS, mungkin Anda juga ingin
+            // memanggil updateProgress(wrapper) langsung setelah mengubah teks.
+          }
+        });
+      }
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initProgressWrappers);
+      } else {
+        initProgressWrappers();
+      }
+
+      /* 
+        Contoh: jika Anda ingin menguji perubahan dinamis, Anda bisa
+        membuka console dan jalankan (misal pada hero):
+        document.querySelector('.progress-wrapper .progress-text').textContent = '5 / 13'
+        -> progress akan otomatis update karena MutationObserver
+      */
+    </script>
+  </body>
+</html>

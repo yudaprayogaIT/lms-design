@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dashboard Peserta — LMS</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --brand: #a80308;
+      --muted: #6b7280;
+      --card-shadow: 0 10px 30px rgba(2,6,23,0.06);
+      --pink: #f6b0d6;
+    }
+    body { font-family: "Inter",sans-serif; background:#f3f4f6; color:#111827; }
+
+    /* common card */
+    .card { background: #fff; border-radius: 12px; box-shadow: var(--card-shadow); }
+
+    /* big hero */
+    .hero {
+      background: linear-gradient(180deg, #0b1220 0%, #0f1724 100%);
+      color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 25px 50px rgba(2,6,23,0.35);
+    }
+
+    .red-header {
+      background: var(--brand);
+      color: #fff;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-weight: 700;
+    }
+
+    /* small dot center between stat cards */
+    .center-dot {
+      width: 16px;
+      height: 16px;
+      background: var(--pink);
+      border: 3px solid #fff;
+      border-radius: 999px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+    }
+
+    /* donut simple */
+    .donut-outer { width: 120px; height: 120px; border-radius: 9999px; display:flex; align-items:center; justify-content:center; }
+    /* activity list item */
+    .activity-item { padding: 12px 0; border-bottom: 1px solid rgba(17,24,39,0.05); }
+
+    /* status badge small */
+    .badge-green { background: #e6f7ee; color: #047857; padding:6px 10px; border-radius: 8px; font-weight:700; font-size:12px; }
+    .badge-yellow { background: #fffbeb; color: #92400e; padding:6px 10px; border-radius: 8px; font-weight:700; font-size:12px; }
+    .badge-red { background: #fef2f2; color: var(--brand); padding:6px 10px; border-radius: 8px; font-weight:700; font-size:12px; }
+
+    /* responsive tweaks */
+    @media (max-width: 1024px) {
+      .lg\\:col-span-8 { grid-column: span 8 / span 8; }
+      .lg\\:col-span-4 { grid-column: span 4 / span 4; }
+    }
+  </style>
+</head>
+<body>
+<!-- NAVBAR -->
+    <nav
+      class="flex items-center justify-between px-8 py-4 border-b-2 border-gray-200 mb-4 bg-white"
+    >
+      <div class="flex items-center font-semibold">
+        <img src="../img/logo.png" alt="Logo" class="w-10 mr-2" />
+        <a
+          href="../home/public.html"
+          class="px-4 py-1 rounded-full font-semibold text-black hover:bg-gray-100"
+          >Home</a
+        >
+        <a
+          href="../dashboard/user.html"
+          class="px-4 py-1 rounded-full font-semibold text-black hover:bg-gray-100"
+          >Dashboard</a
+        >
+        <a
+          href="../course/user.html"
+          class="px-4 py-1 rounded-full font-semibold text-black hover:bg-gray-100"
+          >MyCourse</a
+        >
+        <a
+          href="#"
+          class="px-4 py-1 rounded-full font-semibold text-black hover:bg-gray-100"
+          >Site Administrator</a
+        >
+      </div>
+      <div class="flex items-center gap-2">
+        <img
+          src="../img/pp.png"
+          alt="notification"
+          class="w-12 h-12 rounded-lg mr-12"
+        />
+        <div class="text-end">
+          <p class="font-bold">Nama Pengguna</p>
+          <p class="text-gray-400 text-[11px]">Nama Learning Staff</p>
+        </div>
+        <img src="../img/pp.png" alt="Profile" class="w-12 h-12 rounded-lg" />
+      </div>
+    </nav>
+
+    <main class=" mx-8 mb-12">
+    <!-- HERO -->
+    <section class="flex flex-col gap-6 h-70 md:flex-row">
+      <div class="text-white bg-black rounded-2xl flex-3 w-2/3 p-8 my-auto">
+        <h1 class="mb-3 max-w-4xl text-4xl font-bold capitalize">
+          Alur proses pembelian dan pelunasan cabang
+        </h1>
+        <p class="mb-3 max-w-3xl text-lg">
+          Memberikan pemahaman menyeluruh tentang alur kerja pembelian barang
+          hingga proses pembayaran kepada supplier.
+        </p>
+
+        <!-- Progress (hero) - gunakan struktur yang konsisten -->
+        <div class="flex mb-3 justify-between items-center text-sm text-gray-500 progress-wrapper">
+          <div class="w-[90%] bg-gray-200 rounded h-1 relative">
+            <div
+              class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+              style="width: 0%;"
+              role="progressbar"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              aria-valuenow="0"
+            ></div>
+          </div>
+          <span class="progress-text pl-2">3 / 13</span>
+        </div>
+
+        <a
+          href="../login/index.html"
+          class="inline-block px-6 py-3 font-semibold text-white transition-colors rounded-lg bg-[#a80308] hover:bg-[#8a0206]"
+        >
+          Lanjutkan
+        </a>
+      </div>
+
+      <div class="flex-1 flex flex-col gap-3 capitalize py-4">
+        <h3 class="font-bold text-xl">Upcoming</h3>
+        <div
+          class="border-l-2 border-red-700 pl-2 h-12 flex flex-col justify-center"
+        >
+          <h6 class="font-semibold text-base">
+            Prosedur penanganan komplain konsumen
+          </h6>
+          <p class="text-xs">12/10/2025</p>
+        </div>
+        <div
+          class="border-l-2 border-red-700 pl-2 h-12 flex flex-col justify-center"
+        >
+          <h6 class="font-semibold text-base">Prosedur close sales order</h6>
+          <p class="text-xs">15/10/2025</p>
+        </div>
+        <div
+          class="border-l-2 border-red-700 pl-2 h-12 flex flex-col justify-center"
+        >
+          <h6 class="font-semibold text-base">
+            Prosedur pengecekan kendaraan harian
+          </h6>
+          <p class="text-xs">17/10/2025</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- STAT CARDS (donut left, 4 cards center style) -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch">
+      <div class="lg:col-span-12 card p-4">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
+          <!-- left donut already above; here replicate layout similar to original: left donut + 4 stat boxes center + ranking at right -->
+          <div class="md:col-span-3 flex items-center justify-center">
+            <!-- small donut summary -->
+            <div class="w-28 h-28 rounded-full bg-white flex items-center justify-center">
+              <svg viewBox="0 0 36 36" class="w-20 h-20">
+                <circle cx="18" cy="18" r="15" fill="#f3f4f6"></circle>
+                <circle cx="18" cy="18" r="15" fill="none" stroke="var(--brand)" stroke-width="4" stroke-dasharray="65 35" stroke-linecap="round" transform="rotate(-90 18 18)"></circle>
+                <text x="18" y="20.5" text-anchor="middle" font-size="6" font-weight="700" fill="#111827">65%</text>
+              </svg>
+            </div>
+          </div>
+
+          <div class="md:col-span-6 relative">
+            <!-- 2x2 grid stats with center pink dot -->
+            <div class="grid grid-cols-2 gap-4">
+              <div class="rounded-lg bg-[#fdeedb] p-4 flex flex-col justify-center items-start">
+                <div class="text-sm font-semibold">Jumlah Pelatihan Harus Diikuti</div>
+                <div class="text-2xl font-extrabold mt-2">12</div>
+              </div>
+
+              <div class="rounded-lg bg-[#ffeef0] p-4 flex flex-col justify-center items-start">
+                <div class="text-sm font-semibold">Pelatihan Berlangsung</div>
+                <div class="text-2xl font-extrabold mt-2">3</div>
+              </div>
+
+              <div class="rounded-lg bg-[#e9f9ee] p-4 flex flex-col justify-center items-start">
+                <div class="text-sm font-semibold">Pelatihan Selesai</div>
+                <div class="text-2xl font-extrabold text-green-600 mt-2">8</div>
+              </div>
+
+              <div class="rounded-lg bg-[#fff0f3] p-4 flex flex-col justify-center items-start">
+                <div class="text-sm font-semibold">Pelatihan Belum Dimulai</div>
+                <div class="text-2xl font-extrabold text-yellow-600 mt-2">1</div>
+              </div>
+            </div>
+
+            <!-- center small pink dot -->
+            <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+              <div class="center-dot"></div>
+            </div>
+          </div>
+
+          <div class="md:col-span-3">
+            <!-- right ranking (also shown earlier), but keep a compact card here to match design -->
+            <div class="card p-3">
+              <div class="flex items-center justify-between mb-2">
+                <div class="font-semibold text-sm">Peringkat Saya</div>
+                <a href="#" class="text-xs text-gray-500">Lihat</a>
+              </div>
+              <ol class="text-sm space-y-2">
+                <li class="flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <div class="w-7 h-7 bg-yellow-100 flex items-center justify-center rounded-md font-bold text-sm">1</div>
+                    <div>
+                      <div class="font-semibold">Wardah Cahyani</div>
+                      <div class="text-xs text-gray-500">Score 430</div>
+                    </div>
+                  </div>
+                  <div class="text-xs text-gray-600">430</div>
+                </li>
+                <li class="flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <div class="w-7 h-7 bg-gray-100 flex items-center justify-center rounded-md font-bold text-sm">2</div>
+                    <div>
+                      <div class="font-semibold">Eka Oktavia</div>
+                      <div class="text-xs text-gray-500">300</div>
+                    </div>
+                  </div>
+                  <div class="text-xs text-gray-600">300</div>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Aktifitas Terbaru header -->
+    <div>
+      <div class="red-header">Aktifitas Terbaru</div>
+      <div class="card mt-3 p-4">
+        <div class="space-y-2">
+          <div class="activity-item flex gap-4">
+            <div class="w-36 text-xs text-gray-500">3 Agustus 2025</div>
+            <div>
+              <div class="font-semibold">Menyelesaikan "Product Knowledge 1"</div>
+              <div class="text-xs text-gray-500 mt-1">Selesai 14/14</div>
+            </div>
+          </div>
+
+          <div class="activity-item flex gap-4">
+            <div class="w-36 text-xs text-gray-500">1 Agustus 2025</div>
+            <div>
+              <div class="font-semibold">Mulai "Soft Skills: Komunikasi Efektif"</div>
+              <div class="text-xs text-gray-500 mt-1">Berlangsung</div>
+            </div>
+          </div>
+
+          <div class="activity-item flex gap-4">
+            <div class="w-36 text-xs text-gray-500">30 Juli 2025</div>
+            <div>
+              <div class="font-semibold">Mengerjakan kuis ERP Modul 1</div>
+              <div class="text-xs text-gray-500 mt-1">Dalam progress</div>
+            </div>
+          </div>
+
+          <div class="activity-item flex gap-4">
+            <div class="w-36 text-xs text-gray-500">28 Juli 2025</div>
+            <div>
+              <div class="font-semibold">Memberikan feedback untuk course</div>
+              <div class="text-xs text-gray-500 mt-1">Komentar dikirim</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pelatihan Selesai -->
+    <div>
+      <div class="red-header">Pelatihan Selesai</div>
+
+      <div class="card mt-3 p-4">
+        <!-- search bar row -->
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-4">
+          <div class="flex items-center gap-2">
+            <input type="text" placeholder="Search" class="px-3 py-2 border rounded-md text-sm" />
+            <select class="px-3 py-2 border rounded-md text-sm">
+              <option>Kategori</option>
+            </select>
+            <select class="px-3 py-2 border rounded-md text-sm">
+              <option>Status</option>
+            </select>
+          </div>
+          <div class="text-sm text-gray-500">Menampilkan 3 modul</div>
+        </div>
+
+        <!-- cards grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          <!-- module card -->
+          <article class="rounded overflow-hidden border">
+            <div class="relative">
+              <img src="https://via.placeholder.com/600x300.png?text=Modul+1" alt="modul" class="w-full h-40 object-cover">
+              <div class="absolute left-3 top-3 bg-white text-sm px-3 py-1 rounded-md font-semibold">Selesai</div>
+            </div>
+            <div class="p-3">
+              <div class="text-sm font-extrabold">ALUR PROSES PENERIMAAN PESANAN</div>
+              <div class="text-xs text-gray-500 mt-2">14 / 14</div>
+            </div>
+          </article>
+
+          <article class="rounded overflow-hidden border">
+            <div class="relative">
+              <img src="https://via.placeholder.com/600x300.png?text=Modul+2" alt="modul" class="w-full h-40 object-cover">
+              <div class="absolute left-3 top-3 bg-white text-sm px-3 py-1 rounded-md font-semibold">Selesai</div>
+            </div>
+            <div class="p-3">
+              <div class="text-sm font-extrabold">PROSES PEMBUATAN DOKUMEN SALES ORDER (SO)</div>
+              <div class="text-xs text-gray-500 mt-2">14 / 14</div>
+            </div>
+          </article>
+
+          <article class="rounded overflow-hidden border">
+            <div class="relative">
+              <img src="https://via.placeholder.com/600x300.png?text=Modul+3" alt="modul" class="w-full h-40 object-cover">
+              <div class="absolute left-3 top-3 bg-white text-sm px-3 py-1 rounded-md font-semibold">Selesai</div>
+            </div>
+            <div class="p-3">
+              <div class="text-sm font-extrabold">PERSIAPAN PENGIRIMAN BARANG</div>
+              <div class="text-xs text-gray-500 mt-2">14 / 14</div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <footer class="text-center text-xs text-gray-500 mt-6">
+      &copy; 2025 LMS Ekatunggal
+    </footer>
+  </main>
+
+  <!-- small JS for demo -->
+  <script>
+    // (Optional) animate hero progress a bit
+    document.addEventListener('DOMContentLoaded', () => {
+      const inner = document.querySelector('.hero .bg-[color\\:var\\(--brand\\)]') || document.querySelector('.hero div[style*="background"]');
+      // nothing required — progress shown by inline width
+    });
+  </script>
+</body>
+</html>

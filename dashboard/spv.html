@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Dashboard Peserta — LMS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --brand: #a80308;
+        --muted: #6b7280;
+        --card-shadow: 0 10px 30px rgba(2, 6, 23, 0.06);
+        --pink: #f6b0d6;
+      }
+      body {
+        font-family: "Inter", sans-serif;
+        color: #111827;
+      }
+      .card {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: var(--card-shadow);
+      }
+      .progress-fill {
+        transition: width 350ms ease;
+      }
+
+      @media (max-width: 1024px) {
+        .lg\\:col-span-8 {
+          grid-column: span 8 / span 8;
+        }
+        .lg\\:col-span-4 {
+          grid-column: span 4 / span 4;
+        }
+      }
+
+      /* small legend dot */
+      .legend-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 999px;
+        display: inline-block;
+        margin-right: 8px;
+      }
+
+      /* gunakan table separate agar rounding th bekerja */
+      table {
+        border-collapse: separate;
+        border-spacing: 0;
+        width: 100%;
+      }
+
+      /* rounded corners top for thead first/last cells */
+      thead th:first-child {
+        border-top-left-radius: 12px;
+      }
+      thead th:last-child {
+        border-top-right-radius: 12px;
+      }
+
+      /* header cell styling */
+      thead th {
+        background: var(--header-bg);
+      }
+
+      /* small polish for progress mini bars */
+      .progress-mini {
+        height: 3px;
+        border-radius: 999px;
+        background: #BBBBBB;
+        overflow: hidden;
+      }
+      .progress-mini > .fill {
+        display: block;
+        height: 100%;
+        border-radius: 999px;
+      }
+
+      /* ensure tbody rows full-width divide */
+      tbody > tr > td {
+        background: white;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAVBAR -->
+    <nav
+      class="flex items-center justify-between px-8 py-4 border-b-2 border-gray-200 mb-4 bg-white"
+    >
+      <div class="flex items-center font-semibold">
+        <img src="../img/logo.png" alt="Logo" class="w-10 mr-2" />
+        <a
+          href="#"
+          class="px-4 py-1 rounded-full font-semibold text-black hover:bg-gray-100"
+          >Home</a
+        >
+        <a
+          href="#"
+          class="px-4 py-1 rounded-full font-semibold text-black hover:bg-gray-100"
+          >Dashboard</a
+        >
+        <a
+          href="#"
+          class="px-4 py-1 rounded-full font-semibold text-black hover:bg-gray-100"
+          >MyCourse</a
+        >
+        <a
+          href="#"
+          class="px-4 py-1 rounded-full font-semibold text-black hover:bg-gray-100"
+          >Site Administrator</a
+        >
+      </div>
+      <div class="flex items-center gap-2">
+        <img
+          src="../img/notif.png"
+          alt="notification"
+          class="w-6 h-8 rounded-lg mr-10"
+        />
+        <div class="text-end">
+          <p class="font-bold">Nama Pengguna</p>
+          <p class="text-gray-400 text-[11px]">Nama Learning Staff</p>
+        </div>
+        <img src="../img/pp.png" alt="Profile" class="w-12 h-12 rounded-lg" />
+      </div>
+    </nav>
+
+    <main class="mx-8 mb-12">
+      <!-- HERO -->
+      <section class="flex flex-col gap-6 h-70 md:flex-row">
+        <div
+          class="text-white bg-black rounded-2xl flex-3 w-2/3 p-8 my-auto hero"
+        >
+          <h1 class="mb-3 max-w-4xl text-4xl font-bold capitalize">
+            Alur proses pembelian dan pelunasan cabang
+          </h1>
+          <p class="mb-3 max-w-3xl text-lg">
+            Memberikan pemahaman menyeluruh tentang alur kerja pembelian barang
+            hingga proses pembayaran kepada supplier.
+          </p>
+
+          <!-- Progress (hero) -->
+          <div
+            class="flex mb-3 justify-between items-center text-sm text-gray-500 progress-wrapper"
+          >
+            <div class="w-[90%] bg-gray-200 rounded h-1 relative">
+              <div
+                class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                style="width: 0%"
+                role="progressbar"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                aria-valuenow="0"
+              ></div>
+            </div>
+            <span class="progress-text pl-2">3 / 13</span>
+          </div>
+
+          <a
+            href="#"
+            class="inline-block px-6 py-3 font-semibold text-white transition-colors rounded-lg bg-[#a80308] hover:bg-[#8a0206]"
+          >
+            Lanjutkan
+          </a>
+        </div>
+
+        <div class="flex-1 flex flex-col gap-3 capitalize py-4">
+          <h3 class="font-bold text-xl">Upcoming</h3>
+          <div
+            class="border-l-2 border-red-700 pl-2 h-12 flex flex-col justify-center"
+          >
+            <h6 class="font-semibold text-base">
+              Prosedur penanganan komplain konsumen
+            </h6>
+            <p class="text-xs">12/10/2025</p>
+          </div>
+          <div
+            class="border-l-2 border-red-700 pl-2 h-12 flex flex-col justify-center"
+          >
+            <h6 class="font-semibold text-base">Prosedur close sales order</h6>
+            <p class="text-xs">15/10/2025</p>
+          </div>
+          <div
+            class="border-l-2 border-red-700 pl-2 h-12 flex flex-col justify-center"
+          >
+            <h6 class="font-semibold text-base">
+              Prosedur pengecekan kendaraan harian
+            </h6>
+            <p class="text-xs">17/10/2025</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Top grid: donut + stats + leaderboard -->
+      <!-- Top grid: donut + stats + leaderboard -->
+      <section class="my-6">
+        <h2
+          class="px-4 py-2 text-lg font-bold text-white bg-[#a80308] rounded-xl"
+        >
+          Pelatihan Tersedia
+        </h2>
+        <div class="flex items-center justify-between my-3">
+          <div class="flex items-center gap-3">
+            <label class="text-sm">Bulan Berjalan</label>
+
+            <!-- Date range input (flatpickr mode: range) -->
+            <div class="flex items-center gap-2">
+              <input
+                id="dateRange"
+                class="px-3 py-2 rounded-md border border-gray-200 shadow-sm w-72"
+                placeholder="Pilih rentang tanggal..."
+              />
+              <button id="applyRange" class="px-3 py-2 bg-[#a80308] text-white rounded-md">Apply</button>
+              <button id="clearRange" class="px-3 py-2 border rounded-md">Clear</button>
+            </div>
+          </div>
+
+          <div>
+            <button id="exportBtn" class="px-3 py-2 text-gray-600">Export</button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-8 gap-4 items-stretch">
+          <!-- Donut -->
+          <div
+            class="col-span-1 md:col-span-2 bg-[#FFF4E5] rounded-lg shadow p-4"
+          >
+            <div
+              class="flex flex-col items-center gap-4 h-full justify-between"
+            >
+              <div class="w-45 h-45">
+                <canvas id="donutChart"></canvas>
+              </div>
+              <div class="flex-1 flex gap-x-6 items-center">
+                <div class="flex items-center">
+                  <span class="legend-dot bg-[#388E3C]"></span>
+                  <div class="text-xs text-gray-500">Selesai</div>
+                </div>
+                <div class="flex items-center">
+                  <span class="legend-dot bg-[#FFB300]"></span>
+                  <div class="text-xs text-gray-500">Berlangsung</div>
+                </div>
+                <div class="flex items-center">
+                  <span class="legend-dot bg-[#A80308]"></span>
+                  <div class="text-xs text-gray-500">Belum Mulai</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Big stat cards: semuanya punya height yang sama dan justify-between -->
+          <div class="col-span-1 md:col-span-4 grid grid-cols-2 gap-4">
+            <!-- gunakan kelas stat-card untuk konsistensi -->
+            <div
+              class="bg-[#FFDAB3] rounded-lg p-4 px-8 shadow h-40 md:h-44 flex flex-col justify-between text-center"
+            >
+              <div class="text-3xl font-semibold text-black">
+                Jumlah Anggota Tim
+              </div>
+              <div class="text-5xl md:text-6xl font-medium text-black">
+                <span class="stat-value" data-stat="harus">12</span>
+              </div>
+            </div>
+
+            <div
+              class="bg-[#FFF4E5] rounded-lg p-4 px-8 shadow h-40 md:h-44 flex flex-col justify-between text-center"
+            >
+              <div class="text-3xl font-semibold text-black">
+                Pelatihan Berlangsung
+              </div>
+              <div class="text-5xl md:text-6xl font-medium text-black">
+                <span class="stat-value" data-stat="berlangsung">3</span>
+              </div>
+            </div>
+
+            <div
+              class="bg-[#DFF5E1] rounded-lg p-4 px-8 shadow h-40 md:h-44 flex flex-col justify-between text-center"
+            >
+              <div class="text-3xl font-semibold text-black">
+                Capaian Learning Path
+              </div>
+              <div class="text-5xl md:text-6xl font-medium text-black">
+                <span class="stat-value" data-stat="selesai">67%</span>
+              </div>
+            </div>
+
+            <div
+              class="bg-[#FFE5E5] rounded-lg p-4 px-8 shadow h-40 md:h-44 flex flex-col justify-between text-center"
+            >
+              <div class="text-3xl font-semibold text-black">
+                Nilai Rata - Rata
+              </div>
+              <div class="text-5xl md:text-6xl font-medium text-black">
+                <span class="stat-value" data-stat="belum">8.9</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Leaderboard -->
+          <div
+            class="col-span-1 md:col-span-2 bg-[#FFDAB3] rounded-lg shadow p-4"
+          >
+            <h4 class="font-bold text-black text-xl mb-3">Peringkat Saya</h4>
+            <ol class="flex flex-col space-y-3">
+              <li class="flex items-center gap-3 border-b border-[#FFB300]">
+                <div class="font-semibold w-5 text-end">50.</div>
+                <div
+                  class="flex justify-between text-black items-center w-full"
+                >
+                  <div class="font-medium">Wardah Cahyani</div>
+                  <div>40</div>
+                </div>
+              </li>
+              <li class="flex items-center gap-3 border-b border-[#FFB300]">
+                <div class="font-semibold w-5 text-end">1.</div>
+                <div
+                  class="flex justify-between text-black items-center w-full"
+                >
+                  <div class="font-medium">Ervia Oktavia</div>
+                  <div>300</div>
+                </div>
+              </li>
+              <li class="flex items-center gap-3 border-b border-[#FFB300]">
+                <div class="font-semibold w-5 text-end">2.</div>
+                <div
+                  class="flex justify-between text-black items-center w-full"
+                >
+                  <div class="font-medium">Lukman</div>
+                  <div>290</div>
+                </div>
+              </li>
+              <li class="flex items-center gap-3 border-b border-[#FFB300]">
+                <div class="font-semibold w-5 text-end">3.</div>
+                <div
+                  class="flex justify-between text-black items-center w-full"
+                >
+                  <div class="font-medium">Udin N</div>
+                  <div>280</div>
+                </div>
+              </li>
+              <li class="flex items-center gap-3 border-b border-[#FFB300]">
+                <div class="font-semibold w-5 text-end">4.</div>
+                <div
+                  class="flex justify-between text-black items-center w-full"
+                >
+                  <div class="font-medium">Zaki Ammar</div>
+                  <div>270</div>
+                </div>
+              </li>
+              <li class="flex items-center gap-3 border-b border-[#FFB300]">
+                <div class="font-semibold w-5 text-end">5.</div>
+                <div
+                  class="flex justify-between text-black items-center w-full"
+                >
+                  <div class="font-medium">Asrun</div>
+                  <div>260</div>
+                </div>
+              </li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="mt-6 grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
+          <!-- table card (9 cols) -->
+          <div class="lg:col-span-9 card overflow-hidden p-0">
+            <!-- header as table thead -->
+            <table class="min-w-full">
+              <thead>
+                <tr class="text-left text-sm text-gray-800 bg-[#FFDAB3]">
+                  <th class="px-6 py-3 text-base font-semibold">Nama</th>
+                  <th class="px-6 py-3 text-base font-semibold">Jabatan</th>
+                  <th class="px-6 py-3 text-center text-base font-semibold">
+                    Harus diikuti
+                  </th>
+                  <th class="px-6 py-3 text-center text-base font-semibold">
+                    Belum dimulai
+                  </th>
+                  <th class="px-6 py-3 text-center text-base font-semibold">
+                    Berlangsung
+                  </th>
+                  <th class="px-6 py-3 text-center text-base font-semibold">
+                    Selesai
+                  </th>
+                  <th class="px-6 py-3 text-center text-base font-semibold">
+                    Nilai Rata - Rata
+                  </th>
+                </tr>
+              </thead>
+
+              <tbody class="divide-y divide-[#FFB300]">
+                <!-- contoh row 1 -->
+                <tr class="text-sm">
+                  <td class="px-6 py-3">Wardah Cahyani</td>
+                  <td class="px-6 py-3">Learning</td>
+                  <td class="px-6 py-3 text-center">12</td>
+                  <td class="px-6 py-3 text-center">1</td>
+                  <td class="px-6 py-3 text-center">10</td>
+                  <td class="px-6 py-3 text-center">1</td>
+                  <td class="px-6 py-3 text-center">8.1</td>
+                </tr>
+
+                <tr class="text-sm">
+                  <td class="px-6 py-3">Ervia Oktavia</td>
+                  <td class="px-6 py-3">Learning</td>
+                  <td class="px-6 py-3 text-center">12</td>
+                  <td class="px-6 py-3 text-center">1</td>
+                  <td class="px-6 py-3 text-center">9</td>
+                  <td class="px-6 py-3 text-center">2</td>
+                  <td class="px-6 py-3 text-center">9.0</td>
+                </tr>
+
+                <tr class="text-sm">
+                  <td class="px-6 py-3">Sarah Amelia</td>
+                  <td class="px-6 py-3">Learning</td>
+                  <td class="px-6 py-3 text-center">12</td>
+                  <td class="px-6 py-3 text-center">1</td>
+                  <td class="px-6 py-3 text-center">10</td>
+                  <td class="px-6 py-3 text-center">1</td>
+                  <td class="px-6 py-3 text-center">8.8</td>
+                </tr>
+
+                <tr class="text-sm">
+                  <td class="px-6 py-3">Yoga Lesmana</td>
+                  <td class="px-6 py-3">Learning</td>
+                  <td class="px-6 py-3 text-center">12</td>
+                  <td class="px-6 py-3 text-center">1</td>
+                  <td class="px-6 py-3 text-center">5</td>
+                  <td class="px-6 py-3 text-center">6</td>
+                  <td class="px-6 py-3 text-center">9.5</td>
+                </tr>
+
+                <tr class="text-sm">
+                  <td class="px-6 py-3">Zaki Ammar</td>
+                  <td class="px-6 py-3">Learning</td>
+                  <td class="px-6 py-3 text-center">12</td>
+                  <td class="px-6 py-3 text-center">1</td>
+                  <td class="px-6 py-3 text-center">6</td>
+                  <td class="px-6 py-3 text-center">5</td>
+                  <td class="px-6 py-3 text-center">7.5</td>
+                </tr>
+                <tr class="text-sm">
+                  <td class="px-6 py-3">Revina</td>
+                  <td class="px-6 py-3">Learning</td>
+                  <td class="px-6 py-3 text-center">16</td>
+                  <td class="px-6 py-3 text-center">2</td>
+                  <td class="px-6 py-3 text-center">10</td>
+                  <td class="px-6 py-3 text-center">4</td>
+                  <td class="px-6 py-3 text-center">8.0</td>
+                </tr>
+                <tr class="text-sm">
+                  <td class="px-6 py-3">Janter Sinaga</td>
+                  <td class="px-6 py-3">Learning</td>
+                  <td class="px-6 py-3 text-center">16</td>
+                  <td class="px-6 py-3 text-center">4</td>
+                  <td class="px-6 py-3 text-center">11</td>
+                  <td class="px-6 py-3 text-center">1</td>
+                  <td class="px-6 py-3 text-center">7.0</td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+
+          <!-- progress team (3 cols) -->
+          <aside class="lg:col-span-3 card p-4 bg-[#DFF5E1]">
+            <h4 class="font-semibold mb-3">Progress Tim</h4>
+
+            <div class="space-y-4">
+              <!-- item 1 -->
+              <div class="flex items-center gap-3">
+                <img
+                  class="w-8 h-8"
+                  src="https://i.pravatar.cc/60?u=1"
+                  alt="avatar"
+                />
+                <div class="flex-1">
+                  <div class="text-sm font-medium">Wardah Cahyani</div>
+                  <div class="mt-2">
+                    <div class="progress-mini">
+                      <div
+                        class="fill"
+                        style="
+                          width: 76%;
+                          background: #4D4D4D;
+                        "
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- item 2 -->
+              <div class="flex items-center gap-3">
+                <img
+                  class="w-8 h-8"
+                  src="https://i.pravatar.cc/60?u=2"
+                  alt="avatar"
+                />
+                <div class="flex-1">
+                  <div class="text-sm font-medium">Ervia Oktaviani</div>
+                  <div class="mt-2">
+                    <div class="progress-mini">
+                      <div
+                        class="fill"
+                        style="
+                          width: 94%;
+                          background: #4D4D4D;
+                        "
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- item 3 -->
+              <div class="flex items-center gap-3">
+                <img
+                  class="w-8 h-8"
+                  src="https://i.pravatar.cc/60?u=3"
+                  alt="avatar"
+                />
+                <div class="flex-1">
+                  <div class="text-sm font-medium">Janter Sinaga</div>
+                  <div class="mt-2">
+                    <div class="progress-mini">
+                      <div
+                        class="fill"
+                        style="
+                          width: 48%;
+                          background: #4D4D4D;
+                        "
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- item 4 -->
+              <div class="flex items-center gap-3">
+                <img
+                  class="w-8 h-8"
+                  src="https://i.pravatar.cc/60?u=4"
+                  alt="avatar"
+                />
+                <div class="flex-1">
+                  <div class="text-sm font-medium">Sarah Amelia</div>
+                  <div class="mt-2">
+                    <div class="progress-mini">
+                      <div
+                        class="fill"
+                        style="
+                          width: 60%;
+                          background: #4D4D4D;
+                        "
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- item 5 -->
+              <div class="flex items-center gap-3">
+                <img
+                  class="w-8 h-8"
+                  src="https://i.pravatar.cc/60?u=5"
+                  alt="avatar"
+                />
+                <div class="flex-1">
+                  <div class="text-sm font-medium">Yoga Lesmana</div>
+                  <div class="mt-2">
+                    <div class="progress-mini">
+                      <div
+                        class="fill"
+                        style="
+                          width: 88%;
+                          background: #4D4D4D;
+                        "
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- item 6 -->
+              <div class="flex items-center gap-3">
+                <img
+                  class="w-8 h-8"
+                  src="https://i.pravatar.cc/60?u=6"
+                  alt="avatar"
+                />
+                <div class="flex-1">
+                  <div class="text-sm font-medium">Zaki Ammar</div>
+                  <div class="mt-2">
+                    <div class="progress-mini">
+                      <div
+                        class="fill"
+                        style="
+                          width: 68%;
+                          background: #4D4D4D;
+                        "
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- item 7 -->
+              <div class="flex items-center gap-3">
+                <img
+                  class="w-8 h-8"
+                  src="https://i.pravatar.cc/60?u=3"
+                  alt="avatar"
+                />
+                <div class="flex-1">
+                  <div class="text-sm font-medium">Revina</div>
+                  <div class="mt-2">
+                    <div class="progress-mini">
+                      <div
+                        class="fill"
+                        style="
+                          width: 28%;
+                          background: #4D4D4D;
+                        "
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </aside>
+        </div>
+
+        <!-- FEEDBACK TEAM LEADER -->
+        <div class="mt-6">
+          <div class="card overflow-hidden">
+            <div
+              class="bg-[color:var(--brand)] text-white px-4 py-3 font-semibold"
+            >
+              Feedback Team Leader
+            </div>
+            <div class="mt-2 text-right">
+                <a href="#" class="text-sm text-gray-500 hover:underline"
+                  >Lihat Selengkapnya</a
+                >
+              </div>
+            <div class="px-4">
+                
+              <!-- list -->
+              <ul class="divide-y">
+                <li class="py-2 flex justify-between items-center">
+                  <div class="flex item-center">
+                    <div class="font-semibold w-60">Wardah Cahyani</div>
+                    <div class="text-sm text-gray-600">
+                      Alur Proses Penjualan dan Pelunasan Piutang
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-3">
+                    <button
+                      class="px-3 py-1 rounded bg-red-600 text-white text-sm"
+                    >
+                      Menunggu Penilaian
+                    </button>
+                  </div>
+                </li>
+
+                <li class="py-4 flex justify-between items-center">
+                  <div class="flex item-center">
+                    <div class="font-semibold w-60">Ervia Oktaviani</div>
+                    <div class="text-sm text-gray-600">
+                      Alur Proses Penjualan dan Pelunasan Piutang
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-3">
+                    <button
+                      class="px-3 py-1 rounded bg-red-600 text-white text-sm"
+                    >
+                      Menunggu Penilaian
+                    </button>
+                  </div>
+                </li>
+
+                <li class="py-4 flex justify-between items-center">
+                  <div class="flex item-center">
+                    <div class="font-semibold w-60">Sarah Amelia</div>
+                    <div class="text-sm text-gray-600">
+                      Alur Proses Penjualan dan Pelunasan Piutang
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-3">
+                    <button
+                      class="px-3 py-1 rounded bg-emerald-500 text-white text-sm"
+                    >
+                      Penilaian Selesai
+                    </button>
+                  </div>
+                </li>
+
+                <li class="py-4 flex justify-between items-center">
+                  <div class="flex item-center">
+                    <div class="font-semibold w-60">Wardah Cahyani</div>
+                    <div class="text-sm text-gray-600">
+                      Alur Proses Pembelian
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-3">
+                    <button
+                      class="px-3 py-1 rounded bg-emerald-500 text-white text-sm"
+                    >
+                      Penilaian Selesai
+                    </button>
+                  </div>
+                </li>
+
+                <li class="py-4 flex justify-between items-center">
+                  <div class="flex item-center">
+                    <div class="font-semibold w-60">Wardah Cahyani</div>
+                    <div class="text-sm text-gray-600">
+                      Budaya Kerja Ekatunggal
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-3">
+                    <button
+                      class="px-3 py-1 rounded bg-emerald-500 text-white text-sm"
+                    >
+                      Penilaian Selesai
+                    </button>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Aktifitas Terbaru -->
+      <!-- <section class="my-6">
+        <h2
+          class="px-4 py-2 mb-4 text-lg font-bold text-white bg-[#a80308] rounded-xl"
+        >
+          Aktivitas Terbaru
+        </h2>
+        <div class="bg-white px-4">
+          <ul class="divide-y text-base text-black">
+            <li class="py-3 flex gap-20">
+              <div class="w-36 font-bold">3 Agustus 2025</div>
+              <div class="flex-1">Menyelesaikan "Product Knowledge 1"</div>
+            </li>
+            <li class="py-3 flex gap-20">
+              <div class="w-36 font-bold">1 Agustus 2025</div>
+              <div class="flex-1">Mulai "Soft Skills: Komunikasi Efektif"</div>
+            </li>
+            <li class="py-3 flex gap-20">
+              <div class="w-36 font-bold">30 Juli 2025</div>
+              <div class="flex-1">Mengerjakan kuis ERP Modul 1</div>
+            </li>
+            <li class="py-3 flex gap-20">
+              <div class="w-36 font-bold">28 Juli 2025</div>
+              <div class="flex-1">Memberikan feedback untuk course</div>
+            </li>
+            <li class="py-3 flex gap-20">
+              <div class="w-36 font-bold">26 Juli 2025</div>
+              <div class="flex-1">
+                Menyelesaikan "Alur Proses Penjualan dan Pelunasan Piutang"
+              </div>
+            </li>
+          </ul>
+        </div>
+      </section> -->
+
+      <!-- Pelatihan Selesai -->
+      <section class="my-6">
+        <h2
+          class="px-4 py-2 mb-4 text-lg font-bold text-white bg-[#a80308] rounded-xl"
+        >
+          Pelatihan Selesai
+        </h2>
+
+        <form
+          onsubmit="handleSearch(event)"
+          class="w-full mt-4"
+          role="search"
+          aria-label="Cari kursus"
+        >
+          <div
+            class="p-3 shadow-sm flex flex-col md:flex-row gap-3 items-center"
+          >
+            <!-- Search input (besar) -->
+            <div
+              class="flex items-center w-full md:flex-1 bg-[#E7E7E7] text-black rounded-md px-3 h-10"
+            >
+              <input
+                id="searchInput"
+                type="search"
+                name="q"
+                class="flex-1 bg-transparent border-0 outline-none text-black placeholder-gray-500 text-sm"
+                placeholder="Cari kursus..."
+                aria-label="Cari kursus"
+              />
+              <button
+                type="submit"
+                class="ml-3 inline-flex items-center gap-2 rounded-md px-3 py-1 text-sm font-semibold text-gray-500 bg-transparent"
+                aria-label="Cari"
+              >
+                <svg
+                  class="w-4 h-4"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M21 21l-4.35-4.35"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <circle
+                    cx="11"
+                    cy="11"
+                    r="6"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  />
+                </svg>
+                Search
+              </button>
+            </div>
+
+            <!-- Dropdowns (compact) -->
+            <div class="flex gap-2 items-center w-full md:w-auto">
+              <label class="sr-only" for="kategori">Kategori</label>
+              <select
+                id="kategori"
+                name="kategori"
+                class="bg-[#E7E7E7] text-gray-600 text-sm rounded-md px-4 h-10 border border-white/6 outline-none"
+              >
+                <option value="" class="text-black">Kategori</option>
+                <option value="mandatory" class="text-black">Mandatory</option>
+                <option value="functional-sop" class="text-black">
+                  Functional SOP
+                </option>
+                <option value="functional-skill" class="text-black">
+                  Functional Skill
+                </option>
+                <option value="development" class="text-black">
+                  Development
+                </option>
+              </select>
+
+              <label class="sr-only" for="status">Status</label>
+              <select
+                id="status"
+                name="status"
+                class="bg-[#E7E7E7] text-gray-600 text-sm rounded-md px-3 h-10 border border-white/6 outline-none"
+              >
+                <option value="" class="text-black">Status</option>
+                <option value="private" class="text-black">Private</option>
+                <option value="public" class="text-black">Public</option>
+              </select>
+
+              <label class="sr-only" for="progress">Progress</label>
+              <select
+                id="progress"
+                name="progress"
+                class="bg-[#E7E7E7] text-gray-600 text-sm rounded-md px-3 h-10 border border-white/6 outline-none"
+              >
+                <option value="" class="text-black">Progress</option>
+                <option value="not-started" class="text-black">
+                  Belum Dimulai
+                </option>
+                <option value="in-progress" class="text-black">
+                  Berlangsung
+                </option>
+                <option value="completed" class="text-black">Selesai</option>
+              </select>
+            </div>
+          </div>
+        </form>
+
+        <div
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6 course-grid-row"
+          id="doneGrid"
+        >
+          <!-- CARD 1 -->
+          <div class="bg-white rounded-lg overflow-hidden shadow">
+            <div
+              class="flex justify-between items-center px-3 py-2 gap-2 text-sm font-semibold"
+            >
+              <div title="Terbuka">🔓</div>
+              <span class="bg-green-600 text-white px-3 py-1 rounded-lg"
+                >Selesai</span
+              >
+            </div>
+            <img src="../img/course1.png" alt="course 1" class="w-full" />
+            <div class="p-4">
+              <h4 class="text-2xl font-extrabold text-center mb-3 h-16">
+                ALUR PROSES PENERIMAAN PESANAN
+              </h4>
+              <div
+                class="flex justify-between items-center text-sm text-gray-500 progress-wrapper"
+              >
+                <div
+                  class="w-[87%] bg-gray-200 rounded h-1 relative progress-bar"
+                >
+                  <div
+                    class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                    style="width: 0%"
+                    role="progressbar"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    aria-valuenow="0"
+                  ></div>
+                </div>
+                <span class="progress-text pl-2">14 / 14</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 2 -->
+          <div class="bg-white rounded-lg overflow-hidden shadow">
+            <div
+              class="flex justify-between items-center px-3 py-2 gap-2 text-sm font-semibold"
+            >
+              <div title="Terbuka">🔓</div>
+              <span class="bg-green-600 text-white px-3 py-1 rounded-lg"
+                >Selesai</span
+              >
+            </div>
+            <img src="../img/course2.png" alt="course 2" class="w-full" />
+            <div class="p-4">
+              <h4 class="text-2xl font-extrabold text-center mb-3 h-16">
+                PROSES PEMBUATAN DOKUMEN SALES ORDER (SO)
+              </h4>
+              <div
+                class="flex justify-between items-center text-sm text-gray-500 progress-wrapper"
+              >
+                <div
+                  class="w-[87%] bg-gray-200 rounded h-1 relative progress-bar"
+                >
+                  <div
+                    class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                    style="width: 0%"
+                    role="progressbar"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    aria-valuenow="0"
+                  ></div>
+                </div>
+                <span class="progress-text pl-2">10 / 10</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 3 -->
+          <div class="bg-white rounded-lg overflow-hidden shadow">
+            <div
+              class="flex justify-between items-center px-3 py-2 gap-2 text-sm font-semibold"
+            >
+              <div title="Terbuka">🔓</div>
+              <span class="bg-green-600 text-white px-3 py-1 rounded-lg"
+                >Selesai</span
+              >
+            </div>
+            <img src="../img/course3.png" alt="course 3" class="w-full" />
+            <div class="p-4">
+              <h4 class="text-2xl font-extrabold text-center mb-3 h-16">
+                PERSIAPAN PENGIRIMAN BARANG
+              </h4>
+              <div
+                class="flex justify-between items-center text-sm text-gray-500 progress-wrapper"
+              >
+                <div
+                  class="w-[87%] bg-gray-200 rounded h-1 relative progress-bar"
+                >
+                  <div
+                    class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                    style="width: 0%"
+                    role="progressbar"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    aria-valuenow="0"
+                  ></div>
+                </div>
+                <span class="progress-text pl-2">6 / 6</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- small JS for demo -->
+    <script>
+      function readIntFromEl(el) {
+        if (!el) return 0;
+        const txt = (el.textContent || el.innerText || "").trim();
+        const cleaned = txt.replace(/[^\d\-]/g, "");
+        const n = parseInt(cleaned, 10);
+        return isNaN(n) ? 0 : n;
+      }
+
+      
+
+        function getStatsFromDOM() {
+          const nodes = document.querySelectorAll(".stat-value[data-stat]");
+          const result = { harus: 0, berlangsung: 0, selesai: 0, belum: 0 };
+          nodes.forEach((n) => {
+            const key = n.getAttribute("data-stat");
+            const val = readIntFromEl(n);
+            if (key && Object.prototype.hasOwnProperty.call(result, key)) {
+              result[key] = val;
+            }
+          });
+          return result;
+        }
+
+        let donutChart = null;
+        function createDonut(initialData) {
+          const ctx = document.getElementById("donutChart").getContext("2d");
+          if (donutChart)
+            try {
+              donutChart.destroy();
+            } catch (e) {}
+          donutChart = new Chart(ctx, {
+            type: "doughnut",
+            data: {
+              labels: ["Selesai", "Berlangsung", "Belum Mulai"],
+              datasets: [
+                {
+                  data: [12, 8, 3],
+                  backgroundColor: ["#388E3C", "#FFB300", "#A80308"],
+                  borderWidth: 0,
+                },
+              ],
+            },
+            options: {
+              maintainAspectRatio: false,
+              plugins: {
+                legend: { display: false },
+                tooltip: {
+                  callbacks: {
+                    label: function (ctx) {
+                      return ctx.label + ": " + ctx.raw;
+                    },
+                  },
+                },
+              },
+              cutout: "60%",
+              responsive: true,
+            },
+          });
+        }
+
+      //// perhitungan pie chart
+      // zaki :
+      // // - pelatihn harus diikuti = 15
+      // // - pelatihan berlangsung = 8
+      // // - pelatihan selesai = 3
+      // // - belum dimulai = 4
+
+      // // wardah :
+      // // - pelatihn harus diikuti = 15
+      // // - pelatihan berlangsung = 8
+      // // - pelatihan selesai = 3
+      // // - belum dimulai = 4
+
+      // // ervia:
+      // // - pelatihn harus diikuti = 15
+      // // - pelatihan berlangsung = 7
+      // // - pelatihan selesai = 4
+      // // - belum dimulai = 4
+
+      // // bang yoga:
+      // // - pelatihn harus diikuti = 20
+      // // - pelatihan berlangsung = 12
+      // // - pelatihan selesai = 5
+      // // - belum dimulai = 3
+
+      // pelatihan yang harus diikuti  15 + 15 + 15 + 20
+      // pelatihan berlangsung : 8 + 8 + 7 + 12
+      // pelatihan selesai : 3 + 3 + 4 + 5
+      // belum dimulai : 4 + 4 + 4 + 3
+      // pencapaian learning path : persentase dari 3 + 3 + 4 + 5 / 15 + 15 + 15 + 20
+
+      //Donut Chart
+    //   const ctx = document.getElementById("donutChart").getContext("2d");
+    //   const donut = new Chart(ctx, {
+    //     type: "pie",
+    //     data: {
+    //       labels: ["Selesai", "Berlangsung", "Belum Mulai"],
+    //       datasets: [
+    //         {
+    //           data: [15, 35, 15],
+    //           backgroundColor: ["#388E3C", "#FFB300", "#A80308"],
+    //           borderWidth: 0,
+    //         },
+    //       ],
+    //     },
+    //     options: {
+    //       maintainAspectRatio: false,
+    //       plugins: { legend: { display: false } },
+    //       cutout: "60%",
+    //     },
+    //   });
+
+      function updateChartFromDOM() {
+        const s = getStatsFromDOM();
+        const data = [s.selesai, s.berlangsung, s.belum];
+        if (!donutChart) createDonut(data);
+        else {
+          donutChart.data.datasets[0].data = data;
+          donutChart.update();
+        }
+      }
+
+      function observeStatValues() {
+        const statNodes = document.querySelectorAll(".stat-value[data-stat]");
+        statNodes.forEach((node) => {
+          const mo = new MutationObserver(() => updateChartFromDOM());
+          mo.observe(node, {
+            characterData: true,
+            childList: true,
+            subtree: true,
+          });
+        });
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        updateChartFromDOM();
+        observeStatValues();
+      });
+
+      // Progress bars: kode anda sebelumnya — akan membaca teks "X / Y"
+      function parseProgressText(text) {
+        const m = String(text).match(/(\d+)\s*\/\s*(\d+)/);
+        if (!m) return null;
+        return [parseInt(m[1], 10), parseInt(m[2], 10)];
+      }
+
+      function updateProgress(wrapper) {
+        const span = wrapper.querySelector(".progress-text");
+        const fill = wrapper.querySelector(".progress-fill");
+        if (!span || !fill) return;
+
+        const nums = parseProgressText(span.textContent);
+        if (!nums) {
+          fill.style.width = "0%";
+          fill.setAttribute("aria-valuenow", 0);
+          return;
+        }
+
+        const [cur, total] = nums;
+        let pct = total === 0 ? 0 : (cur / total) * 100;
+        pct = Math.max(0, Math.min(100, pct));
+        const pctStr = Math.round(pct * 100) / 100 + "%";
+        fill.style.width = pctStr;
+        fill.setAttribute("aria-valuenow", cur);
+        fill.setAttribute("aria-valuemax", total);
+        fill.setAttribute("aria-valuemin", 0);
+      }
+
+      function initProgressWrappers() {
+        const wrappers = document.querySelectorAll(".progress-wrapper");
+        wrappers.forEach((wrapper) => {
+          updateProgress(wrapper);
+          const span = wrapper.querySelector(".progress-text");
+          if (span) {
+            const mo = new MutationObserver(() => {
+              updateProgress(wrapper);
+            });
+            mo.observe(span, {
+              characterData: true,
+              childList: true,
+              subtree: true,
+            });
+          }
+        });
+      }
+
+      // safe: pasang listener pencarian hanya jika element ada
+      function attachSearchHandler() {
+        const searchInput = document.getElementById("searchInput");
+        const grid = document.getElementById("doneGrid");
+        if (!searchInput || !grid) return;
+        const items = Array.from(grid.children || []);
+        searchInput.addEventListener("input", function () {
+          const q = this.value.toLowerCase();
+          items.forEach((card) => {
+            const title =
+              card.querySelector(".text-2xl")?.textContent?.toLowerCase() || "";
+            if (!q || title.includes(q)) {
+              card.style.display = "";
+            } else {
+              card.style.display = "none";
+            }
+          });
+        });
+      }
+
+      // inisialisasi saat DOM siap
+      document.addEventListener("DOMContentLoaded", function () {
+        // inisialisasi progress bars
+        initProgressWrappers();
+
+        // buat donut berdasarkan angka di DOM
+        updateChartFromDOM();
+
+        // observe agar chart update jika angka berubah
+        observeStatValues();
+
+        // pasang search handler jika ada elemen
+        attachSearchHandler();
+      });
+// init flatpickr range mode on single input
+      const fp = flatpickr("#dateRange", {
+        mode: "range",
+        dateFormat: "d M Y",
+        altInput: true,
+        altFormat: "d M Y",
+        allowInput: true,
+        defaultDate: [], // no default
+      });
+
+      // helper: parse a "YYYY-MM-DD" row date to Date object (midnight UTC)
+      function parseRowDate(dateStr) {
+        // accepts YYYY-MM-DD
+        if (!dateStr) return null;
+        const parts = dateStr.split("-");
+        if (parts.length !== 3) return null;
+        return new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+      }
+
+      // filter table rows by date range (inclusive)
+      function filterTableByRange(startDate, endDate) {
+        const tbody = document.getElementById("membersTbody");
+        if (!tbody) return;
+        const rows = Array.from(tbody.querySelectorAll("tr"));
+        rows.forEach(row => {
+          const d = row.getAttribute("data-date"); // expected YYYY-MM-DD
+          if (!d) {
+            // if no date attribute — keep visible
+            row.style.display = "";
+            return;
+          }
+          const rowDate = parseRowDate(d);
+          if (!rowDate) { row.style.display = ""; return; }
+          // compare (inclusive)
+          const visible = (!startDate || !endDate) ? true : (rowDate >= startDate && rowDate <= endDate);
+          row.style.display = visible ? "" : "none";
+        });
+      }
+
+      // Apply button handler: read selectedDates from flatpickr instance
+      document.getElementById("applyRange").addEventListener("click", () => {
+        const sel = fp.selectedDates; // array of Date objects (0 = from, 1 = to)
+        if (!sel || sel.length === 0) {
+          alert("Pilih rentang tanggal terlebih dahulu.");
+          return;
+        }
+        // if user picks single date, treat as start=end
+        const start = sel[0] ? new Date(sel[0].getFullYear(), sel[0].getMonth(), sel[0].getDate()) : null;
+        const end = sel[1] ? new Date(sel[1].getFullYear(), sel[1].getMonth(), sel[1].getDate()) : start;
+        // Filter table rows (rows must have data-date="YYYY-MM-DD")
+        filterTableByRange(start, end);
+        // show selection in console and keep input value visible
+        console.log("Applied range:", start, end);
+      });
+
+      // Clear button: reset flatpickr and show all rows
+      document.getElementById("clearRange").addEventListener("click", () => {
+        fp.clear();
+        filterTableByRange(null, null);
+      });
+
+      // Optional: export button stub
+      document.getElementById("exportBtn").addEventListener("click", () => {
+        alert("Fungsi export — hubungkan ke back-end atau implement client-side CSV export.");
+      });
+      // public helper jika Anda ingin memperbarui angka via JS:
+      // contoh: document.querySelector('.stat-value[data-stat="selesai"]').textContent = '10';
+      // lalu chart akan otomatis update karena observer.
+    </script>
+  </body>
+</html>

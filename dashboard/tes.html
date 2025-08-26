@@ -75,16 +75,17 @@
         background: var(--header-bg);
       }
 
-       .progress-mini {
-        height: 3px;
+      .progress-mini {
+        height: 6px;
         border-radius: 999px;
-        background: #BBBBBB;
+        background: #bbbbbb;
         overflow: hidden;
       }
       .progress-mini > .fill {
         display: block;
         height: 100%;
         border-radius: 999px;
+        transition: width 400ms ease;
       }
 
       /* keep canvas responsive box */
@@ -97,10 +98,17 @@
       tbody > tr > td {
         background: white;
       }
+
+      /* small percent label for team progress */
+      .team-pct {
+        font-size: 12px;
+        color: #1f2937;
+        margin-top: 6px;
+      }
     </style>
   </head>
   <body>
-   <!-- NAVBAR -->
+    <!-- NAVBAR -->
     <nav
       class="flex items-center justify-between px-8 py-4 border-b-2 border-gray-200 mb-4 bg-white"
     >
@@ -142,7 +150,7 @@
     </nav>
 
     <main class="mx-8 mb-12">
-<!-- HERO -->
+      <!-- HERO -->
       <section class="flex flex-col gap-6 h-70 md:flex-row">
         <div
           class="text-white bg-black rounded-2xl flex-3 w-2/3 p-8 my-auto hero"
@@ -207,6 +215,7 @@
         </div>
       </section>
 
+      <!-- Pelatihan Tersedia -->
       <section class="my-6">
         <h2
           class="px-4 py-2 text-lg font-bold text-white bg-[color:var(--brand)] rounded-xl"
@@ -215,7 +224,7 @@
         </h2>
 
         <!-- controls -->
-    <div class="flex items-center justify-between my-3">
+        <div class="flex items-center justify-between my-3">
           <div class="flex items-center gap-3">
             <label class="text-sm">Bulan Berjalan</label>
 
@@ -226,19 +235,28 @@
                 class="px-3 py-2 rounded-md border border-gray-200 shadow-sm w-72"
                 placeholder="Pilih rentang tanggal..."
               />
-              <button id="applyRange" class="px-3 py-2 bg-[#a80308] text-white rounded-md">Apply</button>
-              <button id="clearRange" class="px-3 py-2 border rounded-md">Clear</button>
+              <button
+                id="applyRange"
+                class="px-3 py-2 bg-[#a80308] text-white rounded-md"
+              >
+                Apply
+              </button>
+              <button id="clearRange" class="px-3 py-2 border rounded-md">
+                Clear
+              </button>
             </div>
           </div>
 
           <div>
-            <button id="exportBtn" class="px-3 py-2 text-gray-600">Export</button>
+            <button id="exportBtn" class="px-3 py-2 text-gray-600">
+              Export
+            </button>
           </div>
         </div>
 
         <!-- top grid -->
         <div class="grid grid-cols-1 md:grid-cols-8 gap-4 items-stretch">
-          <!-- Donut -->
+          <!-- Donut Chart -->
           <div
             class="col-span-1 md:col-span-2 bg-[#FFF4E5] rounded-lg shadow p-4 flex flex-col items-center"
           >
@@ -312,26 +330,63 @@
           <div
             class="col-span-1 md:col-span-2 bg-[#FFDAB3] rounded-lg shadow p-4"
           >
-            <h4 class="font-bold text-black text-xl mb-3">Peringkat Saya</h4>
-            <ol class="flex flex-col space-y-3 text-sm">
-              <li
-                class="flex items-center gap-3 border-b border-[#FFB300] py-1"
-              >
+            <h4 class="font-semibold text-black text-3xl mb-3">
+              Peringkat Saya
+            </h4>
+            <ol class="flex flex-col space-y-3">
+              <li class="flex items-center gap-3 border-b border-[#FFB300]">
+                <div class="font-semibold w-5 text-end">50.</div>
+                <div
+                  class="flex justify-between text-black items-center w-full"
+                >
+                  <div class="font-medium">Wardah Cahyani</div>
+                  <div>40</div>
+                </div>
+              </li>
+              <li class="flex items-center gap-3 border-b border-[#FFB300]">
                 <div class="font-semibold w-5 text-end">1.</div>
-                <div class="flex-1 px-3">Ervia Oktavia</div>
-                <div>300</div>
+                <div
+                  class="flex justify-between text-black items-center w-full"
+                >
+                  <div class="font-medium">Ervia Oktavia</div>
+                  <div>300</div>
+                </div>
               </li>
-              <li
-                class="flex items-center gap-3 border-b border-[#FFB300] py-1"
-              >
+              <li class="flex items-center gap-3 border-b border-[#FFB300]">
                 <div class="font-semibold w-5 text-end">2.</div>
-                <div class="flex-1 px-3">Sarah Amelia</div>
-                <div>290</div>
+                <div
+                  class="flex justify-between text-black items-center w-full"
+                >
+                  <div class="font-medium">Lukman</div>
+                  <div>290</div>
+                </div>
               </li>
-              <li class="flex items-center gap-3 py-1">
+              <li class="flex items-center gap-3 border-b border-[#FFB300]">
                 <div class="font-semibold w-5 text-end">3.</div>
-                <div class="flex-1 px-3">Yoga Lesmana</div>
-                <div>280</div>
+                <div
+                  class="flex justify-between text-black items-center w-full"
+                >
+                  <div class="font-medium">Udin N</div>
+                  <div>280</div>
+                </div>
+              </li>
+              <li class="flex items-center gap-3 border-b border-[#FFB300]">
+                <div class="font-semibold w-5 text-end">4.</div>
+                <div
+                  class="flex justify-between text-black items-center w-full"
+                >
+                  <div class="font-medium">Zaki Ammar</div>
+                  <div>270</div>
+                </div>
+              </li>
+              <li class="flex items-center gap-3 border-b border-[#FFB300]">
+                <div class="font-semibold w-5 text-end">5.</div>
+                <div
+                  class="flex justify-between text-black items-center w-full"
+                >
+                  <div class="font-medium">Asrun</div>
+                  <div>260</div>
+                </div>
               </li>
             </ol>
           </div>
@@ -400,8 +455,8 @@
                   <td class="px-6 py-3">Learning</td>
                   <td class="px-6 py-3 text-center">12</td>
                   <td class="px-6 py-3 text-center">1</td>
-                  <td class="px-6 py-3 text-center">5</td>
-                  <td class="px-6 py-3 text-center">6</td>
+                  <td class="px-6 py-3 text-center">1</td>
+                  <td class="px-6 py-3 text-center">10</td>
                   <td class="px-6 py-3 text-center">9.5</td>
                 </tr>
 
@@ -438,104 +493,300 @@
             </table>
           </div>
 
+          <!-- ASIDE: Progress Tim (generated from table rows) -->
           <aside class="lg:col-span-3 card p-4 bg-[#DFF5E1]">
             <h4 class="font-semibold mb-3">Progress Tim</h4>
-            <div class="space-y-4">
-              <div class="flex items-center gap-3">
-                <img
-                  class="w-8 h-8 rounded-full"
-                  src="https://i.pravatar.cc/60?u=1"
-                  alt="a"
-                />
-                <div class="flex-1">
-                  <div class="text-sm font-medium">Wardah Cahyani</div>
-                  <div class="mt-2">
-                    <div class="progress-mini">
-                      <div
-                        class="fill"
-                        style="width: 76%; background: #4d4d4d"
-                      ></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="flex items-center gap-3">
-                <img
-                  class="w-8 h-8 rounded-full"
-                  src="https://i.pravatar.cc/60?u=2"
-                  alt="a"
-                />
-                <div class="flex-1">
-                  <div class="text-sm font-medium">Ervia Oktaviani</div>
-                  <div class="mt-2">
-                    <div class="progress-mini">
-                      <div
-                        class="fill"
-                        style="width: 94%; background: #4d4d4d"
-                      ></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="flex items-center gap-3">
-                <img
-                  class="w-8 h-8 rounded-full"
-                  src="https://i.pravatar.cc/60?u=3"
-                  alt="a"
-                />
-                <div class="flex-1">
-                  <div class="text-sm font-medium">Janter Sinaga</div>
-                  <div class="mt-2">
-                    <div class="progress-mini">
-                      <div
-                        class="fill"
-                        style="width: 48%; background: #4d4d4d"
-                      ></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <div class="space-y-4" id="teamProgressList">
+              <!-- will be filled programmatically from table rows -->
             </div>
           </aside>
         </div>
+      </section>
 
-        <!-- feedback list (kept simple) -->
-        <div class="mt-6">
-          <div class="card overflow-hidden">
-            <div
-              class="bg-[color:var(--brand)] text-white px-4 py-3 font-semibold"
+      <!-- feedback list (kept simple) -->
+      <section class="mt-6">
+        <div class="card overflow-hidden">
+          <div
+            class="bg-[color:var(--brand)] text-white px-4 py-3 font-semibold"
+          >
+            Feedback Team Leader
+          </div>
+          <div class="mt-2 text-right">
+            <a href="#" class="text-sm text-gray-500 hover:underline"
+              >Lihat Selengkapnya</a
             >
-              Feedback Team Leader
-            </div>
-            <div class="px-4 py-3">
-              <ul class="divide-y">
-                <li class="py-3 flex justify-between items-center">
-                  <div>
-                    <div class="font-semibold">Wardah Cahyani</div>
-                    <div class="text-sm text-gray-600">
-                      Alur Proses Penjualan dan Pelunasan Piutang
-                    </div>
+          </div>
+          <div class="px-4">
+            <!-- list -->
+            <ul class="divide-y">
+              <li class="py-2 flex justify-between items-center">
+                <div class="flex item-center">
+                  <div class="font-semibold w-60">Wardah Cahyani</div>
+                  <div class="text-sm text-gray-600">
+                    Alur Proses Penjualan dan Pelunasan Piutang
                   </div>
+                </div>
+                <div class="flex items-center gap-3">
                   <button
                     class="px-3 py-1 rounded bg-red-600 text-white text-sm"
                   >
                     Menunggu Penilaian
                   </button>
-                </li>
-                <li class="py-3 flex justify-between items-center">
-                  <div>
-                    <div class="font-semibold">Sarah Amelia</div>
-                    <div class="text-sm text-gray-600">
-                      Alur Proses Penjualan
-                    </div>
+                </div>
+              </li>
+
+              <li class="py-4 flex justify-between items-center">
+                <div class="flex item-center">
+                  <div class="font-semibold w-60">Ervia Oktaviani</div>
+                  <div class="text-sm text-gray-600">
+                    Alur Proses Penjualan dan Pelunasan Piutang
                   </div>
+                </div>
+                <div class="flex items-center gap-3">
+                  <button
+                    class="px-3 py-1 rounded bg-red-600 text-white text-sm"
+                  >
+                    Menunggu Penilaian
+                  </button>
+                </div>
+              </li>
+
+              <li class="py-4 flex justify-between items-center">
+                <div class="flex item-center">
+                  <div class="font-semibold w-60">Sarah Amelia</div>
+                  <div class="text-sm text-gray-600">
+                    Alur Proses Penjualan
+                  </div>
+                </div>
+                <div class="flex items-center gap-3">
                   <button
                     class="px-3 py-1 rounded bg-emerald-500 text-white text-sm"
                   >
                     Penilaian Selesai
                   </button>
-                </li>
-              </ul>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Pelatihan Selesai -->
+      <section class="my-6">
+        <h2
+          class="px-4 py-2 mb-4 text-lg font-bold text-white bg-[#a80308] rounded-xl"
+        >
+          Pelatihan Selesai
+        </h2>
+
+        <form
+          onsubmit="handleSearch(event)"
+          class="w-full mt-4"
+          role="search"
+          aria-label="Cari kursus"
+        >
+          <div
+            class="p-3 shadow-sm flex flex-col md:flex-row gap-3 items-center"
+          >
+            <!-- Search input (besar) -->
+            <div
+              class="flex items-center w-full md:flex-1 bg-[#E7E7E7] text-black rounded-md px-3 h-10"
+            >
+              <input
+                id="searchInput"
+                type="search"
+                name="q"
+                class="flex-1 bg-transparent border-0 outline-none text-black placeholder-gray-500 text-sm"
+                placeholder="Cari kursus..."
+                aria-label="Cari kursus"
+              />
+              <button
+                type="submit"
+                class="ml-3 inline-flex items-center gap-2 rounded-md px-3 py-1 text-sm font-semibold text-gray-500 bg-transparent"
+                aria-label="Cari"
+              >
+                <svg
+                  class="w-4 h-4"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M21 21l-4.35-4.35"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <circle
+                    cx="11"
+                    cy="11"
+                    r="6"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  />
+                </svg>
+                Search
+              </button>
+            </div>
+
+            <!-- Dropdowns (compact) -->
+            <div class="flex gap-2 items-center w-full md:w-auto">
+              <label class="sr-only" for="kategori">Kategori</label>
+              <select
+                id="kategori"
+                name="kategori"
+                class="bg-[#E7E7E7] text-gray-600 text-sm rounded-md px-4 h-10 border border-white/6 outline-none"
+              >
+                <option value="" class="text-black">Kategori</option>
+                <option value="mandatory" class="text-black">Mandatory</option>
+                <option value="functional-sop" class="text-black">
+                  Functional SOP
+                </option>
+                <option value="functional-skill" class="text-black">
+                  Functional Skill
+                </option>
+                <option value="development" class="text-black">
+                  Development
+                </option>
+              </select>
+
+              <label class="sr-only" for="status">Status</label>
+              <select
+                id="status"
+                name="status"
+                class="bg-[#E7E7E7] text-gray-600 text-sm rounded-md px-3 h-10 border border-white/6 outline-none"
+              >
+                <option value="" class="text-black">Status</option>
+                <option value="private" class="text-black">Private</option>
+                <option value="public" class="text-black">Public</option>
+              </select>
+
+              <label class="sr-only" for="progress">Progress</label>
+              <select
+                id="progress"
+                name="progress"
+                class="bg-[#E7E7E7] text-gray-600 text-sm rounded-md px-3 h-10 border border-white/6 outline-none"
+              >
+                <option value="" class="text-black">Progress</option>
+                <option value="not-started" class="text-black">
+                  Belum Dimulai
+                </option>
+                <option value="in-progress" class="text-black">
+                  Berlangsung
+                </option>
+                <option value="completed" class="text-black">Selesai</option>
+              </select>
+            </div>
+          </div>
+        </form>
+
+        <div
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6 course-grid-row"
+          id="doneGrid"
+        >
+          <!-- CARD 1 -->
+          <div class="bg-white rounded-lg overflow-hidden shadow">
+            <div
+              class="flex justify-between items-center px-3 py-2 gap-2 text-sm font-semibold"
+            >
+              <div title="Terbuka">🔓</div>
+              <span class="bg-green-600 text-white px-3 py-1 rounded-lg"
+                >Selesai</span
+              >
+            </div>
+            <img src="../img/course1.png" alt="course 1" class="w-full" />
+            <div class="p-4">
+              <h4 class="text-2xl font-extrabold text-center mb-3 h-16">
+                ALUR PROSES PENERIMAAN PESANAN
+              </h4>
+              <div
+                class="flex justify-between items-center text-sm text-gray-500 progress-wrapper"
+              >
+                <div
+                  class="w-[87%] bg-gray-200 rounded h-1 relative progress-bar"
+                >
+                  <div
+                    class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                    style="width: 0%"
+                    role="progressbar"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    aria-valuenow="0"
+                  ></div>
+                </div>
+                <span class="progress-text pl-2">14 / 14</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 2 -->
+          <div class="bg-white rounded-lg overflow-hidden shadow">
+            <div
+              class="flex justify-between items-center px-3 py-2 gap-2 text-sm font-semibold"
+            >
+              <div title="Terbuka">🔓</div>
+              <span class="bg-green-600 text-white px-3 py-1 rounded-lg"
+                >Selesai</span
+              >
+            </div>
+            <img src="../img/course2.png" alt="course 2" class="w-full" />
+            <div class="p-4">
+              <h4 class="text-2xl font-extrabold text-center mb-3 h-16">
+                PROSES PEMBUATAN DOKUMEN SALES ORDER (SO)
+              </h4>
+              <div
+                class="flex justify-between items-center text-sm text-gray-500 progress-wrapper"
+              >
+                <div
+                  class="w-[87%] bg-gray-200 rounded h-1 relative progress-bar"
+                >
+                  <div
+                    class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                    style="width: 0%"
+                    role="progressbar"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    aria-valuenow="0"
+                  ></div>
+                </div>
+                <span class="progress-text pl-2">10 / 10</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 3 -->
+          <div class="bg-white rounded-lg overflow-hidden shadow">
+            <div
+              class="flex justify-between items-center px-3 py-2 gap-2 text-sm font-semibold"
+            >
+              <div title="Terbuka">🔓</div>
+              <span class="bg-green-600 text-white px-3 py-1 rounded-lg"
+                >Selesai</span
+              >
+            </div>
+            <img src="../img/course3.png" alt="course 3" class="w-full" />
+            <div class="p-4">
+              <h4 class="text-2xl font-extrabold text-center mb-3 h-16">
+                PERSIAPAN PENGIRIMAN BARANG
+              </h4>
+              <div
+                class="flex justify-between items-center text-sm text-gray-500 progress-wrapper"
+              >
+                <div
+                  class="w-[87%] bg-gray-200 rounded h-1 relative progress-bar"
+                >
+                  <div
+                    class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                    style="width: 0%"
+                    role="progressbar"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    aria-valuenow="0"
+                  ></div>
+                </div>
+                <span class="progress-text pl-2">6 / 6</span>
+              </div>
             </div>
           </div>
         </div>
@@ -543,6 +794,60 @@
     </main>
 
     <script>
+      /* -------------------------
+         Progress bar helpers
+         ------------------------- */
+      function parseProgressText(text) {
+        const m = String(text).match(/(\d+)\s*\/\s*(\d+)/);
+        if (!m) return null;
+        return [parseInt(m[1], 10), parseInt(m[2], 10)];
+      }
+
+      function updateProgress(wrapper) {
+        const span = wrapper.querySelector(".progress-text");
+        const fill = wrapper.querySelector(".progress-fill");
+        if (!span || !fill) return;
+
+        const nums = parseProgressText(span.textContent || "");
+        if (!nums) {
+          fill.style.width = "0%";
+          fill.setAttribute("aria-valuenow", 0);
+          return;
+        }
+
+        const [cur, total] = nums;
+        let pct = total === 0 ? 0 : (cur / total) * 100;
+        pct = Math.max(0, Math.min(100, pct));
+        const pctStr = Math.round(pct * 100) / 100 + "%";
+        fill.style.width = pctStr;
+
+        // ARIA: set percent for accessibility
+        fill.setAttribute("aria-valuenow", Math.round(pct));
+        fill.setAttribute("aria-valuemax", 100);
+        fill.setAttribute("aria-valuemin", 0);
+      }
+
+      function initProgressWrappers() {
+        const wrappers = document.querySelectorAll(".progress-wrapper");
+        wrappers.forEach((wrapper) => {
+          // update initially
+          updateProgress(wrapper);
+
+          // observe changes to progress-text so bar updates automatically
+          const span = wrapper.querySelector(".progress-text");
+          if (span) {
+            const mo = new MutationObserver(() => {
+              updateProgress(wrapper);
+            });
+            mo.observe(span, {
+              characterData: true,
+              childList: true,
+              subtree: true,
+            });
+          }
+        });
+      }
+
       /* -------------------------
          Utility parse helpers
          ------------------------- */
@@ -576,7 +881,7 @@
             ],
           },
           options: {
-            cutout: "70%",
+            cutout: "60%",
             maintainAspectRatio: false,
             plugins: {
               legend: { display: false },
@@ -595,6 +900,93 @@
       }
 
       /* -------------------------
+         Build team list from visible table rows
+         ------------------------- */
+      function buildTeamListFromTable() {
+        const tbody = document.getElementById("membersTbody");
+        const container = document.getElementById("teamProgressList");
+        if (!tbody || !container) return;
+
+        // clear existing
+        container.innerHTML = "";
+
+        const rows = Array.from(tbody.querySelectorAll("tr")).filter(
+          (r) => r.style.display !== "none"
+        );
+
+        rows.forEach((row) => {
+          const cells = row.querySelectorAll("td");
+          const name = (cells[0]?.textContent || "").trim();
+          const harus = parseNumber(cells[2]?.textContent);
+          const berlangsung = parseNumber(cells[4]?.textContent);
+          const selesai = parseNumber(cells[5]?.textContent);
+
+          // default formula: selesai / harus
+          let pct = 0;
+          if (harus > 0) {
+            pct = Math.round((selesai / harus) * 100);
+          } else {
+            pct = selesai > 0 ? 100 : 0;
+          }
+          pct = Math.max(0, Math.min(100, isNaN(pct) ? 0 : pct));
+
+          // Build DOM
+          const teamRow = document.createElement("div");
+          teamRow.className = "flex items-center gap-3 team-row";
+
+          const img = document.createElement("img");
+          img.className = "w-8 h-8 rounded-full";
+          img.src = `https://i.pravatar.cc/60?u=${encodeURIComponent(name)}`;
+
+          const flex1 = document.createElement("div");
+          flex1.className = "flex-1";
+
+          const nameDiv = document.createElement("div");
+          nameDiv.className = "text-sm font-medium team-name";
+          nameDiv.textContent = name;
+
+          const mt2 = document.createElement("div");
+          mt2.className = "mt-2";
+
+          const mini = document.createElement("div");
+          mini.className = "progress-mini";
+
+          const fill = document.createElement("div");
+          fill.className = "fill team-fill";
+          fill.style.width = pct + "%";
+          fill.setAttribute("role", "progressbar");
+          fill.setAttribute("aria-valuemin", "0");
+          fill.setAttribute("aria-valuemax", "100");
+          fill.setAttribute("aria-valuenow", String(pct));
+          fill.setAttribute("title", pct + "%");
+
+          // color by threshold
+          if (pct >= 80) {
+            fill.style.background = "#2f855a";
+          } else if (pct >= 50) {
+            fill.style.background = "#D69E2E";
+          } else {
+            fill.style.background = "#4d4d4d";
+          }
+
+          const pctLabel = document.createElement("div");
+          pctLabel.className = "team-pct";
+          pctLabel.textContent = pct + "%";
+
+          // assemble
+          mini.appendChild(fill);
+          mt2.appendChild(mini);
+          mt2.appendChild(pctLabel);
+          flex1.appendChild(nameDiv);
+          flex1.appendChild(mt2);
+          teamRow.appendChild(img);
+          teamRow.appendChild(flex1);
+
+          container.appendChild(teamRow);
+        });
+      }
+
+      /* -------------------------
          Compute totals from table
          ------------------------- */
       function computeFromTable() {
@@ -610,7 +1002,6 @@
           visibleRows = 0;
 
         rows.forEach((row) => {
-          // only visible rows count (filter may hide rows with display:none)
           if (row.style.display === "none") return;
           visibleRows++;
           const tds = row.querySelectorAll("td");
@@ -643,6 +1034,9 @@
         // update donut: [selesai, berlangsung, belum]
         updateDonut([totalSelesai, totalBerlangsung, totalBelum]);
 
+        // rebuild team list from visible rows
+        buildTeamListFromTable();
+
         return {
           totalHarus,
           totalBelum,
@@ -661,39 +1055,12 @@
         const tbody = document.getElementById("membersTbody");
         if (!tbody) return;
         const mo = new MutationObserver(() => {
-          // recompute when rows or cells change
           computeFromTable();
         });
         mo.observe(tbody, {
           childList: true,
           subtree: true,
           characterData: true,
-        });
-      }
-
-      /* -------------------------
-         Progress wrappers (cards/courses)
-         ------------------------- */
-      function parseProgressText(text) {
-        const m = String(text).match(/(\d+)\s*\/\s*(\d+)/);
-        if (!m) return null;
-        return [parseInt(m[1], 10), parseInt(m[2], 10)];
-      }
-      function updateProgressWrappers() {
-        const wrappers = document.querySelectorAll(".progress-wrapper");
-        wrappers.forEach((wrapper) => {
-          const span = wrapper.querySelector(".progress-text");
-          const fill = wrapper.querySelector(".progress-fill");
-          if (!span || !fill) return;
-          const nums = parseProgressText(span.textContent || "");
-          if (!nums) {
-            fill.style.width = "0%";
-            return;
-          }
-          const [cur, total] = nums;
-          let pct = total === 0 ? 0 : (cur / total) * 100;
-          pct = Math.max(0, Math.min(100, pct));
-          fill.style.width = Math.round(pct * 100) / 100 + "%";
         });
       }
 
@@ -733,7 +1100,6 @@
           const visible = !start || !end ? true : rd >= start && rd <= end;
           row.style.display = visible ? "" : "none";
         });
-        // recompute after filter
         computeFromTable();
       }
 
@@ -760,36 +1126,19 @@
       });
 
       /* -------------------------
-         Optional: simple search for course cards (kept from original)
-         ------------------------- */
-      function attachSearchHandler() {
-        const searchInput = document.getElementById("searchInput");
-        const grid = document.getElementById("doneGrid");
-        if (!searchInput || !grid) return;
-        const items = Array.from(grid.children || []);
-        searchInput.addEventListener("input", function () {
-          const q = this.value.toLowerCase();
-          items.forEach((card) => {
-            const title =
-              card.querySelector(".text-2xl")?.textContent?.toLowerCase() || "";
-            card.style.display = !q || title.includes(q) ? "" : "none";
-          });
-        });
-      }
-
-      /* -------------------------
          Init on DOM ready
          ------------------------- */
       document.addEventListener("DOMContentLoaded", () => {
         initDonut();
         computeFromTable();
         observeTableMutations();
-        updateProgressWrappers();
-        attachSearchHandler();
+        initProgressWrappers(); // <-- penting: inisialisasi progress bars (hero & cards)
       });
 
       // Expose helper for debugging
       window.computeFromTable = computeFromTable;
+      window.buildTeamListFromTable = buildTeamListFromTable;
+      window.initProgressWrappers = initProgressWrappers;
     </script>
   </body>
 </html>

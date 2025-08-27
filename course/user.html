@@ -29,7 +29,7 @@
       }
 
       /* timeline styles for Learning Path */
-       .timeline {
+      .timeline {
         --tl-left: 64px;
         --tl-cap: 18px;
         position: relative;
@@ -193,28 +193,11 @@
 
     <main class="mx-8 mb-12">
       <!-- Section Header (tabs) -->
-      <div class="flex justify-center items-center gap-3 mt-5">
-        <div role="tablist" aria-label="Pelatihan Tabs" class="flex w-full gap-3">
-          <button
-            id="tab-courses"
-            role="tab"
-            aria-selected="true"
-            data-target="panel-courses"
-            class="flex-1 h-[70px] bg-[#a80308] text-white font-extrabold text-2xl rounded-lg flex items-center px-6 justify-center focus:outline-none focus:ring-2 focus:ring-red-300"
-          >
-            Pelatihan Internal
-          </button>
-          <button
-            id="tab-path"
-            role="tab"
-            aria-selected="false"
-            data-target="panel-path"
-            class="flex-1 h-[70px] text-[#a80308] bg-gray-300 font-extrabold text-2xl rounded-lg flex items-center px-6 justify-center border border-gray-200 focus:outline-none focus:ring-2 focus:ring-red-100"
-          >
-            Learning Path
-          </button>
-        </div>
-      </div>
+        <h2
+          class="px-4 py-2 text-lg font-bold text-white bg-[#a80308] rounded-xl"
+        >
+          Pelatihan Internal
+        </h2>
 
       <!-- HERO -->
       <!-- ======= TAB PANELS ======= -->
@@ -1064,69 +1047,6 @@
 
     <!-- Scripts -->
     <script>
-      // Tab switching logic (accessible)
-      (function () {
-        const tabs = document.querySelectorAll('[role="tab"]');
-        function activateTab(tab) {
-          // deactivate all
-          tabs.forEach((t) => {
-            t.setAttribute("aria-selected", "false");
-            t.classList.remove("bg-[#a80308]", "text-white");
-            t.classList.add("text-[#a80308]", "bg-gray-300", "border", "border-gray-200");
-            const panelId = t.dataset.target;
-            if (panelId) {
-              const panel = document.getElementById(panelId);
-              if (panel) panel.classList.add("hidden");
-            }
-          });
-
-          // activate chosen
-          tab.setAttribute("aria-selected", "true");
-          tab.classList.remove("text-[#a80308]", "bg-gray-300", "border", "border-gray-200");
-          tab.classList.add("bg-[#a80308]", "text-white");
-          const target = tab.dataset.target;
-          if (target) {
-            const panel = document.getElementById(target);
-            if (panel) panel.classList.remove("hidden");
-          }
-
-          // save to localStorage (optional)
-          try {
-            localStorage.setItem("lms_active_tab", tab.id);
-          } catch (e) {}
-        }
-
-        tabs.forEach((tab) => {
-          tab.addEventListener("click", (e) => {
-            activateTab(tab);
-          });
-
-          tab.addEventListener("keydown", (e) => {
-            const index = Array.prototype.indexOf.call(tabs, tab);
-            if (e.key === "ArrowRight") {
-              const next = tabs[(index + 1) % tabs.length];
-              next.focus();
-              activateTab(next);
-            } else if (e.key === "ArrowLeft") {
-              const prev = tabs[(index - 1 + tabs.length) % tabs.length];
-              prev.focus();
-              activateTab(prev);
-            }
-          });
-        });
-
-        // Restore last tab or default
-        const last = (function () {
-          try {
-            return localStorage.getItem("lms_active_tab");
-          } catch (e) {
-            return null;
-          }
-        })();
-        const initial = last ? document.getElementById(last) : document.querySelector('[role="tab"][aria-selected="true"]');
-        if (initial) activateTab(initial);
-      })();
-
       function handleSearch(e) {
         e.preventDefault();
         const form = e.target;

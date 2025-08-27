@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+      }
+
+      /* timeline styles for Learning Path */
+      .timeline {
+        --tl-left: 64px;
+        --tl-cap: 18px;
+        position: relative;
+        display: grid;
+        grid-template-columns: var(--tl-left) 1fr;
+        gap: 0;
+        align-items: start;
+      }
+
+      /* vertical line centered inside left column,
+         top & bottom trimmed using --tl-cap so it doesn't stick out under last marker */
+      .timeline::before {
+        content: "";
+        position: absolute;
+        left: calc(var(--tl-left) / 2);
+        top: var(--tl-cap);
+        bottom: var(--tl-cap);
+        width: 4px;
+        background: #111827; /* dark line */
+        transform: translateX(-50%);
+        border-radius: 2px;
+      }
+
+      /* each logical row uses both columns; "display: contents" keeps grid alignment */
+      .timeline-row {
+        display: contents;
+      }
+
+      /* left column: center marker on the vertical line */
+      .timeline-cell-marker {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        padding: 10px 0;
+        min-height: 36px;
+      }
+
+      /* right column: label area, align center vertically with marker */
+      .timeline-cell-content {
+        display: flex;
+        align-items: center; /* center vertically with marker */
+        padding: 10px 12px;
+        min-height: 36px;
+      }
+
+      /* default small marker */
+      .marker {
+        width: 20px;
+        height: 20px;
+        border-radius: 9999px;
+        background: #ffffff;
+        border: 2px solid #111827;
+        display: inline-block;
+        flex-shrink: 0;
+      }
+
+      /* larger marker for level headers */
+      .marker.big {
+        width: 30px;
+        height: 30px;
+        border-width: 2px;
+        border-color: #374151; /* darker border */
+        background: #fff;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 12px;
+        color: #111827;
+      }
+
+      /* current/active marker */
+      .marker.active {
+        background: #a80308;
+        border-color: #a80308;
+        box-shadow: 0 0 0 8px rgba(168, 3, 8, 0.08);
+      }
+
+      /* label styles */
+      .level-label {
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: #111827;
+        margin-left: 6px; /* small gap from marker */
+      }
+      .sublevel-label {
+        font-size: 0.85rem;
+        color: #6b7280;
+        margin-left: 6px;
+      }
+
+      /* remove extra bottom spacing when timeline shorter */
+      .timeline-wrapper {
+        display: inline-block; /* shrink to content height so trimming (--tl-cap) works visually */
+      }
+
+      /* responsive small screens */
+      @media (max-width: 768px) {
+        .timeline {
+          --tl-left: 48px;
+          --tl-cap: 14px;
+        }
+        .marker.big {
+          width: 20px;
+          height: 20px;
+          font-size: 11px;
+        }
+        .marker {
+          width: 12px;
+          height: 12px;
+        }
+        .timeline-cell-content {
+          padding-left: 8px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAVBAR -->
+    <nav
+      class="flex items-center justify-between px-8 py-4 border-b-2 border-gray-200 mb-4 bg-white"
+    >
+      <div class="flex items-center font-semibold">
+        <img src="../../img/logo.png" alt="Logo" class="w-10 mr-2" />
+        <a
+          href="../home/user.html"
+          class="px-4 py-1 rounded-full font-semibold text-black hover:bg-gray-100"
+          >Home</a
+        >
+        <a
+          href="../dashboard/staff.html"
+          class="px-4 py-1 rounded-full font-semibold text-black hover:bg-gray-100"
+          >Dashboard</a
+        >
+        <a
+          href="../course/user.html"
+          class="px-4 py-1 rounded-full font-semibold text-black hover:bg-gray-100"
+          >MyCourse</a
+        >
+        <a
+          href="#"
+          class="px-4 py-1 rounded-full font-semibold text-black hover:bg-gray-100"
+          >Site Administrator</a
+        >
+      </div>
+      <div class="flex items-center gap-2">
+        <img
+          src="../../img/notif.png"
+          alt="notification"
+          class="w-6 h-8 rounded-lg mr-10"
+        />
+        <div class="text-end">
+          <p class="font-bold">Nama Pengguna</p>
+          <p class="text-gray-400 text-[11px]">Nama Learning Staff</p>
+        </div>
+        <img src="../../img/pp.png" alt="Profile" class="w-12 h-12 rounded-lg" />
+      </div>
+    </nav>
+
+
+    <main class="mx-8 mb-12">
+      <!-- Section Header (tabs) -->
+        <h2
+          class="px-4 py-2 text-lg font-bold text-white bg-[#a80308] rounded-xl"
+        >
+          Learning Path
+        </h2>
+    <!-- Panel: Learning Path -->
+    <div id="panel-path" role="tabpanel" aria-labelledby="tab-path">
+      <section class="mt-6">
+        <div class="bg-white rounded-lg p-5 shadow overflow-hidden">
+          <h2 class="font-bold text-3xl mb-4">Sales Executive</h2>
+
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <!-- LEFT: timeline (narrow) -->
+            <div class="lg:col-span-3 p-0">
+              <div class="timeline-wrapper">
+                <div class="timeline" role="list" aria-label="Timeline level">
+                  <!-- Level 5 header -->
+                  <div class="timeline-row">
+                    <div class="timeline-cell-marker">
+                      <div class="marker big" aria-hidden="true"></div>
+                    </div>
+                    <div class="timeline-cell-content">
+                      <div class="level-label">LEVEL 5</div>
+                    </div>
+                  </div>
+
+                  <!-- sublevels 4D..4A -->
+                  <div class="timeline-row">
+                    <div class="timeline-cell-marker">
+                      <div class="marker" aria-hidden="true"></div>
+                    </div>
+                    <div class="timeline-cell-content">
+                      <div class="sublevel-label">4D</div>
+                    </div>
+                  </div>
+
+                  <div class="timeline-row">
+                    <div class="timeline-cell-marker">
+                      <div class="marker" aria-hidden="true"></div>
+                    </div>
+                    <div class="timeline-cell-content">
+                      <div class="sublevel-label">4C</div>
+                    </div>
+                  </div>
+
+                  <div class="timeline-row">
+                    <div class="timeline-cell-marker">
+                      <div class="marker" aria-hidden="true"></div>
+                    </div>
+                    <div class="timeline-cell-content">
+                      <div class="sublevel-label">4B</div>
+                    </div>
+                  </div>
+
+                  <div class="timeline-row">
+                    <div class="timeline-cell-marker">
+                      <div class="marker" aria-hidden="true"></div>
+                    </div>
+                    <div class="timeline-cell-content">
+                      <div class="sublevel-label">4A</div>
+                    </div>
+                  </div>
+
+                  <!-- Level 4 header -->
+                  <div class="timeline-row">
+                    <div class="timeline-cell-marker">
+                      <div class="marker big" aria-hidden="true"></div>
+                    </div>
+                    <div class="timeline-cell-content">
+                      <div class="level-label">LEVEL 4</div>
+                    </div>
+                  </div>
+
+                  <!-- 3D,3C,3B -->
+                  <div class="timeline-row">
+                    <div class="timeline-cell-marker">
+                      <div class="marker" aria-hidden="true"></div>
+                    </div>
+                    <div class="timeline-cell-content">
+                      <div class="sublevel-label">3D</div>
+                    </div>
+                  </div>
+
+                  <div class="timeline-row">
+                    <div class="timeline-cell-marker">
+                      <div class="marker" aria-hidden="true"></div>
+                    </div>
+                    <div class="timeline-cell-content">
+                      <div class="sublevel-label">3C</div>
+                    </div>
+                  </div>
+
+                  <div class="timeline-row">
+                    <div class="timeline-cell-marker">
+                      <div class="marker" aria-hidden="true"></div>
+                    </div>
+                    <div class="timeline-cell-content">
+                      <div class="sublevel-label">3B</div>
+                    </div>
+                  </div>
+
+                  <!-- 3A active -->
+                  <div class="timeline-row">
+                    <div class="timeline-cell-marker">
+                      <div class="marker active" aria-hidden="true"></div>
+                    </div>
+                    <div class="timeline-cell-content">
+                      <div class="sublevel-label">3A</div>
+                    </div>
+                  </div>
+
+                  <!-- Level 3 header -->
+                  <div class="timeline-row">
+                    <div class="timeline-cell-marker">
+                      <div class="marker big" aria-hidden="true"></div>
+                    </div>
+                    <div class="timeline-cell-content">
+                      <div class="level-label">LEVEL 3</div>
+                    </div>
+                  </div>
+
+                  <!-- 2D..2A -->
+                  <div class="timeline-row">
+                    <div class="timeline-cell-marker">
+                      <div class="marker" aria-hidden="true"></div>
+                    </div>
+                    <div class="timeline-cell-content">
+                      <div class="sublevel-label">2D</div>
+                    </div>
+                  </div>
+
+                  <div class="timeline-row">
+                    <div class="timeline-cell-marker">
+                      <div class="marker" aria-hidden="true"></div>
+                    </div>
+                    <div class="timeline-cell-content">
+                      <div class="sublevel-label">2C</div>
+                    </div>
+                  </div>
+
+                  <div class="timeline-row">
+                    <div class="timeline-cell-marker">
+                      <div class="marker" aria-hidden="true"></div>
+                    </div>
+                    <div class="timeline-cell-content">
+                      <div class="sublevel-label">2B</div>
+                    </div>
+                  </div>
+
+                  <div class="timeline-row">
+                    <div class="timeline-cell-marker">
+                      <div class="marker" aria-hidden="true"></div>
+                    </div>
+                    <div class="timeline-cell-content">
+                      <div class="sublevel-label">2A</div>
+                    </div>
+                  </div>
+
+                  <!-- Level 2 header (last) -->
+                  <div class="timeline-row">
+                    <div class="timeline-cell-marker">
+                      <div class="marker big" aria-hidden="true"></div>
+                    </div>
+                    <div class="timeline-cell-content">
+                      <div class="level-label">LEVEL 2</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- RIGHT: modules -->
+            <div class="lg:col-span-9 p-6 bg-white">
+              <div class="mb-8">
+                <h3 class="text-xl font-extrabold mb-4">
+                  Mandatory Learning
+                </h3>
+                <div class="space-y-3">
+                  <div
+                    class="flex items-center justify-between rounded-lg bg-red-50 border border-red-100 px-4 py-3"
+                  >
+                    <div class="text-sm font-semibold text-gray-800">
+                      Judul Modul
+                    </div>
+                    <div>
+                      <span
+                        class="text-sm font-extrabold bg-[#a80308] text-white px-3 py-1 rounded-md"
+                        >Tersedia</span
+                      >
+                    </div>
+                  </div>
+                  <div
+                    class="flex items-center justify-between rounded-lg bg-red-50 border border-red-100 px-4 py-3"
+                  >
+                    <div class="text-sm font-semibold text-gray-800">
+                      Judul Modul
+                    </div>
+                    <div>
+                      <span
+                        class="text-sm font-extrabold bg-[#a80308] text-white px-3 py-1 rounded-md"
+                        >Tersedia</span
+                      >
+                    </div>
+                  </div>
+                  <div
+                    class="flex items-center justify-between rounded-lg bg-red-50 border border-red-100 px-4 py-3"
+                  >
+                    <div class="text-sm font-semibold text-gray-800">
+                      Judul Modul
+                    </div>
+                    <div>
+                      <span
+                        class="text-sm font-extrabold bg-[#a80308] text-white px-3 py-1 rounded-md"
+                        >Tersedia</span
+                      >
+                    </div>
+                  </div>
+                  <div
+                    class="flex items-center justify-between rounded-lg bg-red-50 border border-red-100 px-4 py-3"
+                  >
+                    <div class="text-sm font-semibold text-gray-800">
+                      Judul Modul
+                    </div>
+                    <div>
+                      <span
+                        class="text-sm font-extrabold bg-[#a80308] text-white px-3 py-1 rounded-md"
+                        >Tersedia</span
+                      >
+                    </div>
+                  </div>
+                  <div
+                    class="flex items-center justify-between rounded-lg bg-yellow-50 border border-yellow-100 px-4 py-3"
+                  >
+                    <div class="text-sm font-semibold text-gray-800">
+                      Judul Modul
+                    </div>
+                    <div>
+                      <span
+                        class="text-sm font-extrabold bg-yellow-400 text-white px-3 py-1 rounded-md"
+                        >Belum Tersedia</span
+                      >
+                    </div>
+                  </div>
+                  <div
+                    class="flex items-center justify-between rounded-lg bg-yellow-50 border border-yellow-100 px-4 py-3"
+                  >
+                    <div class="text-sm font-semibold text-gray-800">
+                      Judul Modul
+                    </div>
+                    <div>
+                      <span
+                        class="text-sm font-extrabold bg-yellow-400 text-white px-3 py-1 rounded-md"
+                        >Belum Tersedia</span
+                      >
+                    </div>
+                  </div>
+                  <div
+                    class="flex items-center justify-between rounded-lg bg-yellow-50 border border-yellow-100 px-4 py-3"
+                  >
+                    <div class="text-sm font-semibold text-gray-800">
+                      Judul Modul
+                    </div>
+                    <div>
+                      <span
+                        class="text-sm font-extrabold bg-yellow-400 text-white px-3 py-1 rounded-md"
+                        >Belum Tersedia</span
+                      >
+                    </div>
+                  </div>
+                  <div
+                    class="flex items-center justify-between rounded-lg bg-yellow-50 border border-yellow-100 px-4 py-3"
+                  >
+                    <div class="text-sm font-semibold text-gray-800">
+                      Judul Modul
+                    </div>
+                    <div>
+                      <span
+                        class="text-sm font-extrabold bg-yellow-400 text-white px-3 py-1 rounded-md"
+                        >Belum Tersedia</span
+                      >
+                    </div>
+                  </div>
+                  <div
+                    class="flex items-center justify-between rounded-lg bg-green-50 border border-green-100 px-4 py-3"
+                  >
+                    <div class="text-sm font-semibold text-gray-800">
+                      Judul Modul
+                    </div>
+                    <div>
+                      <span
+                        class="text-sm font-extrabold bg-green-600 text-white px-3 py-1 rounded-md"
+                        >Selesai</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+<div>
+                <h3 class="text-xl font-extrabold mb-4">
+                  SOP Functional Learning
+                </h3>
+                <div class="space-y-3">
+                  <div
+                    class="flex items-center justify-between rounded-lg bg-red-50 border border-red-100 px-4 py-3"
+                  >
+                    <div class="text-sm font-semibold text-gray-800">
+                      Judul Modul
+                    </div>
+                    <div>
+                      <span
+                        class="text-sm font-extrabold bg-[#a80308] text-white px-3 py-1 rounded-md"
+                        >Tersedia</span
+                      >
+                    </div>
+                  </div>
+                  <div
+                    class="flex items-center justify-between rounded-lg bg-red-50 border border-red-100 px-4 py-3"
+                  >
+                    <div class="text-sm font-semibold text-gray-800">
+                      Judul Modul
+                    </div>
+                    <div>
+                      <span
+                        class="text-sm font-extrabold bg-[#a80308] text-white px-3 py-1 rounded-md"
+                        >Tersedia</span
+                      >
+                    </div>
+                  </div>
+                  <div
+                    class="flex items-center justify-between rounded-lg bg-red-50 border border-red-100 px-4 py-3"
+                  >
+                    <div class="text-sm font-semibold text-gray-800">
+                      Judul Modul
+                    </div>
+                    <div>
+                      <span
+                        class="text-sm font-extrabold bg-[#a80308] text-white px-3 py-1 rounded-md"
+                        >Tersedia</span
+                      >
+                    </div>
+                  </div>
+                  <div
+                    class="flex items-center justify-between rounded-lg bg-red-50 border border-red-100 px-4 py-3"
+                  >
+                    <div class="text-sm font-semibold text-gray-800">
+                      Judul Modul
+                    </div>
+                    <div>
+                      <span
+                        class="text-sm font-extrabold bg-[#a80308] text-white px-3 py-1 rounded-md"
+                        >Tersedia</span
+                      >
+                    </div>
+                  </div>
+                  <div
+                    class="flex items-center justify-between rounded-lg bg-red-50 border border-red-100 px-4 py-3"
+                  >
+                    <div class="text-sm font-semibold text-gray-800">
+                      Judul Modul
+                    </div>
+                    <div>
+                      <span
+                        class="text-sm font-extrabold bg-[#a80308] text-white px-3 py-1 rounded-md"
+                        >Tersedia</span
+                      >
+                    </div>
+                  </div>
+                  <div
+                    class="flex items-center justify-between rounded-lg bg-yellow-50 border border-yellow-100 px-4 py-3"
+                  >
+                    <div class="text-sm font-semibold text-gray-800">
+                      Judul Modul
+                    </div>
+                    <div>
+                      <span
+                        class="text-sm font-extrabold bg-yellow-400 text-white px-3 py-1 rounded-md"
+                        >Belum Tersedia</span
+                      >
+                    </div>
+                  </div>
+                  <div
+                    class="flex items-center justify-between rounded-lg bg-green-50 border border-green-100 px-4 py-3"
+                  >
+                    <div class="text-sm font-semibold text-gray-800">
+                      Judul Modul
+                    </div>
+                    <div>
+                      <span
+                        class="text-sm font-extrabold bg-green-600 text-white px-3 py-1 rounded-md"
+                        >Selesai</span
+                      >
+                    </div>
+                  </div>
+                  <div
+                    class="flex items-center justify-between rounded-lg bg-green-50 border border-green-100 px-4 py-3"
+                  >
+                    <div class="text-sm font-semibold text-gray-800">
+                      Judul Modul
+                    </div>
+                    <div>
+                      <span
+                        class="text-sm font-extrabold bg-green-600 text-white px-3 py-1 rounded-md"
+                        >Selesai</span
+                      >
+                    </div>
+                  </div>
+                  <div
+                    class="flex items-center justify-between rounded-lg bg-green-50 border border-green-100 px-4 py-3"
+                  >
+                    <div class="text-sm font-semibold text-gray-800">
+                      Judul Modul
+                    </div>
+                    <div>
+                      <span
+                        class="text-sm font-extrabold bg-green-600 text-white px-3 py-1 rounded-md"
+                        >Selesai</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h3 class="text-xl font-extrabold mb-4">
+                  Skill Functional Learning
+                </h3>
+                <div class="space-y-3">
+                  <div
+                    class="flex items-center justify-between rounded-lg bg-red-50 border border-red-100 px-4 py-3"
+                  >
+                    <div class="text-sm font-semibold text-gray-800">
+                      Judul Modul
+                    </div>
+                    <div>
+                      <span
+                        class="text-sm font-extrabold bg-[#a80308] text-white px-3 py-1 rounded-md"
+                        >Tersedia</span
+                      >
+                    </div>
+                  </div>
+                  <div
+                    class="flex items-center justify-between rounded-lg bg-red-50 border border-red-100 px-4 py-3"
+                  >
+                    <div class="text-sm font-semibold text-gray-800">
+                      Judul Modul
+                    </div>
+                    <div>
+                      <span
+                        class="text-sm font-extrabold bg-[#a80308] text-white px-3 py-1 rounded-md"
+                        >Tersedia</span
+                      >
+                    </div>
+                  </div>
+                  <div
+                    class="flex items-center justify-between rounded-lg bg-red-50 border border-red-100 px-4 py-3"
+                  >
+                    <div class="text-sm font-semibold text-gray-800">
+                      Judul Modul
+                    </div>
+                    <div>
+                      <span
+                        class="text-sm font-extrabold bg-[#a80308] text-white px-3 py-1 rounded-md"
+                        >Tersedia</span
+                      >
+                    </div>
+                  </div>
+                  <div
+                    class="flex items-center justify-between rounded-lg bg-red-50 border border-red-100 px-4 py-3"
+                  >
+                    <div class="text-sm font-semibold text-gray-800">
+                      Judul Modul
+                    </div>
+                    <div>
+                      <span
+                        class="text-sm font-extrabold bg-[#a80308] text-white px-3 py-1 rounded-md"
+                        >Tersedia</span
+                      >
+                    </div>
+                  </div>
+                  <div
+                    class="flex items-center justify-between rounded-lg bg-red-50 border border-red-100 px-4 py-3"
+                  >
+                    <div class="text-sm font-semibold text-gray-800">
+                      Judul Modul
+                    </div>
+                    <div>
+                      <span
+                        class="text-sm font-extrabold bg-[#a80308] text-white px-3 py-1 rounded-md"
+                        >Tersedia</span
+                      >
+                    </div>
+                  </div>
+                  <div
+                    class="flex items-center justify-between rounded-lg bg-yellow-50 border border-yellow-100 px-4 py-3"
+                  >
+                    <div class="text-sm font-semibold text-gray-800">
+                      Judul Modul
+                    </div>
+                    <div>
+                      <span
+                        class="text-sm font-extrabold bg-yellow-400 text-white px-3 py-1 rounded-md"
+                        >Belum Tersedia</span
+                      >
+                    </div>
+                  </div>
+                  <div
+                    class="flex items-center justify-between rounded-lg bg-green-50 border border-green-100 px-4 py-3"
+                  >
+                    <div class="text-sm font-semibold text-gray-800">
+                      Judul Modul
+                    </div>
+                    <div>
+                      <span
+                        class="text-sm font-extrabold bg-green-600 text-white px-3 py-1 rounded-md"
+                        >Selesai</span
+                      >
+                    </div>
+                  </div>
+                  <div
+                    class="flex items-center justify-between rounded-lg bg-green-50 border border-green-100 px-4 py-3"
+                  >
+                    <div class="text-sm font-semibold text-gray-800">
+                      Judul Modul
+                    </div>
+                    <div>
+                      <span
+                        class="text-sm font-extrabold bg-green-600 text-white px-3 py-1 rounded-md"
+                        >Selesai</span
+                      >
+                    </div>
+                  </div>
+                  <div
+                    class="flex items-center justify-between rounded-lg bg-green-50 border border-green-100 px-4 py-3"
+                  >
+                    <div class="text-sm font-semibold text-gray-800">
+                      Judul Modul
+                    </div>
+                    <div>
+                      <span
+                        class="text-sm font-extrabold bg-green-600 text-white px-3 py-1 rounded-md"
+                        >Selesai</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    </main>
+
+    <!-- Scripts -->
+    <script>
+   
+    </script>
+  </body>
+</html>

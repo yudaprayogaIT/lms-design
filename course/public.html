@@ -15,53 +15,63 @@
       }
 
       /* Progress shared styles */
-      .progress-bar { overflow: hidden; }
+      .progress-bar {
+        overflow: hidden;
+      }
       .progress-fill {
-        transition: width 450ms cubic-bezier(.2,.9,.2,1);
+        transition: width 450ms cubic-bezier(0.2, 0.9, 0.2, 1);
         will-change: width;
       }
 
       /* small helper for FAQ indent */
-      .faq-content .ml-10 { margin-left: 2.5rem; }
+      .faq-content .ml-10 {
+        margin-left: 2.5rem;
+      }
     </style>
   </head>
-  <body class="bg-gray-100 text-[#0b1220] mx-8 mb-12">
-    <!-- Navbar -->
+  <body class="font-[Inter] text-[#0b1220] bg-white">
+    <!-- NAVBAR -->
     <nav
-      class="flex justify-between items-center bg-gray-100 border-b-2 border-gray-200 px-8 py-4 mb-4 text-base"
+      class="flex items-center justify-between px-2 py-2 md:px-8 md:py-4 border-b-2 border-gray-200 mb-4 bg-white"
     >
-      <div class="flex items-center font-semibold">
-        <img src="../img/logo.png" alt="Logo" class="w-10 mr-2" />
-        <a href="../home/public.html" class="px-4 py-1 font-semibold text-black"
+      <div
+        class="flex items-center font-semibold justify-center gap-3 lg:gap-5"
+      >
+        <img src="../img/logo.png" alt="Logo" class="w-5 md:w-10 md:mr-2" />
+        <a
+          href="../home/public.html"
+          class="px-2 lg:px-4 md:py-1 rounded-sm md:rounded-full text-sm md:text-base lg:text-xl font-semibold text-black hover:bg-gray-100"
           >Home</a
         >
       </div>
-      <div class="flex items-center gap-3">
+      <div class="flex items-center gap-2 lg:gap-4">
         <a
           href="../login/index.html"
-          class="px-4 py-1 font-semibold text-black"
+          class="px-2 lg:px-4 md:py-1 rounded-sm md:rounded-full text-sm md:text-base lg:text-xl font-semibold text-black hover:bg-gray-100"
           >Login</a
         >
-        <img src="../img/pp.png" alt="Profile" class="w-12 h-12 rounded-lg" />
+        <img
+          src="../img/pp.png"
+          alt="Profile"
+          class="w-7 h-7 md:w-12 md:h-12 rounded-lg"
+        />
       </div>
     </nav>
 
     <main class="mx-8 mb-12">
-    <!-- Section Header -->
-    <div class="flex justify-center items-center gap-3 mt-5">
-      <div
-        class="flex-1 h-[70px] bg-[#a80308] text-white font-extrabold text-2xl rounded-lg flex items-center px-6"
+      <!-- Section Header -->
+      <h2
+        class="px-4 py-2 text-sm md:text-lg lg:text-3xl font-bold text-white bg-[#A80308] rounded-xl"
       >
-        Pelatihan Tersedia
-      </div>
-    </div>
+        Pelatihan Umum
+      </h2>
 
       <!-- HERO -->
       <section
-        class="mt-4 bg-black text-white h-auto md:h-[275px] rounded-xl p-6 flex flex-col md:flex-row items-center justify-center gap-5 shadow-lg"
+        class="mt-4 bg-black text-white h-auto md:h-[275px] rounded-xl p-6 flex flex-col items-center justify-center gap-5 shadow-lg"
       >
-        <div class="md:max-w-[50%] text-center">
-          <h1 class="text-3xl font-extrabold mb-2">
+        <div class="text-center md:max-w-[50%]">
+          <h1 class="text-3xl font-bold mb-2 ">
             Tingkatkan Skill Anda Sekarang!
           </h1>
           <p class="text-white/85 text-lg mb-3">
@@ -69,63 +79,140 @@
             kinerja seluruh tim Ekatunggal. Pelajari materi sesuai jabatan,
             ikuti pelatihan, dan raih sertifikatmu!
           </p>
+          </div>
 
-          <form
-            class="flex items-center gap-2 bg-gray-200 rounded-lg px-3 py-2 max-w-4xl mx-auto mt-3"
-            onsubmit="handleSearch(event)"
-          >
-            <input
-              type="search"
-              name="q"
-              class="flex-1 bg-transparent border-0 outline-none text-black px-2 py-1 text-base"
-              placeholder="Cari kursus..."
-            />
-            <button
-              type="submit"
-              class="flex items-center gap-2 text-gray-700 font-semibold px-3 py-2"
-            >
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                aria-hidden="true"
+          <div class="w-[80%]">
+          <!-- Search + dropdowns card -->
+              <form
+                onsubmit="handleSearch(event)"
+                class="w-full mt-4"
+                role="search"
+                aria-label="Cari kursus"
               >
-                <path
-                  d="M21 21l-4.35-4.35"
-                  stroke="#333"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-                <circle
-                  cx="11"
-                  cy="11"
-                  r="6"
-                  stroke="#333"
-                  stroke-width="2"
-                />
-              </svg>
-              Search
-            </button>
-          </form>
+                <div
+                  class="rounded-lg p-3 shadow-sm flex flex-col md:flex-row gap-3 items-center"
+                >
+                  <!-- Search input (besar) -->
+                  <div
+                    class="flex items-center w-full md:flex-1 bg-white text-black rounded-md px-3 h-10"
+                  >
+                    <svg
+                      class="w-5 h-5 text-gray-500 mr-2"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M21 21l-4.35-4.35"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <circle
+                        cx="11"
+                        cy="11"
+                        r="6"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      />
+                    </svg>
+
+                    <input
+                      type="search"
+                      name="q"
+                      class="flex-1 bg-transparent border-0 outline-none text-black placeholder-gray-500 text-sm"
+                      placeholder="Cari kursus..."
+                      aria-label="Cari kursus"
+                    />
+
+                    <button
+                      type="submit"
+                      class="ml-3 inline-flex items-center gap-2 rounded-md px-3 py-1 text-sm font-semibold text-gray-500 bg-transparent"
+                      aria-label="Cari"
+                    >
+                      <svg
+                        class="w-4 h-4"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        aria-hidden="true"
+                      >
+                        <path
+                          d="M21 21l-4.35-4.35"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                        <circle
+                          cx="11"
+                          cy="11"
+                          r="6"
+                          stroke="currentColor"
+                          stroke-width="2"
+                        />
+                      </svg>
+                      Search
+                    </button>
+                  </div>
+
+                  <!-- Dropdowns (compact) -->
+                    <label class="sr-only" for="kategori">Kategori</label>
+                    <select
+                      id="kategori"
+                      name="kategori"
+                      class="bg-white/8 text-gray-600 text-sm rounded-md px-4 h-10 border border-white/6 outline-none"
+                    >
+                      <option value="" class="text-black">Kategori</option>
+                      <option value="mandatory" class="text-black">Mandatory</option>
+                      <option value="functional-sop" class="text-black">Functional SOP</option>
+                      <option value="functional-skill" class="text-black">
+                        Functional Skill
+                      </option>
+                      <option value="development" class="text-black">
+                        Development
+                      </option>
+                    </select>
+
+                    <button class="bg-[#A80308] text-white rounded-lg p-2.5">Buat Pelatihan +</button>
+                </div>
+              </form>
         </div>
       </section>
 
       <!-- ======= COURSES GRID (REPLACED) ======= -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6 course-grid-row">
+      <div
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6 course-grid-row"
+      >
         <!-- CARD 1 -->
         <div class="bg-white rounded-lg overflow-hidden shadow">
-          <div class="flex justify-between items-center px-3 py-2 gap-2 text-sm font-semibold">
+          <div
+            class="flex justify-between items-center px-3 py-2 gap-2 text-sm font-semibold"
+          >
             <div title="Terbuka">🔓</div>
-            <span class="bg-green-600 text-white px-3 py-1 rounded-lg">Selesai</span>
+            <span class="bg-green-600 text-white px-3 py-1 rounded-lg"
+              >Selesai</span
+            >
           </div>
           <img src="../img/course1.png" alt="course 1" class="w-full" />
           <div class="p-4">
-            <h4 class="text-2xl font-extrabold text-center mb-3 h-16">ALUR PROSES PENERIMAAN PESANAN</h4>
-            <div class="flex justify-between items-center text-sm text-gray-500 progress-wrapper">
-              <div class="w-[87%] bg-gray-200 rounded h-1 relative progress-bar">
-                <div class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0" style="width:0%;" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+            <h4 class="text-2xl font-extrabold text-center mb-3 h-16">
+              ALUR PROSES PENERIMAAN PESANAN
+            </h4>
+            <div
+              class="flex justify-between items-center text-sm text-gray-500 progress-wrapper"
+            >
+              <div
+                class="w-[87%] bg-gray-200 rounded h-1 relative progress-bar"
+              >
+                <div
+                  class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                  style="width: 0%"
+                  role="progressbar"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                  aria-valuenow="0"
+                ></div>
               </div>
               <span class="progress-text pl-2">14 / 14</span>
             </div>
@@ -134,16 +221,33 @@
 
         <!-- CARD 2 -->
         <div class="bg-white rounded-lg overflow-hidden shadow">
-          <div class="flex justify-between items-center px-3 py-2 gap-2 text-sm font-semibold">
+          <div
+            class="flex justify-between items-center px-3 py-2 gap-2 text-sm font-semibold"
+          >
             <div title="Terbuka">🔓</div>
-            <span class="bg-orange-500 text-white px-3 py-1 rounded-lg">Lanjutkan</span>
+            <span class="bg-orange-500 text-white px-3 py-1 rounded-lg"
+              >Lanjutkan</span
+            >
           </div>
           <img src="../img/course2.png" alt="course 2" class="w-full" />
           <div class="p-4">
-            <h4 class="text-2xl font-extrabold text-center mb-3 h-16">PROSES PEMBUATAN DOKUMEN SALES ORDER (SO)</h4>
-            <div class="flex justify-between items-center text-sm text-gray-500 progress-wrapper">
-              <div class="w-[87%] bg-gray-200 rounded h-1 relative progress-bar">
-                <div class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0" style="width:0%;" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+            <h4 class="text-2xl font-extrabold text-center mb-3 h-16">
+              PROSES PEMBUATAN DOKUMEN SALES ORDER (SO)
+            </h4>
+            <div
+              class="flex justify-between items-center text-sm text-gray-500 progress-wrapper"
+            >
+              <div
+                class="w-[87%] bg-gray-200 rounded h-1 relative progress-bar"
+              >
+                <div
+                  class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                  style="width: 0%"
+                  role="progressbar"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                  aria-valuenow="0"
+                ></div>
               </div>
               <span class="progress-text pl-2">3 / 10</span>
             </div>
@@ -152,16 +256,33 @@
 
         <!-- CARD 3 -->
         <div class="bg-white rounded-lg overflow-hidden shadow">
-          <div class="flex justify-between items-center px-3 py-2 gap-2 text-sm font-semibold">
+          <div
+            class="flex justify-between items-center px-3 py-2 gap-2 text-sm font-semibold"
+          >
             <div title="Terkunci">🔒</div>
-            <span class="bg-[#a80308] text-white px-3 py-1 rounded-lg">Mulai</span>
+            <span class="bg-[#a80308] text-white px-3 py-1 rounded-lg"
+              >Mulai</span
+            >
           </div>
           <img src="../img/course3.png" alt="course 3" class="w-full" />
           <div class="p-4">
-            <h4 class="text-2xl font-extrabold text-center mb-3 h-16">PERSIAPAN PENGIRIMAN BARANG</h4>
-            <div class="flex justify-between items-center text-sm text-gray-500 progress-wrapper">
-              <div class="w-[87%] bg-gray-200 rounded h-1 relative progress-bar">
-                <div class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0" style="width:0%;" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+            <h4 class="text-2xl font-extrabold text-center mb-3 h-16">
+              PERSIAPAN PENGIRIMAN BARANG
+            </h4>
+            <div
+              class="flex justify-between items-center text-sm text-gray-500 progress-wrapper"
+            >
+              <div
+                class="w-[87%] bg-gray-200 rounded h-1 relative progress-bar"
+              >
+                <div
+                  class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                  style="width: 0%"
+                  role="progressbar"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                  aria-valuenow="0"
+                ></div>
               </div>
               <span class="progress-text pl-2">0 / 6</span>
             </div>
@@ -172,14 +293,29 @@
         <div class="bg-white rounded-lg overflow-hidden shadow">
           <div class="flex justify-between items-center px-3 py-2 gap-2">
             <div title="Terbuka">🔓</div>
-            <span class="bg-green-600 text-white px-3 py-1 rounded-lg">Selesai</span>
+            <span class="bg-green-600 text-white px-3 py-1 rounded-lg"
+              >Selesai</span
+            >
           </div>
           <img src="../img/course1.png" alt="course 1" class="w-full" />
           <div class="p-4">
-            <h4 class="text-2xl font-extrabold text-center mb-3 h-16">ALUR PROSES PENERIMAAN PESANAN</h4>
-            <div class="flex justify-between items-center text-sm text-gray-500 progress-wrapper">
-              <div class="w-[87%] bg-gray-200 rounded h-1 relative progress-bar">
-                <div class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0" style="width:0%;" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+            <h4 class="text-2xl font-extrabold text-center mb-3 h-16">
+              ALUR PROSES PENERIMAAN PESANAN
+            </h4>
+            <div
+              class="flex justify-between items-center text-sm text-gray-500 progress-wrapper"
+            >
+              <div
+                class="w-[87%] bg-gray-200 rounded h-1 relative progress-bar"
+              >
+                <div
+                  class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                  style="width: 0%"
+                  role="progressbar"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                  aria-valuenow="0"
+                ></div>
               </div>
               <span class="progress-text pl-2">14 / 14</span>
             </div>
@@ -190,14 +326,29 @@
         <div class="bg-white rounded-lg overflow-hidden shadow">
           <div class="flex justify-between items-center px-3 py-2 gap-2">
             <div title="Terbuka">🔓</div>
-            <span class="bg-orange-500 text-white px-3 py-1 rounded-lg">Lanjutkan</span>
+            <span class="bg-orange-500 text-white px-3 py-1 rounded-lg"
+              >Lanjutkan</span
+            >
           </div>
           <img src="../img/course2.png" alt="course 2" class="w-full" />
           <div class="p-4">
-            <h4 class="text-2xl font-extrabold text-center mb-3 h-16">PROSES PEMBUATAN DOKUMEN SALES ORDER (SO)</h4>
-            <div class="flex justify-between items-center text-sm text-gray-500 progress-wrapper">
-              <div class="w-[87%] bg-gray-200 rounded h-1 relative progress-bar">
-                <div class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0" style="width:0%;" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+            <h4 class="text-2xl font-extrabold text-center mb-3 h-16">
+              PROSES PEMBUATAN DOKUMEN SALES ORDER (SO)
+            </h4>
+            <div
+              class="flex justify-between items-center text-sm text-gray-500 progress-wrapper"
+            >
+              <div
+                class="w-[87%] bg-gray-200 rounded h-1 relative progress-bar"
+              >
+                <div
+                  class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                  style="width: 0%"
+                  role="progressbar"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                  aria-valuenow="0"
+                ></div>
               </div>
               <span class="progress-text pl-2">3 / 10</span>
             </div>
@@ -208,14 +359,29 @@
         <div class="bg-white rounded-lg overflow-hidden shadow">
           <div class="flex justify-between items-center px-3 py-2 gap-2">
             <div title="Terkunci">🔒</div>
-            <span class="bg-[#a80308] text-white px-3 py-1 rounded-lg">Mulai</span>
+            <span class="bg-[#a80308] text-white px-3 py-1 rounded-lg"
+              >Mulai</span
+            >
           </div>
           <img src="../img/course3.png" alt="course 3" class="w-full" />
           <div class="p-4">
-            <h4 class="text-2xl font-extrabold text-center mb-3 h-16">PERSIAPAN PENGIRIMAN BARANG</h4>
-            <div class="flex justify-between items-center text-sm text-gray-500 progress-wrapper">
-              <div class="w-[87%] bg-gray-200 rounded h-1 relative progress-bar">
-                <div class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0" style="width:0%;" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+            <h4 class="text-2xl font-extrabold text-center mb-3 h-16">
+              PERSIAPAN PENGIRIMAN BARANG
+            </h4>
+            <div
+              class="flex justify-between items-center text-sm text-gray-500 progress-wrapper"
+            >
+              <div
+                class="w-[87%] bg-gray-200 rounded h-1 relative progress-bar"
+              >
+                <div
+                  class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                  style="width: 0%"
+                  role="progressbar"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                  aria-valuenow="0"
+                ></div>
               </div>
               <span class="progress-text pl-2">0 / 6</span>
             </div>
@@ -226,14 +392,29 @@
         <div class="bg-white rounded-lg overflow-hidden shadow">
           <div class="flex justify-between items-center px-3 py-2 gap-2">
             <div title="Terbuka">🔓</div>
-            <span class="bg-green-600 text-white px-3 py-1 rounded-lg">Selesai</span>
+            <span class="bg-green-600 text-white px-3 py-1 rounded-lg"
+              >Selesai</span
+            >
           </div>
           <img src="../img/course1.png" alt="course 1" class="w-full" />
           <div class="p-4">
-            <h4 class="text-2xl font-extrabold text-center mb-3 h-16">ALUR PROSES PENERIMAAN PESANAN</h4>
-            <div class="flex justify-between items-center text-sm text-gray-500 progress-wrapper">
-              <div class="w-[87%] bg-gray-200 rounded h-1 relative progress-bar">
-                <div class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0" style="width:0%;" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+            <h4 class="text-2xl font-extrabold text-center mb-3 h-16">
+              ALUR PROSES PENERIMAAN PESANAN
+            </h4>
+            <div
+              class="flex justify-between items-center text-sm text-gray-500 progress-wrapper"
+            >
+              <div
+                class="w-[87%] bg-gray-200 rounded h-1 relative progress-bar"
+              >
+                <div
+                  class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                  style="width: 0%"
+                  role="progressbar"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                  aria-valuenow="0"
+                ></div>
               </div>
               <span class="progress-text pl-2">14 / 14</span>
             </div>
@@ -244,14 +425,29 @@
         <div class="bg-white rounded-lg overflow-hidden shadow">
           <div class="flex justify-between items-center px-3 py-2 gap-2">
             <div title="Terbuka">🔓</div>
-            <span class="bg-orange-500 text-white px-3 py-1 rounded-lg">Lanjutkan</span>
+            <span class="bg-orange-500 text-white px-3 py-1 rounded-lg"
+              >Lanjutkan</span
+            >
           </div>
           <img src="../img/course2.png" alt="course 2" class="w-full" />
           <div class="p-4">
-            <h4 class="text-2xl font-extrabold text-center mb-3 h-16">PROSES PEMBUATAN DOKUMEN SALES ORDER (SO)</h4>
-            <div class="flex justify-between items-center text-sm text-gray-500 progress-wrapper">
-              <div class="w-[87%] bg-gray-200 rounded h-1 relative progress-bar">
-                <div class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0" style="width:0%;" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+            <h4 class="text-2xl font-extrabold text-center mb-3 h-16">
+              PROSES PEMBUATAN DOKUMEN SALES ORDER (SO)
+            </h4>
+            <div
+              class="flex justify-between items-center text-sm text-gray-500 progress-wrapper"
+            >
+              <div
+                class="w-[87%] bg-gray-200 rounded h-1 relative progress-bar"
+              >
+                <div
+                  class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                  style="width: 0%"
+                  role="progressbar"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                  aria-valuenow="0"
+                ></div>
               </div>
               <span class="progress-text pl-2">3 / 10</span>
             </div>
@@ -262,14 +458,29 @@
         <div class="bg-white rounded-lg overflow-hidden shadow">
           <div class="flex justify-between items-center px-3 py-2 gap-2">
             <div title="Terkunci">🔒</div>
-            <span class="bg-[#a80308] text-white px-3 py-1 rounded-lg">Mulai</span>
+            <span class="bg-[#a80308] text-white px-3 py-1 rounded-lg"
+              >Mulai</span
+            >
           </div>
           <img src="../img/course3.png" alt="course 3" class="w-full" />
           <div class="p-4">
-            <h4 class="text-2xl font-extrabold text-center mb-3 h-16">PERSIAPAN PENGIRIMAN BARANG</h4>
-            <div class="flex justify-between items-center text-sm text-gray-500 progress-wrapper">
-              <div class="w-[87%] bg-gray-200 rounded h-1 relative progress-bar">
-                <div class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0" style="width:0%;" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+            <h4 class="text-2xl font-extrabold text-center mb-3 h-16">
+              PERSIAPAN PENGIRIMAN BARANG
+            </h4>
+            <div
+              class="flex justify-between items-center text-sm text-gray-500 progress-wrapper"
+            >
+              <div
+                class="w-[87%] bg-gray-200 rounded h-1 relative progress-bar"
+              >
+                <div
+                  class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                  style="width: 0%"
+                  role="progressbar"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                  aria-valuenow="0"
+                ></div>
               </div>
               <span class="progress-text pl-2">0 / 6</span>
             </div>
@@ -280,62 +491,100 @@
 
       <!-- FAQ -->
       <section class="my-8">
-        <h2 class="px-4 py-2 mb-4 text-lg font-bold text-white bg-[#a80308] rounded-xl">
+        <h2
+          class="px-4 py-2 mb-4 text-lg font-bold text-white bg-[#a80308] rounded-xl"
+        >
           Frequently Asked Question
         </h2>
         <div class="bg-white rounded-lg shadow-sm">
           <!-- FAQ Item -->
           <div class="faq-item">
-            <button class="flex items-center w-full p-4 text-left font-semibold gap-3">
+            <button
+              class="flex items-center w-full p-4 text-left font-semibold gap-3"
+            >
               <span class="toggle-icon text-[#a80308]">+</span>
               <span>Bagaimana cara login?</span>
             </button>
-            <div class="faq-content max-h-0 overflow-hidden transition-all duration-500 ease-in-out">
+            <div
+              class="faq-content max-h-0 overflow-hidden transition-all duration-500 ease-in-out"
+            >
               <div class="text-gray-700 ml-10">
-                Untuk login ke LMS Ekatunggal, klik tombol "Masuk Sekarang" di halaman utama.<br />
-                Masukkan username dan password yang sudah diberikan oleh Admin.<br />
-                Jika Anda belum memiliki akun, hubungi Admin Learning &amp; Development.
+                Untuk login ke LMS Ekatunggal, klik tombol "Masuk Sekarang" di
+                halaman utama.<br />
+                Masukkan username dan password yang sudah diberikan oleh
+                Admin.<br />
+                Jika Anda belum memiliki akun, hubungi Admin Learning &amp;
+                Development.
               </div>
             </div>
           </div>
 
           <div class="faq-item">
-            <button class="flex items-center w-full p-4 text-left font-semibold gap-3">
+            <button
+              class="flex items-center w-full p-4 text-left font-semibold gap-3"
+            >
               <span class="toggle-icon text-[#a80308]">+</span>
               <span>Lupa password, harus bagaimana?</span>
             </button>
-            <div class="faq-content max-h-0 overflow-hidden transition-all duration-500 ease-in-out">
-              <div class="text-gray-700 ml-10">Hubungi Admin Learning &amp; Development untuk reset password.</div>
+            <div
+              class="faq-content max-h-0 overflow-hidden transition-all duration-500 ease-in-out"
+            >
+              <div class="text-gray-700 ml-10">
+                Hubungi Admin Learning &amp; Development untuk reset password.
+              </div>
             </div>
           </div>
 
           <div class="faq-item">
-            <button class="flex items-center w-full p-4 text-left font-semibold gap-3">
+            <button
+              class="flex items-center w-full p-4 text-left font-semibold gap-3"
+            >
               <span class="toggle-icon text-[#a80308]">+</span>
               <span>Apa itu Learning Path?</span>
             </button>
-            <div class="faq-content max-h-0 overflow-hidden transition-all duration-500 ease-in-out">
-              <div class="text-gray-700 ml-10">Learning Path adalah urutan materi belajar sesuai jalur karier Anda.</div>
+            <div
+              class="faq-content max-h-0 overflow-hidden transition-all duration-500 ease-in-out"
+            >
+              <div class="text-gray-700 ml-10">
+                Learning Path adalah urutan materi belajar sesuai jalur karier
+                Anda.
+              </div>
             </div>
           </div>
 
           <div class="faq-item">
-            <button class="flex items-center w-full p-4 text-left font-semibold gap-3">
+            <button
+              class="flex items-center w-full p-4 text-left font-semibold gap-3"
+            >
               <span class="toggle-icon text-[#a80308]">+</span>
               <span>Apa perbedaan Modul Private dan Public?</span>
             </button>
-            <div class="faq-content max-h-0 overflow-hidden transition-all duration-500 ease-in-out">
-              <div class="text-gray-700 ml-10">Modul Private hanya dapat diakses oleh pengguna tertentu yang sudah login, sedangkan Modul Public dapat diakses oleh semua pengguna tanpa login.</div>
+            <div
+              class="faq-content max-h-0 overflow-hidden transition-all duration-500 ease-in-out"
+            >
+              <div class="text-gray-700 ml-10">
+                Modul Private hanya dapat diakses oleh pengguna tertentu yang
+                sudah login, sedangkan Modul Public dapat diakses oleh semua
+                pengguna tanpa login.
+              </div>
             </div>
           </div>
 
           <div class="faq-item">
-            <button class="flex items-center w-full p-4 text-left font-semibold gap-3">
+            <button
+              class="flex items-center w-full p-4 text-left font-semibold gap-3"
+            >
               <span class="toggle-icon text-[#a80308]">+</span>
               <span>Bagaimana cara mendapatkan sertifikat pelatihan?</span>
             </button>
-            <div class="faq-content max-h-0 overflow-hidden transition-all duration-500 ease-in-out">
-              <div class="text-gray-700 ml-10">Sertifikat pelatihan dapat diperoleh setelah menyelesaikan semua modul dalam suatu program pelatihan. Pastikan Anda telah menyelesaikan semua tugas dan ujian yang diperlukan.</div>
+            <div
+              class="faq-content max-h-0 overflow-hidden transition-all duration-500 ease-in-out"
+            >
+              <div class="text-gray-700 ml-10">
+                Sertifikat pelatihan dapat diperoleh setelah menyelesaikan semua
+                modul dalam suatu program pelatihan. Pastikan Anda telah
+                menyelesaikan semua tugas dan ujian yang diperlukan.
+              </div>
             </div>
           </div>
         </div>
@@ -343,9 +592,16 @@
 
       <!-- CONTACT -->
       <section class="my-8">
-        <h2 class="px-4 py-2 mb-4 text-lg font-bold text-white bg-[#a80308] rounded-xl">Kontak</h2>
+        <h2
+          class="px-4 py-2 mb-4 text-lg font-bold text-white bg-[#a80308] rounded-xl"
+        >
+          Kontak
+        </h2>
         <div class="p-6 rounded-lg bg-gray-50">
-          <p class="mb-2">Ada pertanyaan atau kendala saat menggunakan LMS? Tim Learning &amp; Development siap membantu Anda!</p>
+          <p class="mb-2">
+            Ada pertanyaan atau kendala saat menggunakan LMS? Tim Learning &amp;
+            Development siap membantu Anda!
+          </p>
           <div class="my-4">
             <p class="font-semibold">WhatsApp Support</p>
             <p>+62 857-1863-5009</p>
@@ -439,7 +695,11 @@
             const span = wrapper.querySelector(".progress-text");
             if (span) {
               const mo = new MutationObserver(() => updateProgress(wrapper));
-              mo.observe(span, { characterData: true, childList: true, subtree: true });
+              mo.observe(span, {
+                characterData: true,
+                childList: true,
+                subtree: true,
+              });
             }
           });
         }

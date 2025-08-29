@@ -9,14 +9,14 @@
       rel="stylesheet"
     />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
     <style>
-      /* Progress visual */
+      /* Progress visual (fallback jika JS mati) */
       .progress-fill {
-        transition: width 450ms cubic-bezier(0.2, 0.9, 0.2, 1);
         will-change: width;
       }
 
-      /* Optional: supaya progress bar terlihat sedikit rounded di ujung kanan */
+      /* supaya progress bar terlihat sedikit rounded di ujung kanan */
       .progress-bar {
         overflow: hidden;
       }
@@ -25,16 +25,21 @@
       .faq-content .ml-10 {
         margin-left: 2.5rem;
       }
+
+      /* awal state untuk content FAQ agar ukurannya dikontrol lewat inline style */
+      .faq-content {
+        height: 0;
+        opacity: 0;
+        overflow: hidden;
+      }
     </style>
   </head>
   <body class="font-[Inter] text-[#0b1220] bg-white">
     <!-- NAVBAR -->
     <nav
-      class="flex items-center justify-between px-2 py-2 md:px-8 md:py-4 border-b-2 border-gray-200 mb-4 bg-white"
+      class="flex items-center justify-between px-2 py-1 md:px-8 md:py-4 border-b-2 border-gray-200 mb-4 bg-white"
     >
-      <div
-        class="flex items-center font-semibold justify-center gap-3 lg:gap-5"
-      >
+      <div class="flex items-center font-semibold justify-center gap-3 lg:gap-5">
         <img src="../img/logo.png" alt="Logo" class="w-5 md:w-10 md:mr-2" />
         <a
           href="../home/public.html"
@@ -59,10 +64,11 @@
     <main class="mx-2 lg:mx-8 mb-12">
       <!-- HERO -->
       <section
-        class="flex text-white bg-black rounded-2xl md:flex-row md:items-center md:justify-between gap-6 px-4 py-4 md:gap-8 md:px-10 md:py-6 lg:gap-10 lg:px-20 lg:py-12"
+        class="flex relative text-white w-auto h-[120px] md:h-[300px] my-2 lg:my-4 2xl:my-8 md:flex-row md:items-center md:justify-between"
       >
-        <div class="max-w-3xs md:max-w-md lg:max-w-2xl">
-          <h1 class="mb-1 md:mb-3 text-xl md:text-4xl font-medium md:font-bold">
+        <img src="../img/banner.png" class="w-full h-full xl:h-auto object-cover rounded-lg md:rounded-2xl" alt="">
+        <div id="heroContent" class="absolute max-w-3xs md:max-w-xl xl:max-w-4xl px-4 py-4 md:gap-8 md:px-10 md:py-6 lg:gap-10 lg:px-20 lg:py-12">
+          <h1 class="mb-1 md:mb-3 text-xs md:text-4xl 2xl:text-5xl font-medium md:font-bold">
             Belajar tanpa henti, berkembang tanpa batas
           </h1>
           <p class="mb-1 md:mb-6 text-[9.6px] md:text-base lg:text-2xl">
@@ -81,11 +87,6 @@
             Lihat Course
           </a>
         </div>
-        <img
-          src="hero.png"
-          alt="Ilustrasi"
-          class="max-w-[350px] mx-auto md:mx-0"
-        />
       </section>
 
       <!-- PELATIHAN -->
@@ -103,37 +104,24 @@
           >
         </div>
 
-        <div class="grid gap-2 md:gap-6 grid-cols-2 lg:grid-cols-3">
+        <div id="courseGrid" class="grid gap-2 md:gap-6 grid-cols-2 lg:grid-cols-3">
           <!-- CARD 1 -->
           <article
-            class="bg-white rounded-lg overflow-hidden shadow flex flex-col h-full"
+            class="card-item bg-white rounded-lg overflow-hidden shadow flex flex-col h-full"
           >
-            <div
-              class="flex justify-between items-center px-3 py-2 gap-2 text-sm font-semibold"
-            >
+            <div class="flex justify-between items-center px-3 py-2 gap-2 text-sm font-semibold">
               <div title="Terbuka">🔓</div>
-              <span
-                class="bg-[#28A745] text-white px-1 md:px-3 py-0.5 md:py-1 text-[8px] md:text-base rounded-sm md:rounded-lg"
-                >Selesai</span
-              >
+              <span class="bg-[#28A745] text-white px-1 md:px-3 py-0.5 md:py-1 text-[8px] md:text-base rounded-sm md:rounded-lg">Selesai</span>
             </div>
 
             <div class="w-full h-auto overflow-hidden">
-              <img
-                src="../img/course1.png"
-                alt="course 1"
-                class="w-full h-full object-cover"
-              />
+              <img src="../img/course1.png" alt="course 1" class="w-full h-full object-cover" />
             </div>
 
             <div class="flex-1 flex flex-col">
               <div class="md:p-4 w-full">
-                <div
-                  class="flex justify-between items-center text-[#898989] progress-wrapper"
-                >
-                  <div
-                    class="w-[80%] 2xl:w-[85%] bg-[#E7E7E7] rounded h-1 relative"
-                  >
+                <div class="flex justify-between items-center text-[#898989] progress-wrapper">
+                  <div class="w-[80%] 2xl:w-[85%] bg-[#E7E7E7] rounded h-1 relative progress-bar">
                     <div
                       class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
                       style="width: 0%"
@@ -143,121 +131,61 @@
                       aria-valuenow="0"
                     ></div>
                   </div>
-                  <span class="progress-text text-[8px] md:text-base px-1"
-                    >14 / 14</span
-                  >
+                  <span class="progress-text text-[8px] md:text-base px-1">14 / 14</span>
                 </div>
               </div>
 
-              <h4 class="text-xs md:text-2xl font-bold text-center h-auto">
-                ALUR PROSES PENERIMAAN PESANAN
-              </h4>
+              <h4 class="text-xs md:text-2xl font-bold text-center h-auto">ALUR PROSES PENERIMAAN PESANAN</h4>
             </div>
           </article>
 
           <!-- CARD 2 -->
-          <article
-            class="bg-white rounded-lg overflow-hidden shadow flex flex-col h-full"
-          >
-            <div
-              class="flex justify-between items-center px-3 py-2 gap-2 text-sm font-semibold"
-            >
+          <article class="card-item bg-white rounded-lg overflow-hidden shadow flex flex-col h-full">
+            <div class="flex justify-between items-center px-3 py-2 gap-2 text-sm font-semibold">
               <div title="Terbuka">🔓</div>
-              <span
-                class="bg-[#FFB300] text-white px-1 md:px-3 py-0.5 md:py-1 text-[8px] md:text-base rounded-sm md:rounded-lg"
-                >Lanjutkan</span
-              >
+              <span class="bg-[#FFB300] text-white px-1 md:px-3 py-0.5 md:py-1 text-[8px] md:text-base rounded-sm md:rounded-lg">Lanjutkan</span>
             </div>
 
             <div class="w-full h-auto overflow-hidden">
-              <img
-                src="../img/course2.png"
-                alt="course 2"
-                class="w-full h-full object-cover"
-              />
+              <img src="../img/course2.png" alt="course 2" class="w-full h-full object-cover" />
             </div>
 
             <div class="flex-1 flex flex-col">
               <div class="md:p-4 w-full">
-                <div
-                  class="flex justify-between items-center text-[#898989] progress-wrapper"
-                >
-                  <div
-                    class="w-[80%] 2xl:w-[85%] bg-[#E7E7E7] rounded h-1 relative"
-                  >
-                    <div
-                      class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
-                      style="width: 0%"
-                      role="progressbar"
-                      aria-valuemin="0"
-                      aria-valuemax="100"
-                      aria-valuenow="0"
-                    ></div>
+                <div class="flex justify-between items-center text-[#898989] progress-wrapper">
+                  <div class="w-[80%] 2xl:w-[85%] bg-[#E7E7E7] rounded h-1 relative progress-bar">
+                    <div class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0" style="width: 0%" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
                   </div>
-                  <span class="progress-text text-[8px] md:text-base px-1"
-                    >3 / 10</span
-                  >
+                  <span class="progress-text text-[8px] md:text-base px-1">3 / 10</span>
                 </div>
               </div>
 
-              <h4
-                class="text-xs md:text-2xl font-bold text-center h-16"
-              >
-                PROSES PEMBUATAN DOKUMEN SALES ORDER (SO)
-              </h4>
+              <h4 class="text-xs md:text-2xl font-bold text-center h-16">PROSES PEMBUATAN DOKUMEN SALES ORDER (SO)</h4>
             </div>
           </article>
 
           <!-- CARD 3 -->
-          <article
-            class="bg-white rounded-lg overflow-hidden shadow hidden lg:flex flex-col h-full"
-          >
-            <div
-              class="flex justify-between items-center px-3 py-2 gap-2 text-sm font-semibold"
-            >
+          <article class="card-item hidden lg:flex bg-white rounded-lg overflow-hidden shadow flex-col h-full">
+            <div class="flex justify-between items-center px-3 py-2 gap-2 text-sm font-semibold">
               <div title="Terkunci">🔒</div>
-              <span
-                class="bg-[#a80308] text-white px-1 md:px-3 py-0.5 md:py-1 text-[8px] md:text-base rounded-sm md:rounded-lg"
-                >Mulai</span
-              >
+              <span class="bg-[#a80308] text-white px-1 md:px-3 py-0.5 md:py-1 text-[8px] md:text-base rounded-sm md:rounded-lg">Mulai</span>
             </div>
 
             <div class="w-full h-auto overflow-hidden">
-              <img
-                src="../img/course3.png"
-                alt="course 3"
-                class="w-full h-full object-cover"
-              />
+              <img src="../img/course3.png" alt="course 3" class="w-full h-full object-cover" />
             </div>
 
             <div class="flex-1 flex flex-col">
               <div class="md:p-4 w-full">
-                <div
-                  class="flex justify-between items-center text-[#898989] progress-wrapper"
-                >
-                  <div
-                    class="w-[80%] 2xl:w-[85%] bg-[#E7E7E7] rounded h-1 relative"
-                  >
-                    <div
-                      class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
-                      style="width: 0%"
-                      role="progressbar"
-                      aria-valuemin="0"
-                      aria-valuemax="100"
-                      aria-valuenow="0"
-                    ></div>
+                <div class="flex justify-between items-center text-[#898989] progress-wrapper">
+                  <div class="w-[80%] 2xl:w-[85%] bg-[#E7E7E7] rounded h-1 relative progress-bar">
+                    <div class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0" style="width: 0%" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
                   </div>
-                  <span class="progress-text text-[8px] md:text-base px-1"
-                    >0 / 6</span
-                  >
+                  <span class="progress-text text-[8px] md:text-base px-1">0 / 6</span>
                 </div>
               </div>
 
-              <h4
-                class="text-xs md:text-2xl font-bold text-center h-16"
-              >
-                PERSIAPAN PENGIRIMAN BARANG
-              </h4>
+              <h4 class="text-xs md:text-2xl font-bold text-center h-16">PERSIAPAN PENGIRIMAN BARANG</h4>
             </div>
           </article>
         </div>
@@ -265,23 +193,15 @@
 
       <!-- FAQ -->
       <section class="my-4 lg:my-8">
-        <h2
-            class="px-4 py-2 text-sm md:text-lg lg:text-3xl font-bold text-white bg-[#A80308] rounded-xl"
-          >
-          Frequently Asked Question
-        </h2>
+        <h2 class="px-4 py-2 text-sm md:text-lg lg:text-3xl font-bold text-white bg-[#A80308] rounded-xl">Frequently Asked Question</h2>
         <div class="text-[10px] md:text-base">
           <!-- FAQ Item -->
           <div class="faq-item">
-            <button
-              class="flex items-center w-full p-2 md:p-4 text-left font-bold gap-3"
-            >
+            <button class="faq-btn flex items-center w-full p-2 md:p-4 text-left font-bold gap-3" aria-expanded="false">
               <span class="toggle-icon text-[#a80308]">+</span>
               <span>Bagaimana cara login?</span>
             </button>
-            <div
-              class="faq-content max-h-0 overflow-hidden transition-all duration-500 ease-in-out"
-            >
+            <div class="faq-content" aria-hidden="true">
               <div class="text-[#001122] ml-8 md:ml-10 font-medium">
                 Untuk login ke LMS Ekatunggal, klik tombol "Masuk Sekarang" di
                 halaman utama.<br />
@@ -294,15 +214,11 @@
           </div>
 
           <div class="faq-item">
-            <button
-              class="flex items-center w-full p-2 md:p-4 text-left font-bold gap-3"
-            >
+            <button class="faq-btn flex items-center w-full p-2 md:p-4 text-left font-bold gap-3" aria-expanded="false">
               <span class="toggle-icon text-[#a80308]">+</span>
               <span>Lupa password, harus bagaimana?</span>
             </button>
-            <div
-              class="faq-content max-h-0 overflow-hidden transition-all duration-500 ease-in-out"
-            >
+            <div class="faq-content" aria-hidden="true">
               <div class="text-[#001122] ml-8 md:ml-10 font-medium">
                 Hubungi Admin Learning &amp; Development untuk reset password.
               </div>
@@ -310,15 +226,11 @@
           </div>
 
           <div class="faq-item">
-            <button
-              class="flex items-center w-full p-2 md:p-4 text-left font-bold gap-3"
-            >
+            <button class="faq-btn flex items-center w-full p-2 md:p-4 text-left font-bold gap-3" aria-expanded="false">
               <span class="toggle-icon text-[#a80308]">+</span>
               <span>Apa itu Learning Path?</span>
             </button>
-            <div
-              class="faq-content max-h-0 overflow-hidden transition-all duration-500 ease-in-out"
-            >
+            <div class="faq-content" aria-hidden="true">
               <div class="text-[#001122] ml-8 md:ml-10 font-medium">
                 Learning Path adalah urutan materi belajar sesuai jalur karier
                 Anda.
@@ -327,15 +239,11 @@
           </div>
 
           <div class="faq-item">
-            <button
-              class="flex items-center w-full p-2 md:p-4 text-left font-bold gap-3"
-            >
+            <button class="faq-btn flex items-center w-full p-2 md:p-4 text-left font-bold gap-3" aria-expanded="false">
               <span class="toggle-icon text-[#a80308]">+</span>
               <span>Apa perbedaan Modul Private dan Public?</span>
             </button>
-            <div
-              class="faq-content max-h-0 overflow-hidden transition-all duration-500 ease-in-out"
-            >
+            <div class="faq-content" aria-hidden="true">
               <div class="text-[#001122] ml-8 md:ml-10 font-medium">
                 Modul Private hanya dapat diakses oleh pengguna tertentu yang
                 sudah login, sedangkan Modul Public dapat diakses oleh semua
@@ -345,15 +253,11 @@
           </div>
 
           <div class="faq-item">
-            <button
-              class="flex items-center w-full p-2 md:p-4 text-left font-bold gap-3"
-            >
+            <button class="faq-btn flex items-center w-full p-2 md:p-4 text-left font-bold gap-3" aria-expanded="false">
               <span class="toggle-icon text-[#a80308]">+</span>
               <span>Bagaimana cara mendapatkan sertifikat pelatihan?</span>
             </button>
-            <div
-              class="faq-content max-h-0 overflow-hidden transition-all duration-500 ease-in-out"
-            >
+            <div class="faq-content" aria-hidden="true">
               <div class="text-[#001122] ml-8 md:ml-10 font-medium">
                 Sertifikat pelatihan dapat diperoleh setelah menyelesaikan semua
                 modul dalam suatu program pelatihan. Pastikan Anda telah
@@ -366,16 +270,9 @@
 
       <!-- CONTACT -->
       <section class="my-4 lg:my-8">
-        <h2
-            class="px-4 py-2 text-sm md:text-lg lg:text-3xl font-bold text-white bg-[#A80308] rounded-xl"
-          >
-          Kontak
-        </h2>
+        <h2 class="px-4 py-2 text-sm md:text-lg lg:text-3xl font-bold text-white bg-[#A80308] rounded-xl">Kontak</h2>
         <div class="p-6 rounded-lg bg-gray-50 text-[10px] md:text-base">
-          <p class="mb-2">
-            Ada pertanyaan atau kendala saat menggunakan LMS? Tim Learning &
-            Development siap membantu Anda!
-          </p>
+          <p class="mb-2">Ada pertanyaan atau kendala saat menggunakan LMS? Tim Learning & Development siap membantu Anda!</p>
           <div class="my-4">
             <p class="font-semibold">WhatsApp Support</p>
             <p>+62 857-1863-5009</p>
@@ -390,35 +287,19 @@
       </section>
     </main>
 
-    <!-- JS FAQ toggle + Progress auto-update -->
-    <script>
-      // FAQ toggle (tetap sama)
-      document.querySelectorAll(".faq-item button").forEach((btn) => {
-        btn.addEventListener("click", () => {
-          const content = btn.nextElementSibling;
-          const icon = btn.querySelector(".toggle-icon");
+    <!-- module import motion (ESM) -->
+    <script type="module">
+      // import animate dari Motion (ESM). Harus dijalankan lewat HTTP(s) (server lokal).
+      import { animate } from "https://cdn.jsdelivr.net/npm/motion@latest/+esm";
 
-          if (content.classList.contains("max-h-0")) {
-            content.classList.remove("max-h-0");
-            content.classList.add("max-h-[500px]");
-            icon.textContent = "−";
-          } else {
-            content.classList.add("max-h-0");
-            content.classList.remove("max-h-[500px]");
-            icon.textContent = "+";
-          }
-        });
-      });
-
-      /* -------- Progress auto-update logic -------- */
-
+      // ------ UTIL: parse "X / Y"
       function parseProgressText(text) {
-        // Match "3 / 13" or "3/13" or with spaces
         const m = String(text).match(/(\d+)\s*\/\s*(\d+)/);
         if (!m) return null;
         return [parseInt(m[1], 10), parseInt(m[2], 10)];
       }
 
+      // ------ PROGRESS: update dengan animasi width
       function updateProgress(wrapper) {
         const span = wrapper.querySelector(".progress-text");
         const fill = wrapper.querySelector(".progress-fill");
@@ -426,67 +307,138 @@
 
         const nums = parseProgressText(span.textContent);
         if (!nums) {
-          // jika format tak sesuai, kita set 0
-          fill.style.width = "0%";
+          animate(fill, { width: ["0%"] }, { duration: 0.35, easing: "ease-in-out" });
           fill.setAttribute("aria-valuenow", 0);
           return;
         }
 
         const [cur, total] = nums;
-        let pct = 0;
-        if (total === 0) pct = 0;
-        else pct = (cur / total) * 100;
+        let pct = total === 0 ? 0 : (cur / total) * 100;
+        pct = Math.max(0, Math.min(100, +pct.toFixed(2)));
+        const pctStr = pct + "%";
 
-        // batasi antara 0 - 100
-        pct = Math.max(0, Math.min(100, pct));
+        // animate width (smooth)
+        animate(fill, { width: pctStr }, { duration: 0.45, easing: "cubic-bezier(.2,.9,.2,1)" });
 
-        // Two decimal precision untuk tampilan halus
-        const pctStr = Math.round(pct * 100) / 100 + "%";
-
-        fill.style.width = pctStr;
-        // accessibility attributes -> kita gunakan current absolute value (cur) dan total
         fill.setAttribute("aria-valuenow", cur);
         fill.setAttribute("aria-valuemax", total);
         fill.setAttribute("aria-valuemin", 0);
       }
 
       function initProgressWrappers() {
-        const wrappers = document.querySelectorAll(".progress-wrapper");
-        wrappers.forEach((wrapper) => {
+        document.querySelectorAll(".progress-wrapper").forEach((wrapper) => {
           // initial update
           updateProgress(wrapper);
 
-          // Observe perubahan teks di dalam .progress-text
+          // observe perubahan teks
           const span = wrapper.querySelector(".progress-text");
-          if (span) {
-            const mo = new MutationObserver(() => {
-              updateProgress(wrapper);
-            });
+          if (!span) return;
 
-            mo.observe(span, {
-              characterData: true,
-              childList: true,
-              subtree: true,
-            });
-
-            // Jika angka diubah melalui input/form di JS, mungkin Anda juga ingin
-            // memanggil updateProgress(wrapper) langsung setelah mengubah teks.
-          }
+          const mo = new MutationObserver(() => updateProgress(wrapper));
+          mo.observe(span, { childList: true, characterData: true, subtree: true });
         });
       }
 
-      if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", initProgressWrappers);
-      } else {
-        initProgressWrappers();
+      // ------ FAQ: animasi buka/tutup dengan pengukuran scrollHeight
+      function initFAQ() {
+        document.querySelectorAll(".faq-item").forEach((item) => {
+          const btn = item.querySelector(".faq-btn");
+          const content = item.querySelector(".faq-content");
+          const icon = btn.querySelector(".toggle-icon");
+
+          // starting collapsed state
+          content.style.height = "0px";
+          content.style.opacity = "0";
+          content.style.overflow = "hidden";
+          content.style.display = "none";
+          btn.setAttribute("aria-expanded", "false");
+          content.setAttribute("aria-hidden", "true");
+
+          btn.addEventListener("click", () => {
+            const isClosed = content.getBoundingClientRect().height <= 1 || content.style.display === "none";
+
+            if (isClosed) {
+              // show and measure
+              content.style.display = "block";
+              const target = content.scrollHeight;
+
+              // animate height + opacity
+              const a = animate(content, { height: [0, target + "px"], opacity: [0, 1] }, { duration: 0.45, easing: "ease-in-out" });
+
+              // set ARIA
+              btn.setAttribute("aria-expanded", "true");
+              content.setAttribute("aria-hidden", "false");
+              icon.textContent = "−";
+
+              // after finished, set height to auto so inner content can wrap naturally
+              a.finished.then(() => {
+                content.style.height = "auto";
+              }).catch(() => {
+                content.style.height = "auto";
+              });
+            } else {
+              // collapse: ensure height is fixed px before anim
+              const from = content.scrollHeight;
+              content.style.height = from + "px";
+
+              const a = animate(content, { height: [from + "px", "0px"], opacity: [1, 0] }, { duration: 0.35, easing: "ease-in-out" });
+
+              // set ARIA and icon after collapse
+              a.finished.then(() => {
+                content.style.display = "none";
+                btn.setAttribute("aria-expanded", "false");
+                content.setAttribute("aria-hidden", "true");
+                icon.textContent = "+";
+              }).catch(() => {
+                content.style.display = "none";
+                btn.setAttribute("aria-expanded", "false");
+                content.setAttribute("aria-hidden", "true");
+                icon.textContent = "+";
+              });
+            }
+          });
+        });
       }
 
-      /* 
-        Contoh: jika Anda ingin menguji perubahan dinamis, Anda bisa
-        membuka console dan jalankan (misal pada hero):
-        document.querySelector('.progress-wrapper .progress-text').textContent = '5 / 13'
-        -> progress akan otomatis update karena MutationObserver
-      */
+      // ------ Entrance animations: hero + cards
+      function initEntranceAnimations() {
+        const hero = document.getElementById("heroContent");
+        if (hero) {
+          hero.style.opacity = "0";
+          animate(hero, { x: [-18, 0], opacity: [0, 1] }, { duration: 0.6, easing: "ease-out" });
+        }
+
+        const items = document.querySelectorAll(".card-item");
+        const io = new IntersectionObserver((entries, observer) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const el = entry.target;
+              el.style.opacity = "0";
+              animate(el, { y: [12, 0], opacity: [0, 1] }, { duration: 0.5, easing: "ease-out" });
+              observer.unobserve(el);
+            }
+          });
+        }, { threshold: 0.15 });
+
+        items.forEach((it) => io.observe(it));
+      }
+
+      // ------ Init on DOM ready
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", () => {
+          initProgressWrappers();
+          initFAQ();
+          initEntranceAnimations();
+        });
+      } else {
+        initProgressWrappers();
+        initFAQ();
+        initEntranceAnimations();
+      }
+
+      // ====== Debug helper (opsional, gunakan di Console)
+      // document.querySelectorAll('.progress-text')[0].textContent = '5 / 13'
+      // -> akan memicu MutationObserver dan animasi width
     </script>
   </body>
 </html>

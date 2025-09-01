@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Dashboard Peserta — LMS (Auto compute)</title>
+    <title>Dashboard Peserta — LMS (Motion)</title>
 
     <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -33,46 +33,10 @@
         color: #111827;
         background: #f6f6f7;
       }
-      .card {
-        background: #fff;
-        border-radius: 12px;
-        box-shadow: var(--card-shadow);
-      }
+
+      /* fallback transition if motion isn't running / supported */
       .progress-fill {
         transition: width 350ms ease;
-      }
-
-      @media (max-width: 1024px) {
-        .lg\\:col-span-8 {
-          grid-column: span 8 / span 8;
-        }
-        .lg\\:col-span-4 {
-          grid-column: span 4 / span 4;
-        }
-      }
-      /* legend */
-      .legend-dot {
-        width: 10px;
-        height: 10px;
-        border-radius: 999px;
-        display: inline-block;
-        margin-right: 8px;
-      }
-
-      /* table rounding */
-      table {
-        border-collapse: separate;
-        border-spacing: 0;
-        width: 100%;
-      }
-      thead th:first-child {
-        border-top-left-radius: 12px;
-      }
-      thead th:last-child {
-        border-top-right-radius: 12px;
-      }
-      thead th {
-        background: var(--header-bg);
       }
 
       .progress-mini {
@@ -88,86 +52,259 @@
         transition: width 400ms ease;
       }
 
-      /* keep canvas responsive box */
-      .donut-wrap {
-        width: 180px;
-        height: 180px;
-      }
-
-      /* ensure tbody rows full-width divide */
-      tbody > tr > td {
-        background: white;
-      }
-
-      /* small percent label for team progress */
       .team-pct {
         font-size: 12px;
         color: #1f2937;
         margin-top: 6px;
       }
+
+      /* mobile menu overlay */
+      #mobileMenu {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 100%;
+        z-index: 50;
+        box-shadow: 0 12px 24px rgba(2, 6, 23, 0.08);
+        border-top: 1px solid rgba(0, 0, 0, 0.05);
+        background: white;
+      }
+
+      /* small responsive tweaks for search/dropdowns */
+      @media (max-width: 640px) {
+        .responsive-search {
+          padding-left: 0.5rem;
+          padding-right: 0.5rem;
+        }
+        .responsive-input {
+          height: 36px;
+          padding-left: 0.6rem;
+          padding-right: 0.6rem;
+          font-size: 13px;
+        }
+        .responsive-select {
+          height: 36px;
+          padding-left: 0.5rem;
+          padding-right: 0.5rem;
+          font-size: 13px;
+        }
+        .hero {
+          padding: 1rem;
+        }
+      }
+
+      /* ensure canvas fills parent and not zero-sized */
+      .chart-box canvas { width: 100% !important; height: 100% !important; display: block; }
+
+      /* -------------------------
+         Sticky first column + responsive horizontal scroll
+         ------------------------- */
+      .table-responsive {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      /* default force table slightly wide on small screens so it can scroll */
+      .table-responsive table {
+        min-width: 900px; /* adjust as needed: larger => more horizontal scroll */
+      }
+
+      /* On large screens remove forced min-width so table fits normally */
+      @media (min-width: 1024px) {
+        .table-responsive table {
+          min-width: unset;
+        }
+      }
+
+      /* Make first column sticky inside the scroll container */
+      .freeze-col th:first-child,
+      .freeze-col td:first-child {
+        position: sticky;
+        left: 0;
+        z-index: 30;
+        background: white; /* ensure content behind doesn't show through */
+        /* subtle separator */
+        box-shadow: 3px 0 6px -4px rgba(0,0,0,0.12);
+      }
+
+      /* header first cell should sit above body cells */
+      .freeze-col thead th:first-child {
+        z-index: 40;
+        background: var(--header-bg);
+      }
+
+      /* give first column a fixed width so it doesn't collapse */
+      .freeze-col th:first-child,
+      .freeze-col td:first-child {
+        min-width: 180px;
+        max-width: 220px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      /* ensure table cells keep readable spacing */
+      .freeze-col td,
+      .freeze-col th {
+        background-clip: padding-box;
+      }
+
+      /* optional: make the whole row header sticky top on scroll (if desired)
+         .freeze-col thead th {
+           position: sticky;
+           top: 0;
+           z-index: 50;
+         }
+      */
+
     </style>
   </head>
   <body>
     <!-- NAVBAR -->
-    <nav
-      class="flex items-center justify-between px-8 py-4 border-b-2 border-gray-200 mb-4 bg-white"
-    >
-      <div class="flex items-center font-semibold">
-        <img src="../img/logo.png" alt="Logo" class="w-10 mr-2" />
-        <a
-          href="../home/user.html"
-          class="px-4 py-1 rounded-full font-semibold text-black hover:bg-gray-100"
-          >Home</a
-        >
-        <a
-          href="../dashboard/staff.html"
-          class="px-4 py-1 rounded-full font-semibold text-black hover:bg-gray-100"
-          >Dashboard</a
-        >
-        <a
-          href="../course/user.html"
-          class="px-4 py-1 rounded-full font-semibold text-black hover:bg-gray-100"
-          >MyCourse</a
-        >
-        <a
-          href="#"
-          class="px-4 py-1 rounded-full font-semibold text-black hover:bg-gray-100"
-          >Site Administrator</a
-        >
-      </div>
-      <div class="flex items-center gap-2">
-        <img
-          src="../img/notif.png"
-          alt="notification"
-          class="w-6 h-8 rounded-lg mr-10"
-        />
-        <div class="text-end">
-          <p class="font-bold">Nama Pengguna</p>
-          <p class="text-gray-400 text-[11px]">Nama Learning Staff</p>
+    <nav class="relative bg-white border-b-2 border-gray-200 mb-2 lg:mb-4">
+      <div
+        class="flex items-center justify-between px-2 md:px-4 py-3 lg:px-8 md:py-4"
+      >
+        <div class="flex items-center gap-3">
+          <img src="../img/logo.png" alt="Logo" class="w-8 md:w-10" />
+          <a
+            href="../home/public.html"
+            class="text-base font-semibold text-black hover:bg-gray-100 px-3 py-1 rounded-full"
+            >Home</a
+          >
+          <div class="hidden lg:flex items-center gap-2 md:gap-4 ml-2">
+            <a
+              href="../dashboard/staff.html"
+              class="text-base font-semibold text-black hover:bg-gray-100 px-3 py-1 rounded-full"
+              >Dashboard</a
+            >
+            <a
+              href="../learningpath/index.html"
+              class="text-base font-semibold text-black hover:bg-gray-100 px-3 py-1 rounded-full"
+              >Learning Path</a
+            >
+            <a
+              href="#"
+              class="text-base font-semibold text-black hover:bg-gray-100 px-3 py-1 rounded-full"
+              >Site Administrator</a
+            >
+          </div>
         </div>
-        <img src="../img/pp.png" alt="Profile" class="w-12 h-12 rounded-lg" />
+
+        <div class="flex items-center gap-3">
+          <img
+            src="../img/notif.png"
+            alt="notification"
+            class="w-4 h-5 md:w-6 md:h-8 rounded-lg inline-block"
+          />
+          <button
+            id="mobileNavToggle"
+            class="lg:hidden inline-flex items-center justify-center p-2 rounded-md focus:outline-none"
+            aria-expanded="false"
+            aria-controls="mobileMenu"
+            aria-label="Toggle menu"
+          >
+            <svg
+              id="hamburgerIcon"
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              ></path>
+            </svg>
+            <svg
+              id="closeIcon"
+              class="w-6 h-6 hidden"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              ></path>
+            </svg>
+          </button>
+
+          <div class="text-end hidden lg:block">
+            <p class="font-bold">Nama Pengguna</p>
+            <p class="text-gray-400 text-[11px]">Learning Staff</p>
+          </div>
+          <img
+            src="../img/pp.png"
+            alt="Profile"
+            class="w-10 h-10 rounded-lg hidden lg:inline-block"
+          />
+        </div>
+      </div>
+
+      <!-- Mobile dropdown menu - overlay -->
+      <div
+        id="mobileMenu"
+        class="lg:hidden overflow-hidden bg-white origin-top"
+        style="display: none; transform-origin: top"
+        aria-hidden="true"
+      >
+        <div class="px-2 pb-4 pt-2 space-y-1">
+          <a
+            href="../dashboard/staff.html"
+            class="block px-3 py-2 rounded-md text-sm font-medium text-black hover:bg-gray-100"
+            >Dashboard</a
+          >
+          <a
+            href="../course/user.html"
+            class="block px-3 py-2 rounded-md text-sm font-medium text-black hover:bg-gray-100"
+            >MyCourse</a
+          >
+          <a
+            href="#"
+            class="block px-3 py-2 rounded-md text-sm font-medium text-black hover:bg-gray-100"
+            >Site Administrator</a
+          >
+
+          <div class="mt-2 border-t pt-2 flex items-center gap-3 px-3">
+            <img src="../img/pp.png" alt="notif" class="w-6 h-6 rounded" />
+            <div>
+              <p class="font-semibold text-sm">Nama Pengguna</p>
+              <p class="text-xs text-gray-500">Learning Staff</p>
+            </div>
+          </div>
+        </div>
       </div>
     </nav>
 
-    <main class="mx-8 mb-12">
-      <!-- HERO -->
-      <section class="flex flex-col gap-6 h-70 md:flex-row">
+    <main class="mx-2 md:mx-4 lg:mx-8 mb-12 page-content">
+      <!-- HERO (id sesuai animasi) -->
+      <section class="flex flex-col gap-2 lg:gap-6 h-70 md:flex-row">
         <div
-          class="text-white bg-black rounded-2xl flex-3 w-2/3 p-8 my-auto hero"
+          id="heroBlock"
+          class="text-white bg-black rounded-xl md:rounded-2xl flex-3 md:w-2/3 p-4 lg:p-8 my-auto"
         >
-          <h1 class="mb-3 max-w-4xl text-4xl font-bold capitalize">
+          <h1
+            class="mb-1 md:mb-3 md:max-w-4xl text-lg lg:text-4xl font-bold capitalize"
+          >
             Alur proses pembelian dan pelunasan cabang
           </h1>
-          <p class="mb-3 max-w-3xl text-lg">
+          <p class="mb-1 md:mb-3 max-w-3xl text-xs lg:text-lg">
             Memberikan pemahaman menyeluruh tentang alur kerja pembelian barang
             hingga proses pembayaran kepada supplier.
           </p>
 
           <!-- Progress (hero) -->
           <div
-            class="flex mb-3 justify-between items-center text-sm text-gray-500 progress-wrapper"
+            class="flex mb-1 md:mb-3 justify-between items-center text-xs md:text-sm text-gray-500 progress-wrapper"
           >
-            <div class="w-[90%] bg-gray-200 rounded h-1 relative">
+            <div class="w-[87%] md:w-[90%] bg-gray-200 rounded h-1 relative">
               <div
                 class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
                 style="width: 0%"
@@ -177,23 +314,24 @@
                 aria-valuenow="0"
               ></div>
             </div>
-            <span class="progress-text pl-2">3 / 13</span>
+            <span class="progress-text pl-1 md:pl-2">3 / 13</span>
           </div>
 
           <a
-            href="#"
-            class="inline-block px-6 py-3 font-semibold text-white transition-colors rounded-lg bg-[#a80308] hover:bg-[#8a0206]"
+            href="../course/user.html"
+            class="inline-block px-3 py-2 lg:px-6 lg:py-3 text-xs md:text-sm lg:text-base font-semibold text-white transition-colors rounded-lg bg-[#a80308] hover:bg-[#8a0206]"
+            >Lanjutkan</a
           >
-            Lanjutkan
-          </a>
         </div>
 
-        <div class="flex-1 flex flex-col gap-3 capitalize py-4">
-          <h3 class="font-bold text-xl">Upcoming</h3>
+        <div
+          class="flex-1 flex flex-col gap-1 md:gap-3 capitalize py-2 px-2 lg:py-4"
+        >
+          <h3 class="font-bold text-base lg:text-xl">Upcoming</h3>
           <div
             class="border-l-2 border-red-700 pl-2 h-12 flex flex-col justify-center"
           >
-            <h6 class="font-semibold text-base">
+            <h6 class="font-semibold text-sm lg:text-base">
               Prosedur penanganan komplain konsumen
             </h6>
             <p class="text-xs">12/10/2025</p>
@@ -201,13 +339,15 @@
           <div
             class="border-l-2 border-red-700 pl-2 h-12 flex flex-col justify-center"
           >
-            <h6 class="font-semibold text-base">Prosedur close sales order</h6>
+            <h6 class="font-semibold text-sm lg:text-base">
+              Prosedur close sales order
+            </h6>
             <p class="text-xs">15/10/2025</p>
           </div>
           <div
             class="border-l-2 border-red-700 pl-2 h-12 flex flex-col justify-center"
           >
-            <h6 class="font-semibold text-base">
+            <h6 class="font-semibold text-sm lg:text-base">
               Prosedur pengecekan kendaraan harian
             </h6>
             <p class="text-xs">17/10/2025</p>
@@ -215,176 +355,163 @@
         </div>
       </section>
 
-      <!-- Pelatihan Tersedia -->
+      <!-- Dashboard Tim -->
       <section class="my-6">
         <h2
-          class="px-4 py-2 text-lg font-bold text-white bg-[color:var(--brand)] rounded-xl"
+          class="px-4 py-2 text-sm md:text-lg lg:text-3xl font-bold text-white bg-[#A80308] rounded-xl"
         >
-          Pelatihan Tersedia
+          Dashboard Tim
         </h2>
 
         <!-- controls -->
-        <div class="flex items-center justify-between my-3">
-          <div class="flex items-center gap-3">
-            <label class="text-sm">Bulan Berjalan</label>
+        <div
+          class="flex flex-col md:flex-row items-start md:items-center justify-between my-3 gap-3"
+        >
+          <div class="flex items-center gap-3 flex-wrap border p-3 rounded">
+            <label class="text-xs md:text-sm">Bulan Berjalan</label>
 
             <!-- Date range input (flatpickr mode: range) -->
             <div class="flex items-center gap-2">
               <input
                 id="dateRange"
-                class="px-3 py-2 rounded-md border border-gray-200 shadow-sm w-72"
+                class="px-2 py-1 md:px-3 md:py-2 rounded-md border border-gray-200 shadow-sm w-36 md:w-72 responsive-input"
                 placeholder="Pilih rentang tanggal..."
               />
               <button
                 id="applyRange"
-                class="px-3 py-2 bg-[#a80308] text-white rounded-md"
+                class="px-2 py-1 md:px-3 md:py-2 bg-[#a80308] text-white rounded-md text-xs md:text-sm"
               >
                 Apply
               </button>
-              <button id="clearRange" class="px-3 py-2 border rounded-md">
+              <button
+                id="clearRange"
+                class="px-2 py-1 md:px-3 md:py-2 border rounded-md text-xs md:text-sm"
+              >
                 Clear
               </button>
             </div>
           </div>
 
           <div>
-            <button id="exportBtn" class="px-3 py-2 text-gray-600">
+            <button id="exportBtn" class="px-2 py-1 md:px-3 md:py-2 text-gray-600 text-xs md:text-sm">
               Export
             </button>
           </div>
         </div>
 
         <!-- top grid -->
-        <div class="grid grid-cols-1 md:grid-cols-8 gap-4 items-stretch">
-          <!-- Donut Chart -->
+        <div class="my-6 grid grid-cols-1 lg:grid-cols-8 gap-4 items-stretch">
+          <!-- Donut -->
           <div
-            class="col-span-1 md:col-span-2 bg-[#FFF4E5] rounded-lg shadow p-4 flex flex-col items-center"
+            class="col-span-1 md:col-span-4 lg:col-span-2 bg-[#FFF4E5] rounded-lg shadow p-4 flex flex-col items-center justify-between"
           >
-            <div class="w-45 h-45">
-              <canvas id="donutChart"></canvas>
-            </div>
-            <div class="mt-3 flex gap-4 text-xs text-gray-600">
+            <div class="w-45 h-45 2xl:w-45 2xl:h-45 mb-2"><canvas id="donutChart"></canvas></div>
+
+            <div class="flex-1 flex gap-x-6 items-center text-xs">
               <div class="flex items-center">
-                <span class="legend-dot bg-[#388E3C]"></span
-                ><span>Selesai</span>
+                <span class="legend-dot w-3 h-3 mr-1 bg-[#388E3C] block rounded-sm"></span>
+                <div class="text-xs text-gray-500">Selesai</div>
               </div>
               <div class="flex items-center">
-                <span class="legend-dot bg-[#FFB300]"></span
-                ><span>Berlangsung</span>
+                <span class="legend-dot w-3 h-3 mr-1 bg-[#FFB300] block rounded-sm"></span>
+                <div class="text-xs text-gray-500">Berlangsung</div>
               </div>
               <div class="flex items-center">
-                <span class="legend-dot bg-[#A80308]"></span
-                ><span>Belum Mulai</span>
+                <span class="legend-dot w-3 h-3 mr-1 bg-[#A80308] block rounded-sm"></span>
+                <div class="text-xs text-gray-500">Belum Mulai</div>
               </div>
             </div>
           </div>
 
-          <!-- Stat cards -->
+          <!-- Big stat cards -->
           <div class="col-span-1 md:col-span-4 grid grid-cols-2 gap-4">
             <div
-              class="bg-[#FFDAB3] rounded-lg p-4 px-8 shadow h-40 md:h-44 flex flex-col justify-between text-center"
+              class="stat-card bg-[#FFDAB3] rounded-lg py-4 px-2 md:px-8 shadow h-40 md:h-44 flex flex-col justify-between text-center"
             >
-              <div class="text-3xl font-semibold text-black">
-                Jumlah Anggota Tim
+              <div class="text-xl md:text-2xl font-semibold text-black">
+                Jumlah Pelatihan Harus Diikuti
               </div>
-              <div class="text-5xl md:text-6xl font-medium text-black">
-                <span id="stat-team">0</span>
+              <div class="text-5xl md:text-6xl font-bold text-black">
+                <span class="stat-value" data-stat="harus">12</span>
               </div>
             </div>
-
             <div
-              class="bg-[#FFF4E5] rounded-lg p-4 px-8 shadow h-40 md:h-44 flex flex-col justify-between text-center"
+              class="stat-card bg-[#FFF4E5] rounded-lg py-4 px-2 md:px-8 shadow h-40 md:h-44 flex flex-col justify-between text-center"
             >
-              <div class="text-3xl font-semibold text-black">
+              <div class="text-xl md:text-2xl font-semibold text-black">
                 Pelatihan Berlangsung
               </div>
-              <div class="text-5xl md:text-6xl font-medium text-black">
-                <span id="stat-running">0</span>
+              <div class="text-5xl md:text-6xl font-bold text-black">
+                <span class="stat-value" data-stat="berlangsung">3</span>
               </div>
             </div>
-
             <div
-              class="bg-[#DFF5E1] rounded-lg p-4 px-8 shadow h-40 md:h-44 flex flex-col justify-between text-center"
+              class="stat-card bg-[#DFF5E1] rounded-lg py-4 px-2 md:px-8 shadow h-40 md:h-44 flex flex-col justify-between text-center"
             >
-              <div class="text-3xl font-semibold text-black">
-                Capaian Learning Path
+              <div class="text-xl md:text-2xl font-semibold text-black">
+                Pelatihan Selesai
               </div>
-              <div class="text-5xl md:text-6xl font-medium text-black">
-                <span id="stat-progress">0%</span>
+              <div class="text-5xl md:text-6xl font-bold text-black">
+                <span class="stat-value" data-stat="selesai">8</span>
               </div>
             </div>
-
             <div
-              class="bg-[#FFE5E5] rounded-lg p-4 px-8 shadow h-40 md:h-44 flex flex-col justify-between text-center"
+              class="stat-card bg-[#FFE5E5] rounded-lg py-4 px-2 md:px-8 shadow h-40 md:h-44 flex flex-col justify-between text-center"
             >
-              <div class="text-3xl font-semibold text-black">
-                Nilai Rata - Rata
+              <div class="text-xl md:text-3xl font-semibold text-black">
+                Pelatihan Belum Dimulai
               </div>
-              <div class="text-5xl md:text-6xl font-medium text-black">
-                <span id="stat-score">0.00</span>
+              <div class="text-5xl md:text-6xl font-bold text-black">
+                <span class="stat-value" data-stat="belum">1</span>
               </div>
             </div>
           </div>
 
           <!-- Leaderboard -->
           <div
-            class="col-span-1 md:col-span-2 bg-[#FFDAB3] rounded-lg shadow p-4"
+            class="col-span-1 md:col-span-4 lg:col-span-2 bg-[#FFDAB3] rounded-lg shadow p-4"
           >
-            <h4 class="font-semibold text-black text-3xl mb-3">
-              Peringkat Saya
-            </h4>
-            <ol class="flex flex-col space-y-3">
+            <h4 class="font-bold text-black text-xl mb-3">Peringkat Saya</h4>
+            <ol class="flex flex-col space-y-3 leaderboard">
               <li class="flex items-center gap-3 border-b border-[#FFB300]">
                 <div class="font-semibold w-5 text-end">50.</div>
-                <div
-                  class="flex justify-between text-black items-center w-full"
-                >
+                <div class="flex justify-between text-black items-center w-full">
                   <div class="font-medium">Wardah Cahyani</div>
                   <div>40</div>
                 </div>
               </li>
               <li class="flex items-center gap-3 border-b border-[#FFB300]">
                 <div class="font-semibold w-5 text-end">1.</div>
-                <div
-                  class="flex justify-between text-black items-center w-full"
-                >
+                <div class="flex justify-between text-black items-center w-full">
                   <div class="font-medium">Ervia Oktavia</div>
                   <div>300</div>
                 </div>
               </li>
               <li class="flex items-center gap-3 border-b border-[#FFB300]">
                 <div class="font-semibold w-5 text-end">2.</div>
-                <div
-                  class="flex justify-between text-black items-center w-full"
-                >
-                  <div class="font-medium">Lukman</div>
+                <div class="flex justify-between text-black items-center w-full">
+                  <div class="font-medium">Sarah Amelia</div>
                   <div>290</div>
                 </div>
               </li>
               <li class="flex items-center gap-3 border-b border-[#FFB300]">
                 <div class="font-semibold w-5 text-end">3.</div>
-                <div
-                  class="flex justify-between text-black items-center w-full"
-                >
-                  <div class="font-medium">Udin N</div>
+                <div class="flex justify-between text-black items-center w-full">
+                  <div class="font-medium">Yoga Lesmana</div>
                   <div>280</div>
                 </div>
               </li>
               <li class="flex items-center gap-3 border-b border-[#FFB300]">
                 <div class="font-semibold w-5 text-end">4.</div>
-                <div
-                  class="flex justify-between text-black items-center w-full"
-                >
+                <div class="flex justify-between text-black items-center w-full">
                   <div class="font-medium">Zaki Ammar</div>
                   <div>270</div>
                 </div>
               </li>
               <li class="flex items-center gap-3 border-b border-[#FFB300]">
                 <div class="font-semibold w-5 text-end">5.</div>
-                <div
-                  class="flex justify-between text-black items-center w-full"
-                >
-                  <div class="font-medium">Asrun</div>
+                <div class="flex justify-between text-black items-center w-full">
+                  <div class="font-medium">Valencia</div>
                   <div>260</div>
                 </div>
               </li>
@@ -393,409 +520,397 @@
         </div>
 
         <!-- table + progress -->
-        <div class="mt-6 grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
-          <div class="lg:col-span-9 card overflow-hidden p-0">
-            <table class="min-w-full">
-              <thead>
-                <tr class="text-left text-sm text-gray-800">
-                  <th class="px-6 py-3 text-base font-semibold">Nama</th>
-                  <th class="px-6 py-3 text-base font-semibold">Jabatan</th>
-                  <th class="px-6 py-3 text-center text-base font-semibold">
-                    Harus diikuti
-                  </th>
-                  <th class="px-6 py-3 text-center text-base font-semibold">
-                    Belum dimulai
-                  </th>
-                  <th class="px-6 py-3 text-center text-base font-semibold">
-                    Berlangsung
-                  </th>
-                  <th class="px-6 py-3 text-center text-base font-semibold">
-                    Selesai
-                  </th>
-                  <th class="px-6 py-3 text-center text-base font-semibold">
-                    Nilai Rata - Rata
-                  </th>
-                </tr>
-              </thead>
+        <div class="mt-6 grid grid-cols-1 lg:grid-cols-12 gap-1 lg:gap-4 items-start">
+          <!-- TABLE WRAPPER: make responsive with sticky first column -->
+          <div class="col-span-1 lg:col-span-9 card overflow-hidden p-0">
+            <!-- .table-responsive memberikan horizontal scroll di layar sempit -->
+            <div class="table-responsive">
+              <!-- tambahkan class freeze-col ke table agar kolom pertama sticky -->
+              <table class="min-w-full border-separate border-spacing-0 freeze-col">
+                <thead class="bg-[var(--header-bg)]">
+                  <tr class="text-left text-sm text-gray-800">
+                    <th class="px-6 py-3 text-base font-semibold">Nama</th>
+                    <th class="px-6 py-3 text-base font-semibold">Jabatan</th>
+                    <th class="px-6 py-3 text-center text-base font-semibold">
+                      Harus diikuti
+                    </th>
+                    <th class="px-6 py-3 text-center text-base font-semibold">
+                      Belum dimulai
+                    </th>
+                    <th class="px-6 py-3 text-center text-base font-semibold">
+                      Berlangsung
+                    </th>
+                    <th class="px-6 py-3 text-center text-base font-semibold">
+                      Selesai
+                    </th>
+                    <th class="px-6 py-3 text-center text-base font-semibold">
+                      Nilai Rata - Rata
+                    </th>
+                  </tr>
+                </thead>
 
-              <tbody id="membersTbody" class="divide-y divide-[#FFB300]">
-                <!-- setiap row bisa punya data-date="YYYY-MM-DD" untuk filter (opsional) -->
-                <tr data-date="2025-01-15">
-                  <td class="px-6 py-3">Wardah Cahyani</td>
-                  <td class="px-6 py-3">Learning</td>
-                  <td class="px-6 py-3 text-center">12</td>
-                  <td class="px-6 py-3 text-center">1</td>
-                  <td class="px-6 py-3 text-center">10</td>
-                  <td class="px-6 py-3 text-center">1</td>
-                  <td class="px-6 py-3 text-center">8.1</td>
-                </tr>
+                <tbody
+                  id="membersTbody"
+                  class="divide-y divide-[#FFB300] bg-white"
+                >
+                  <tr data-date="2025-01-15">
+                    <td class="px-6 py-3">Wardah Cahyani</td>
+                    <td class="px-6 py-3">Learning</td>
+                    <td class="px-6 py-3 text-center">12</td>
+                    <td class="px-6 py-3 text-center">1</td>
+                    <td class="px-6 py-3 text-center">10</td>
+                    <td class="px-6 py-3 text-center">1</td>
+                    <td class="px-6 py-3 text-center">8.1</td>
+                  </tr>
 
-                <tr data-date="2025-02-20">
-                  <td class="px-6 py-3">Ervia Oktavia</td>
-                  <td class="px-6 py-3">Learning</td>
-                  <td class="px-6 py-3 text-center">12</td>
-                  <td class="px-6 py-3 text-center">1</td>
-                  <td class="px-6 py-3 text-center">9</td>
-                  <td class="px-6 py-3 text-center">2</td>
-                  <td class="px-6 py-3 text-center">9.0</td>
-                </tr>
+                  <tr data-date="2025-02-20">
+                    <td class="px-6 py-3">Ervia Oktavia</td>
+                    <td class="px-6 py-3">Learning</td>
+                    <td class="px-6 py-3 text-center">12</td>
+                    <td class="px-6 py-3 text-center">1</td>
+                    <td class="px-6 py-3 text-center">9</td>
+                    <td class="px-6 py-3 text-center">2</td>
+                    <td class="px-6 py-3 text-center">9.0</td>
+                  </tr>
 
-                <tr data-date="2025-04-10">
-                  <td class="px-6 py-3">Sarah Amelia</td>
-                  <td class="px-6 py-3">Learning</td>
-                  <td class="px-6 py-3 text-center">12</td>
-                  <td class="px-6 py-3 text-center">1</td>
-                  <td class="px-6 py-3 text-center">10</td>
-                  <td class="px-6 py-3 text-center">1</td>
-                  <td class="px-6 py-3 text-center">8.8</td>
-                </tr>
+                  <tr data-date="2025-04-10">
+                    <td class="px-6 py-3">Sarah Amelia</td>
+                    <td class="px-6 py-3">Learning</td>
+                    <td class="px-6 py-3 text-center">12</td>
+                    <td class="px-6 py-3 text-center">1</td>
+                    <td class="px-6 py-3 text-center">10</td>
+                    <td class="px-6 py-3 text-center">1</td>
+                    <td class="px-6 py-3 text-center">8.8</td>
+                  </tr>
 
-                <tr data-date="2025-06-05">
-                  <td class="px-6 py-3">Yoga Lesmana</td>
-                  <td class="px-6 py-3">Learning</td>
-                  <td class="px-6 py-3 text-center">12</td>
-                  <td class="px-6 py-3 text-center">1</td>
-                  <td class="px-6 py-3 text-center">1</td>
-                  <td class="px-6 py-3 text-center">10</td>
-                  <td class="px-6 py-3 text-center">9.5</td>
-                </tr>
+                  <tr data-date="2025-06-05">
+                    <td class="px-6 py-3">Yoga Lesmana</td>
+                    <td class="px-6 py-3">Learning</td>
+                    <td class="px-6 py-3 text-center">12</td>
+                    <td class="px-6 py-3 text-center">1</td>
+                    <td class="px-6 py-3 text-center">1</td>
+                    <td class="px-6 py-3 text-center">10</td>
+                    <td class="px-6 py-3 text-center">9.5</td>
+                  </tr>
 
-                <tr data-date="2025-07-02">
-                  <td class="px-6 py-3">Zaki Ammar</td>
-                  <td class="px-6 py-3">Learning</td>
-                  <td class="px-6 py-3 text-center">12</td>
-                  <td class="px-6 py-3 text-center">1</td>
-                  <td class="px-6 py-3 text-center">6</td>
-                  <td class="px-6 py-3 text-center">5</td>
-                  <td class="px-6 py-3 text-center">7.5</td>
-                </tr>
+                  <tr data-date="2025-07-02">
+                    <td class="px-6 py-3">Zaki Ammar</td>
+                    <td class="px-6 py-3">Learning</td>
+                    <td class="px-6 py-3 text-center">12</td>
+                    <td class="px-6 py-3 text-center">1</td>
+                    <td class="px-6 py-3 text-center">6</td>
+                    <td class="px-6 py-3 text-center">5</td>
+                    <td class="px-6 py-3 text-center">7.5</td>
+                  </tr>
 
-                <tr data-date="2025-03-03">
-                  <td class="px-6 py-3">Revina</td>
-                  <td class="px-6 py-3">Learning</td>
-                  <td class="px-6 py-3 text-center">16</td>
-                  <td class="px-6 py-3 text-center">2</td>
-                  <td class="px-6 py-3 text-center">10</td>
-                  <td class="px-6 py-3 text-center">4</td>
-                  <td class="px-6 py-3 text-center">8.0</td>
-                </tr>
+                  <tr data-date="2025-03-03">
+                    <td class="px-6 py-3">Revina</td>
+                    <td class="px-6 py-3">Learning</td>
+                    <td class="px-6 py-3 text-center">16</td>
+                    <td class="px-6 py-3 text-center">2</td>
+                    <td class="px-6 py-3 text-center">10</td>
+                    <td class="px-6 py-3 text-center">4</td>
+                    <td class="px-6 py-3 text-center">8.0</td>
+                  </tr>
 
-                <tr data-date="2025-05-11">
-                  <td class="px-6 py-3">Janter Sinaga</td>
-                  <td class="px-6 py-3">Learning</td>
-                  <td class="px-6 py-3 text-center">16</td>
-                  <td class="px-6 py-3 text-center">4</td>
-                  <td class="px-6 py-3 text-center">11</td>
-                  <td class="px-6 py-3 text-center">1</td>
-                  <td class="px-6 py-3 text-center">7.0</td>
-                </tr>
-              </tbody>
-            </table>
+                  <tr data-date="2025-05-11">
+                    <td class="px-6 py-3">Janter Sinaga</td>
+                    <td class="px-6 py-3">Learning</td>
+                    <td class="px-6 py-3 text-center">16</td>
+                    <td class="px-6 py-3 text-center">4</td>
+                    <td class="px-6 py-3 text-center">11</td>
+                    <td class="px-6 py-3 text-center">1</td>
+                    <td class="px-6 py-3 text-center">7.0</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
 
           <!-- ASIDE: Progress Tim (generated from table rows) -->
           <aside class="lg:col-span-3 card p-4 bg-[#DFF5E1]">
             <h4 class="font-semibold mb-3">Progress Tim</h4>
-            <div class="space-y-4" id="teamProgressList">
-              <!-- will be filled programmatically from table rows -->
-            </div>
+            <div class="space-y-4" id="teamProgressList"></div>
           </aside>
         </div>
       </section>
 
-      <!-- feedback list (kept simple) -->
-      <section class="mt-6">
-        <div class="card overflow-hidden">
-          <div
-            class="bg-[color:var(--brand)] text-white px-4 py-3 font-semibold"
-          >
-            Feedback Team Leader
-          </div>
-          <div class="mt-2 text-right">
-            <a href="#" class="text-sm text-gray-500 hover:underline"
-              >Lihat Selengkapnya</a
-            >
-          </div>
-          <div class="px-4">
-            <!-- list -->
-            <ul class="divide-y">
-              <li class="py-2 flex justify-between items-center">
-                <div class="flex item-center">
-                  <div class="font-semibold w-60">Wardah Cahyani</div>
-                  <div class="text-sm text-gray-600">
-                    Alur Proses Penjualan dan Pelunasan Piutang
-                  </div>
-                </div>
-                <div class="flex items-center gap-3">
-                  <button
-                    class="px-3 py-1 rounded bg-red-600 text-white text-sm"
-                  >
-                    Menunggu Penilaian
-                  </button>
-                </div>
-              </li>
-
-              <li class="py-4 flex justify-between items-center">
-                <div class="flex item-center">
-                  <div class="font-semibold w-60">Ervia Oktaviani</div>
-                  <div class="text-sm text-gray-600">
-                    Alur Proses Penjualan dan Pelunasan Piutang
-                  </div>
-                </div>
-                <div class="flex items-center gap-3">
-                  <button
-                    class="px-3 py-1 rounded bg-red-600 text-white text-sm"
-                  >
-                    Menunggu Penilaian
-                  </button>
-                </div>
-              </li>
-
-              <li class="py-4 flex justify-between items-center">
-                <div class="flex item-center">
-                  <div class="font-semibold w-60">Sarah Amelia</div>
-                  <div class="text-sm text-gray-600">
-                    Alur Proses Penjualan
-                  </div>
-                </div>
-                <div class="flex items-center gap-3">
-                  <button
-                    class="px-3 py-1 rounded bg-emerald-500 text-white text-sm"
-                  >
-                    Penilaian Selesai
-                  </button>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
       <!-- Pelatihan Selesai -->
-      <section class="my-6">
-        <h2
-          class="px-4 py-2 mb-4 text-lg font-bold text-white bg-[#a80308] rounded-xl"
-        >
-          Pelatihan Selesai
-        </h2>
-
-        <form
-          onsubmit="handleSearch(event)"
-          class="w-full mt-4"
-          role="search"
-          aria-label="Cari kursus"
-        >
-          <div
-            class="p-3 shadow-sm flex flex-col md:flex-row gap-3 items-center"
+      <section id="pelatihan" class="my-4 lg:my-8">
+        <div class="flex flex-col mb-1 md:mb-4">
+          <h2
+            class="px-4 py-2 text-sm md:text-lg lg:text-3xl font-bold text-white bg-[#A80308] rounded-xl"
           >
-            <!-- Search input (besar) -->
-            <div
-              class="flex items-center w-full md:flex-1 bg-[#E7E7E7] text-black rounded-md px-3 h-10"
-            >
-              <input
-                id="searchInput"
-                type="search"
-                name="q"
-                class="flex-1 bg-transparent border-0 outline-none text-black placeholder-gray-500 text-sm"
-                placeholder="Cari kursus..."
-                aria-label="Cari kursus"
-              />
-              <button
-                type="submit"
-                class="ml-3 inline-flex items-center gap-2 rounded-md px-3 py-1 text-sm font-semibold text-gray-500 bg-transparent"
-                aria-label="Cari"
-              >
-                <svg
-                  class="w-4 h-4"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  aria-hidden="true"
+            Pelatihan Selesai
+          </h2>
+        </div>
+
+        <!-- SEARCH bar wrapper -->
+        <div class="mt-6">
+          <form
+            onsubmit="handleSearch(event)"
+            class="w-full mt-4 mx-auto"
+            role="search"
+            aria-label="Cari kursus"
+          >
+            <div class="hero-search-wrap rounded-lg p-2 md:p-3">
+              <div class="flex flex-col md:flex-row md:items-center gap-3">
+                <div
+                  class="flex items-center bg-[#E7E7E7] text-[#898989] rounded-md px-3 py-2 flex-1 h-9 min-w-0 search-input"
                 >
-                  <path
-                    d="M21 21l-4.35-4.35"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                  <label for="q" class="sr-only">Cari kursus</label>
+                  <input
+                    id="q"
+                    type="search"
+                    name="q"
+                    class="min-w-0 w-full bg-transparent border-0 outline-none text-black placeholder-gray-500 text-sm"
+                    placeholder="Cari kursus..."
+                    aria-label="Cari kursus"
                   />
-                  <circle
-                    cx="11"
-                    cy="11"
-                    r="6"
-                    stroke="currentColor"
-                    stroke-width="2"
-                  />
-                </svg>
-                Search
-              </button>
+                  <button
+                    type="submit"
+                    class="ml-3 inline-flex items-center gap-2 rounded-md px-3 py-1 text-sm font-semibold text-[#898989] bg-transparent btn-focus"
+                    aria-label="Cari"
+                  >
+                    <svg
+                      class="w-4 h-4"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M21 21l-4.35-4.35"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <circle
+                        cx="11"
+                        cy="11"
+                        r="6"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      />
+                    </svg>
+                    <span class="hidden md:inline">Search</span>
+                  </button>
+                </div>
+
+                <div
+                  class="flex flex-col md:flex-row md:items-center gap-2 w-full md:w-auto select-group"
+                >
+                  <div class="w-full md:w-auto select-shrink">
+                    <label class="sr-only" for="kategori">Kategori</label>
+                    <select
+                      id="kategori"
+                      name="kategori"
+                      class="w-full md:w-auto block rounded-md px-3 py-2 text-xs md:text-sm border border-white/10 bg-[#E7E7E7] text-[#898989] outline-none"
+                    >
+                      <option value="">Kategori</option>
+                      <option value="mandatory">Mandatory</option>
+                      <option value="functional-sop">Functional SOP</option>
+                      <option value="functional-skill">Functional Skill</option>
+                      <option value="development">Development</option>
+                    </select>
+                  </div>
+                  <div class="w-full md:w-auto select-shrink">
+                    <label class="sr-only" for="status">Status</label>
+                    <select
+                      id="status"
+                      name="status"
+                      class="w-full md:w-auto block rounded-md px-3 py-2 text-xs md:text-sm border border-white/10 bg-[#E7E7E7] text-[#898989] outline-none"
+                    >
+                      <option value="">Status</option>
+                      <option value="private">Private</option>
+                      <option value="public">Public</option>
+                    </select>
+                  </div>
+                  <div class="w-full md:w-auto select-shrink">
+                    <label class="sr-only" for="progress">Progress</label>
+                    <select
+                      id="progress"
+                      name="progress"
+                      class="w-full md:w-auto block rounded-md px-3 py-2 text-xs md:text-sm border border-white/10 bg-[#E7E7E7] text-[#898989] outline-none"
+                    >
+                      <option value="">Progress</option>
+                      <option value="not-started">Belum Dimulai</option>
+                      <option value="in-progress">Berlangsung</option>
+                      <option value="completed">Selesai</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
             </div>
-
-            <!-- Dropdowns (compact) -->
-            <div class="flex gap-2 items-center w-full md:w-auto">
-              <label class="sr-only" for="kategori">Kategori</label>
-              <select
-                id="kategori"
-                name="kategori"
-                class="bg-[#E7E7E7] text-gray-600 text-sm rounded-md px-4 h-10 border border-white/6 outline-none"
-              >
-                <option value="" class="text-black">Kategori</option>
-                <option value="mandatory" class="text-black">Mandatory</option>
-                <option value="functional-sop" class="text-black">
-                  Functional SOP
-                </option>
-                <option value="functional-skill" class="text-black">
-                  Functional Skill
-                </option>
-                <option value="development" class="text-black">
-                  Development
-                </option>
-              </select>
-
-              <label class="sr-only" for="status">Status</label>
-              <select
-                id="status"
-                name="status"
-                class="bg-[#E7E7E7] text-gray-600 text-sm rounded-md px-3 h-10 border border-white/6 outline-none"
-              >
-                <option value="" class="text-black">Status</option>
-                <option value="private" class="text-black">Private</option>
-                <option value="public" class="text-black">Public</option>
-              </select>
-
-              <label class="sr-only" for="progress">Progress</label>
-              <select
-                id="progress"
-                name="progress"
-                class="bg-[#E7E7E7] text-gray-600 text-sm rounded-md px-3 h-10 border border-white/6 outline-none"
-              >
-                <option value="" class="text-black">Progress</option>
-                <option value="not-started" class="text-black">
-                  Belum Dimulai
-                </option>
-                <option value="in-progress" class="text-black">
-                  Berlangsung
-                </option>
-                <option value="completed" class="text-black">Selesai</option>
-              </select>
-            </div>
-          </div>
-        </form>
+          </form>
+        </div>
 
         <div
-          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6 course-grid-row"
-          id="doneGrid"
+          id="courseGrid"
+          class="grid gap-2 md:gap-6 grid-cols-2 lg:grid-cols-3 mt-6"
         >
           <!-- CARD 1 -->
-          <div class="bg-white rounded-lg overflow-hidden shadow">
+          <article
+            class="card-item bg-white rounded-lg overflow-hidden shadow flex flex-col h-full"
+          >
             <div
               class="flex justify-between items-center px-3 py-2 gap-2 text-sm font-semibold"
             >
               <div title="Terbuka">🔓</div>
-              <span class="bg-green-600 text-white px-3 py-1 rounded-lg"
+              <span
+                class="bg-[#28A745] text-white px-1 md:px-3 py-0.5 md:py-1 text-[8px] md:text-base rounded-sm md:rounded-lg"
                 >Selesai</span
               >
             </div>
-            <img src="../img/course1.png" alt="course 1" class="w-full" />
-            <div class="p-4">
-              <h4 class="text-2xl font-extrabold text-center mb-3 h-16">
+
+            <div class="w-full h-auto overflow-hidden">
+              <img
+                src="../img/course1.png"
+                alt="course 1"
+                class="w-full h-full object-cover"
+              />
+            </div>
+
+            <div class="flex-1 flex flex-col">
+              <div class="md:p-4 w-full">
+                <div
+                  class="flex justify-between items-center text-[#898989] progress-wrapper"
+                >
+                  <div
+                    class="w-[80%] 2xl:w-[85%] bg-[#E7E7E7] rounded h-1 relative progress-bar"
+                  >
+                    <div
+                      class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                      style="width: 0%"
+                      role="progressbar"
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                      aria-valuenow="0"
+                    ></div>
+                  </div>
+                  <span class="progress-text text-[8px] md:text-base px-1"
+                    >14 / 14</span
+                  >
+                </div>
+              </div>
+
+              <h4 class="text-xs md:text-2xl font-bold text-center h-auto">
                 ALUR PROSES PENERIMAAN PESANAN
               </h4>
-              <div
-                class="flex justify-between items-center text-sm text-gray-500 progress-wrapper"
-              >
-                <div
-                  class="w-[87%] bg-gray-200 rounded h-1 relative progress-bar"
-                >
-                  <div
-                    class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
-                    style="width: 0%"
-                    role="progressbar"
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                    aria-valuenow="0"
-                  ></div>
-                </div>
-                <span class="progress-text pl-2">14 / 14</span>
-              </div>
             </div>
-          </div>
+          </article>
 
           <!-- CARD 2 -->
-          <div class="bg-white rounded-lg overflow-hidden shadow">
+          <article
+            class="card-item bg-white rounded-lg overflow-hidden shadow flex flex-col h-full"
+          >
             <div
               class="flex justify-between items-center px-3 py-2 gap-2 text-sm font-semibold"
             >
               <div title="Terbuka">🔓</div>
-              <span class="bg-green-600 text-white px-3 py-1 rounded-lg"
-                >Selesai</span
+              <span
+                class="bg-[#FFB300] text-white px-1 md:px-3 py-0.5 md:py-1 text-[8px] md:text-base rounded-sm md:rounded-lg"
+                >Lanjutkan</span
               >
             </div>
-            <img src="../img/course2.png" alt="course 2" class="w-full" />
-            <div class="p-4">
-              <h4 class="text-2xl font-extrabold text-center mb-3 h-16">
+
+            <div class="w-full h-auto overflow-hidden">
+              <img
+                src="../img/course2.png"
+                alt="course 2"
+                class="w-full h-full object-cover"
+              />
+            </div>
+
+            <div class="flex-1 flex flex-col">
+              <div class="md:p-4 w-full">
+                <div
+                  class="flex justify-between items-center text-[#898989] progress-wrapper"
+                >
+                  <div
+                    class="w-[80%] 2xl:w-[85%] bg-[#E7E7E7] rounded h-1 relative progress-bar"
+                  >
+                    <div
+                      class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                      style="width: 0%"
+                      role="progressbar"
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                      aria-valuenow="0"
+                    ></div>
+                  </div>
+                  <span class="progress-text text-[8px] md:text-base px-1"
+                    >10 / 10</span
+                  >
+                </div>
+              </div>
+
+              <h4 class="text-xs md:text-2xl font-bold text-center h-16">
                 PROSES PEMBUATAN DOKUMEN SALES ORDER (SO)
               </h4>
-              <div
-                class="flex justify-between items-center text-sm text-gray-500 progress-wrapper"
-              >
-                <div
-                  class="w-[87%] bg-gray-200 rounded h-1 relative progress-bar"
-                >
-                  <div
-                    class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
-                    style="width: 0%"
-                    role="progressbar"
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                    aria-valuenow="0"
-                  ></div>
-                </div>
-                <span class="progress-text pl-2">10 / 10</span>
-              </div>
             </div>
-          </div>
+          </article>
 
           <!-- CARD 3 -->
-          <div class="bg-white rounded-lg overflow-hidden shadow">
+          <article
+            class="card-item hidden lg:flex bg-white rounded-lg overflow-hidden shadow flex-col h-full"
+          >
             <div
               class="flex justify-between items-center px-3 py-2 gap-2 text-sm font-semibold"
             >
-              <div title="Terbuka">🔓</div>
-              <span class="bg-green-600 text-white px-3 py-1 rounded-lg"
-                >Selesai</span
+              <div title="Terkunci">🔒</div>
+              <span
+                class="bg-[#a80308] text-white px-1 md:px-3 py-0.5 md:py-1 text-[8px] md:text-base rounded-sm md:rounded-lg"
+                >Mulai</span
               >
             </div>
-            <img src="../img/course3.png" alt="course 3" class="w-full" />
-            <div class="p-4">
-              <h4 class="text-2xl font-extrabold text-center mb-3 h-16">
-                PERSIAPAN PENGIRIMAN BARANG
-              </h4>
-              <div
-                class="flex justify-between items-center text-sm text-gray-500 progress-wrapper"
-              >
+
+            <div class="w-full h-auto overflow-hidden">
+              <img
+                src="../img/course3.png"
+                alt="course 3"
+                class="w-full h-full object-cover"
+              />
+            </div>
+
+            <div class="flex-1 flex flex-col">
+              <div class="md:p-4 w-full">
                 <div
-                  class="w-[87%] bg-gray-200 rounded h-1 relative progress-bar"
+                  class="flex justify-between items-center text-[#898989] progress-wrapper"
                 >
                   <div
-                    class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
-                    style="width: 0%"
-                    role="progressbar"
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                    aria-valuenow="0"
-                  ></div>
+                    class="w-[80%] 2xl:w-[85%] bg-[#E7E7E7] rounded h-1 relative progress-bar"
+                  >
+                    <div
+                      class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                      style="width: 0%"
+                      role="progressbar"
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                      aria-valuenow="0"
+                    ></div>
+                  </div>
+                  <span class="progress-text text-[8px] md:text-base px-1"
+                    >6 / 6</span
+                  >
                 </div>
-                <span class="progress-text pl-2">6 / 6</span>
               </div>
+
+              <h4 class="text-xs md:text-2xl font-bold text-center h-16">
+                PERSIAPAN PENGIRIMAN BARANG
+              </h4>
             </div>
-          </div>
+          </article>
         </div>
       </section>
     </main>
 
-    <script>
+    <!-- Module script: imports motion animate helper and contains all logic -->
+    <script type="module">
+      import { animate } from "https://cdn.jsdelivr.net/npm/motion@latest/+esm";
+
       /* -------------------------
-         Progress bar helpers
+         Helpers: parse & progress
          ------------------------- */
       function parseProgressText(text) {
         const m = String(text).match(/(\d+)\s*\/\s*(\d+)/);
@@ -810,18 +925,25 @@
 
         const nums = parseProgressText(span.textContent || "");
         if (!nums) {
-          fill.style.width = "0%";
+          animate(
+            fill,
+            { width: "0%" },
+            { duration: 0.35, easing: "ease-in-out" }
+          );
           fill.setAttribute("aria-valuenow", 0);
           return;
         }
 
         const [cur, total] = nums;
         let pct = total === 0 ? 0 : (cur / total) * 100;
-        pct = Math.max(0, Math.min(100, pct));
-        const pctStr = Math.round(pct * 100) / 100 + "%";
-        fill.style.width = pctStr;
+        pct = Math.max(0, Math.min(100, +pct.toFixed(2)));
+        const pctStr = pct + "%";
 
-        // ARIA: set percent for accessibility
+        animate(
+          fill,
+          { width: pctStr },
+          { duration: 0.5, easing: "cubic-bezier(.2,.9,.2,1)" }
+        );
         fill.setAttribute("aria-valuenow", Math.round(pct));
         fill.setAttribute("aria-valuemax", 100);
         fill.setAttribute("aria-valuemin", 0);
@@ -830,15 +952,10 @@
       function initProgressWrappers() {
         const wrappers = document.querySelectorAll(".progress-wrapper");
         wrappers.forEach((wrapper) => {
-          // update initially
-          updateProgress(wrapper);
-
-          // observe changes to progress-text so bar updates automatically
+          setTimeout(() => updateProgress(wrapper), 30);
           const span = wrapper.querySelector(".progress-text");
           if (span) {
-            const mo = new MutationObserver(() => {
-              updateProgress(wrapper);
-            });
+            const mo = new MutationObserver(() => updateProgress(wrapper));
             mo.observe(span, {
               characterData: true,
               childList: true,
@@ -849,25 +966,14 @@
       }
 
       /* -------------------------
-         Utility parse helpers
-         ------------------------- */
-      function parseNumber(value) {
-        if (value === null || value === undefined) return 0;
-        const s = String(value)
-          .trim()
-          .replace(",", ".")
-          .replace(/[^0-9.\-]/g, "");
-        if (s === "") return 0;
-        const f = parseFloat(s);
-        return isNaN(f) ? 0 : f;
-      }
-
-      /* -------------------------
-         Donut chart initialization
+         Donut (Chart.js)
          ------------------------- */
       let donutChart = null;
       function initDonut() {
-        const ctx = document.getElementById("donutChart").getContext("2d");
+        const canvas = document.getElementById("donutChart");
+        if (!canvas) return;
+        const ctx = canvas.getContext("2d");
+        // Ensure canvas has size (we set via CSS .chart-box)
         donutChart = new Chart(ctx, {
           type: "doughnut",
           data: {
@@ -883,54 +989,44 @@
           options: {
             cutout: "60%",
             maintainAspectRatio: false,
-            plugins: {
-              legend: { display: false },
-              tooltip: {
-                callbacks: { label: (ctx) => `${ctx.label}: ${ctx.raw}` },
-              },
-            },
+            responsive: true,
+            plugins: { legend: { display: false } },
+            animation: { duration: 600, easing: "easeOutQuart" },
           },
         });
       }
 
       function updateDonut(newData) {
         if (!donutChart) initDonut();
+        if (!donutChart) return;
         donutChart.data.datasets[0].data = newData;
         donutChart.update();
       }
 
       /* -------------------------
-         Build team list from visible table rows
+         Team progress builder (staggered, lembut)
          ------------------------- */
       function buildTeamListFromTable() {
         const tbody = document.getElementById("membersTbody");
         const container = document.getElementById("teamProgressList");
         if (!tbody || !container) return;
 
-        // clear existing
         container.innerHTML = "";
-
         const rows = Array.from(tbody.querySelectorAll("tr")).filter(
           (r) => r.style.display !== "none"
         );
 
-        rows.forEach((row) => {
+        rows.forEach((row, i) => {
           const cells = row.querySelectorAll("td");
           const name = (cells[0]?.textContent || "").trim();
-          const harus = parseNumber(cells[2]?.textContent);
-          const berlangsung = parseNumber(cells[4]?.textContent);
-          const selesai = parseNumber(cells[5]?.textContent);
+          const harus = parseFloat(cells[2]?.textContent) || 0;
+          const selesai = parseFloat(cells[5]?.textContent) || 0;
 
-          // default formula: selesai / harus
           let pct = 0;
-          if (harus > 0) {
-            pct = Math.round((selesai / harus) * 100);
-          } else {
-            pct = selesai > 0 ? 100 : 0;
-          }
+          if (harus > 0) pct = Math.round((selesai / harus) * 100);
+          else pct = selesai > 0 ? 100 : 0;
           pct = Math.max(0, Math.min(100, isNaN(pct) ? 0 : pct));
 
-          // Build DOM
           const teamRow = document.createElement("div");
           teamRow.className = "flex items-center gap-3 team-row";
 
@@ -953,27 +1049,21 @@
 
           const fill = document.createElement("div");
           fill.className = "fill team-fill";
-          fill.style.width = pct + "%";
+          fill.style.width = "0%"; // start at 0 for animation
           fill.setAttribute("role", "progressbar");
           fill.setAttribute("aria-valuemin", "0");
           fill.setAttribute("aria-valuemax", "100");
-          fill.setAttribute("aria-valuenow", String(pct));
+          fill.setAttribute("aria-valuenow", "0");
           fill.setAttribute("title", pct + "%");
 
-          // color by threshold
-          if (pct >= 80) {
-            fill.style.background = "#2f855a";
-          } else if (pct >= 50) {
-            fill.style.background = "#D69E2E";
-          } else {
-            fill.style.background = "#4d4d4d";
-          }
+          if (pct >= 80) fill.style.background = "#2f855a";
+          else if (pct >= 50) fill.style.background = "#D69E2E";
+          else fill.style.background = "#4d4d4d";
 
           const pctLabel = document.createElement("div");
           pctLabel.className = "team-pct";
           pctLabel.textContent = pct + "%";
 
-          // assemble
           mini.appendChild(fill);
           mt2.appendChild(mini);
           mt2.appendChild(pctLabel);
@@ -981,14 +1071,36 @@
           flex1.appendChild(mt2);
           teamRow.appendChild(img);
           teamRow.appendChild(flex1);
-
           container.appendChild(teamRow);
+
+          // gentle staggered animation
+          const delay = i * 0.08; // seconds
+          animate(
+            fill,
+            { width: pct + "%" },
+            { duration: 0.7, easing: "ease-out", delay }
+          );
+          setTimeout(
+            () => fill.setAttribute("aria-valuenow", String(pct)),
+            (delay + 0.72) * 1000
+          );
         });
       }
 
       /* -------------------------
-         Compute totals from table
+         Compute totals from table (SAFE: check element existence)
          ------------------------- */
+      function parseNumber(value) {
+        if (value === null || value === undefined) return 0;
+        const s = String(value)
+          .trim()
+          .replace(",", ".")
+          .replace(/[^0-9.\-]/g, "");
+        if (s === "") return 0;
+        const f = parseFloat(s);
+        return isNaN(f) ? 0 : f;
+      }
+
       function computeFromTable() {
         const tbody = document.getElementById("membersTbody");
         if (!tbody) return;
@@ -1025,16 +1137,17 @@
           totalHarus > 0 ? Math.round((totalSelesai / totalHarus) * 100) : 0;
         const avgScore = scoreCount > 0 ? sumScore / scoreCount : 0;
 
-        // update stat cards
-        document.getElementById("stat-team").textContent = visibleRows;
-        document.getElementById("stat-running").textContent = totalBerlangsung;
-        document.getElementById("stat-progress").textContent = capaianPct + "%";
-        document.getElementById("stat-score").textContent = avgScore.toFixed(2);
+        // SAFE set: only set if elements exist
+        const setIf = (id, val) => {
+          const el = document.getElementById(id);
+          if (el) el.textContent = val;
+        };
+        setIf("stat-team", visibleRows);
+        setIf("stat-running", totalBerlangsung);
+        setIf("stat-progress", capaianPct + "%");
+        setIf("stat-score", avgScore.toFixed(2));
 
-        // update donut: [selesai, berlangsung, belum]
         updateDonut([totalSelesai, totalBerlangsung, totalBelum]);
-
-        // rebuild team list from visible rows
         buildTeamListFromTable();
 
         return {
@@ -1054,9 +1167,7 @@
       function observeTableMutations() {
         const tbody = document.getElementById("membersTbody");
         if (!tbody) return;
-        const mo = new MutationObserver(() => {
-          computeFromTable();
-        });
+        const mo = new MutationObserver(() => computeFromTable());
         mo.observe(tbody, {
           childList: true,
           subtree: true,
@@ -1065,7 +1176,7 @@
       }
 
       /* -------------------------
-         Date range filter (flatpickr)
+         Flatpickr range filter
          ------------------------- */
       const fp = flatpickr("#dateRange", {
         mode: "range",
@@ -1126,16 +1237,146 @@
       });
 
       /* -------------------------
-         Init on DOM ready
+         Mobile nav (overlay + animated)
          ------------------------- */
-      document.addEventListener("DOMContentLoaded", () => {
+      function initMobileNav() {
+        const toggle = document.getElementById("mobileNavToggle");
+        const menu = document.getElementById("mobileMenu");
+        const hamburgerIcon = document.getElementById("hamburgerIcon");
+        const closeIcon = document.getElementById("closeIcon");
+        if (!toggle || !menu) return;
+
+        // initial ARIA / style
+        toggle.setAttribute("aria-expanded", "false");
+        menu.setAttribute("aria-hidden", "true");
+        menu.style.display = "none";
+        menu.style.transform = "scaleY(0)";
+        menu.style.opacity = "0";
+        menu.style.transformOrigin = "top";
+
+        let open = false,
+          currentAnim = null;
+
+        const openMenu = () => {
+          if (currentAnim && currentAnim.cancel) currentAnim.cancel();
+          menu.style.display = "block";
+          currentAnim = animate(
+            menu,
+            { scale: [0.95, 1], opacity: [0, 1] },
+            { duration: 0.28, easing: "cubic-bezier(.2,.9,.2,1)" }
+          );
+          toggle.setAttribute("aria-expanded", "true");
+          menu.setAttribute("aria-hidden", "false");
+          hamburgerIcon.classList.add("hidden");
+          closeIcon.classList.remove("hidden");
+          open = true;
+        };
+
+        const closeMenu = () => {
+          if (!open) return;
+          if (currentAnim && currentAnim.cancel) currentAnim.cancel();
+          currentAnim = animate(
+            menu,
+            { scale: [1, 0.95], opacity: [1, 0] },
+            { duration: 0.22, easing: "ease-in" }
+          );
+          toggle.setAttribute("aria-expanded", "false");
+          menu.setAttribute("aria-hidden", "true");
+          hamburgerIcon.classList.remove("hidden");
+          closeIcon.classList.add("hidden");
+          currentAnim.finished.finally(() => {
+            menu.style.display = "none";
+            menu.style.transform = "scaleY(0)";
+            menu.style.opacity = "0";
+            currentAnim = null;
+          });
+          open = false;
+        };
+
+        toggle.addEventListener("click", (e) => {
+          e.stopPropagation();
+          if (open) closeMenu();
+          else openMenu();
+        });
+
+        // close on outside click
+        document.addEventListener("click", (ev) => {
+          if (!open) return;
+          if (!menu.contains(ev.target) && !toggle.contains(ev.target))
+            closeMenu();
+        });
+
+        // close on scroll/resize
+        window.addEventListener(
+          "scroll",
+          () => {
+            if (open) closeMenu();
+          },
+          { passive: true }
+        );
+        window.addEventListener("resize", () => {
+          if (window.innerWidth >= 1024 && menu.style.display !== "none")
+            closeMenu();
+        });
+      }
+
+      /* -------------------------
+         Entrance animations (hero + cards)
+         ------------------------- */
+      function initEntranceAnimations() {
+        const hero = document.getElementById("heroBlock");
+        if (hero) {
+          hero.style.opacity = "0";
+          animate(
+            hero,
+            { x: [-18, 0], opacity: [0, 1] },
+            { duration: 0.6, easing: "ease-out" }
+          );
+        }
+
+        const cards = document.querySelectorAll(
+          ".course-grid-row > div, .card, .col-span-1, .stat-card, .leaderboard li, .card-item"
+        );
+        const io = new IntersectionObserver(
+          (entries, obs) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                const el = entry.target;
+                el.style.opacity = "0";
+                animate(
+                  el,
+                  { y: [12, 0], opacity: [0, 1] },
+                  { duration: 0.45, easing: "ease-out" }
+                );
+                obs.unobserve(el);
+              }
+            });
+          },
+          { threshold: 0.12 }
+        );
+
+        cards.forEach((c) => io.observe(c));
+      }
+
+      /* -------------------------
+         Init all on ready
+         ------------------------- */
+      function initAll() {
         initDonut();
+        initProgressWrappers();
         computeFromTable();
         observeTableMutations();
-        initProgressWrappers(); // <-- penting: inisialisasi progress bars (hero & cards)
-      });
+        initMobileNav();
+        initEntranceAnimations();
+      }
 
-      // Expose helper for debugging
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initAll);
+      } else {
+        initAll();
+      }
+
+      // Expose for debugging
       window.computeFromTable = computeFromTable;
       window.buildTeamListFromTable = buildTeamListFromTable;
       window.initProgressWrappers = initProgressWrappers;

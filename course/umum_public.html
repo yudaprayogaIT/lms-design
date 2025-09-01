@@ -1,0 +1,1547 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>LMS — Pelatihan</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+      :root {
+        --brand: #a80308;
+        --accent: #a80308;
+        --yellow: #ffd24d;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial;
+        color: #0b1220;
+        background: #fff;
+        margin: 0;
+      }
+
+      /* HERO & SEARCH */
+      .hero-wrap {
+        border-radius: 12px;
+      }
+      .search-outline {
+        border: 2px solid var(--yellow);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px;
+        /* IMPORTANT: remove horizontal scroll - allow flexible shrinking */
+        overflow: visible;
+        box-sizing: border-box;
+      }
+
+      /* search children sizing */
+      .search-input {
+        display: flex;
+        align-items: center;
+        background: white;
+        padding: 6px 10px;
+        border-radius: 6px;
+        min-width: 0; /* allow proper shrinking inside flex */
+        flex: 1 1 140px; /* grow, can shrink, base 140px */
+        box-sizing: border-box;
+      }
+      .search-input input {
+        flex: 1 1 80px;
+        min-width: 80px;
+        border: 0;
+        outline: none;
+        background: transparent;
+        font-size: 14px;
+      }
+
+      .search-control {
+        flex: 0 0 auto;
+        min-width: 72px;
+      }
+      .create-btn {
+        flex: 0 0 auto;
+        min-width: 84px;
+      }
+
+      /* make select / buttons slightly smaller on tiny screens */
+      @media (max-width: 420px) {
+        .search-outline {
+          gap: 6px;
+          padding: 5px;
+        }
+        .search-input {
+          padding: 6px 8px;
+        }
+        .search-input input {
+          font-size: 13px;
+        }
+        .search-control {
+          min-width: 64px;
+        }
+        .create-btn {
+          min-width: 72px;
+          padding: 6px 8px;
+          font-size: 13px;
+        }
+        .hero-wrap {
+          padding: 14px;
+        }
+        .hero-title {
+          font-size: 1.05rem;
+        }
+        .hero-desc {
+          font-size: 12px;
+        }
+      }
+
+      /* Progress / fill */
+      .progress-bar {
+        overflow: hidden;
+        border-radius: 6px;
+      }
+      .progress-fill {
+        will-change: width;
+      }
+
+      /* FAQ content initial (JS controls height/visibility) */
+      .faq-content {
+        overflow: hidden;
+      }
+
+      /* focus visible only for keyboard */
+      .faq-btn:focus-visible,
+      .btn-focus:focus-visible {
+        outline: 3px solid rgba(168, 3, 8, 0.18);
+        outline-offset: 2px;
+      }
+
+      /* small aesthetic */
+      .card-item img {
+        display: block;
+      }
+    </style>
+  </head>
+  <body class="font-[Inter] text-[#0b1220] bg-white">
+    <!-- NAVBAR -->
+    <nav
+      class="flex items-center justify-between px-2 py-1 md:px-8 md:py-4 border-b-2 border-gray-200 mb-4 bg-white"
+    >
+      <div class="flex items-center font-semibold justify-center gap-3 lg:gap-5">
+        <img src="../img/logo.png" alt="Logo" class="w-5 md:w-10 md:mr-2" />
+        <a
+          href="../home/public.html"
+          class="px-2 lg:px-4 md:py-1 rounded-sm md:rounded-full text-sm md:text-base lg:text-xl font-semibold text-black hover:bg-gray-100"
+          >Home</a
+        >
+      </div>
+      <div class="flex items-center gap-2 lg:gap-4">
+        <a
+          href="../login/index.html"
+          class="px-2 lg:px-4 md:py-1 rounded-sm md:rounded-full text-sm md:text-base lg:text-xl font-semibold text-black hover:bg-gray-100"
+          >Login</a
+        >
+        <img
+          src="../img/pp.png"
+          alt="Profile"
+          class="w-7 h-7 md:w-12 md:h-12 rounded-lg"
+        />
+      </div>
+    </nav>
+
+    <main class="mx-3 md:mx-8 my-4 lg:my-6 absolute">
+      <!-- SECTION HEADER -->
+      <h2
+        class="px-3 md:px-4 py-2 text-sm md:text-lg lg:text-3xl font-bold text-white bg-[color:var(--brand)] rounded-xl mb-4"
+      >
+        Pelatihan Umum
+      </h2>
+
+      <!-- HERO -->
+      <section
+        class="hero-wrap bg-black text-white rounded-xl p-3 md:p-10 my-4 shadow-lg relative overflow-hidden"
+      >
+        <div id="heroContent" class="max-w-6xl mx-auto text-center">
+          <h1 class="hero-title font-bold text-lg md:text-3xl lg:text-4xl">
+            Tingkatkan Skill Anda Sekarang!
+          </h1>
+          <p
+            class="hero-desc mt-2 text-[12px] md:text-base lg:text-lg max-w-3xl mx-auto"
+          >
+            Platform pembelajaran internal untuk meningkatkan kompetensi dan
+            kinerja seluruh tim Ekatunggal. Pelajari materi sesuai jabatan,
+            ikuti pelatihan, dan raih sertifikatmu!
+          </p>
+
+          <!-- SEARCH bar wrapper -->
+          <div class="mt-6">
+            <form
+              onsubmit="handleSearch(event)"
+              class="w-full max-w-7xl mt-4 mx-auto"
+              role="search"
+              aria-label="Cari kursus"
+            >
+              <!-- outer container: provides subtle bg on hero -->
+              <div class="hero-search-wrap rounded-lg p-2 md:p-3 shadow-sm">
+                <!-- layout switches: column on small, row on md+ -->
+                <div class="flex flex-col md:flex-row md:items-center gap-3">
+                  <!-- search input group: will shrink properly due to min-w-0 -->
+                  <div
+                    class="flex items-center bg-white text-black rounded-md px-3 py-2 flex-1 h-9 min-w-0 search-input"
+                  >
+                    <label for="q" class="sr-only">Cari kursus</label>
+                    <input
+                      id="q"
+                      type="search"
+                      name="q"
+                      class="min-w-0 w-full bg-transparent border-0 outline-none text-black placeholder-gray-500 text-sm"
+                      placeholder="Cari kursus..."
+                      aria-label="Cari kursus"
+                    />
+
+                    <button
+                      type="submit"
+                      class="ml-3 inline-flex items-center gap-2 rounded-md px-3 py-1 text-sm font-semibold text-gray-700 bg-transparent btn-focus"
+                      aria-label="Cari"
+                    >
+                      <svg
+                        class="w-4 h-4"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        aria-hidden="true"
+                      >
+                        <path
+                          d="M21 21l-4.35-4.35"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                        <circle
+                          cx="11"
+                          cy="11"
+                          r="6"
+                          stroke="currentColor"
+                          stroke-width="2"
+                        />
+                      </svg>
+                      <span class="hidden md:inline">Search</span>
+                    </button>
+                  </div>
+
+                  <!-- controls group:
+                       on small screens, these become full-width stack (flex-col)
+                       on md+ screens, they are inline (flex-row) -->
+                  <div
+                    class="flex flex-col md:flex-row md:items-center gap-2 w-full md:w-auto select-group"
+                  >
+                    <div class="w-full md:w-auto select-shrink">
+                      <label class="sr-only" for="kategori">Kategori</label>
+                      <select
+                        id="kategori"
+                        name="kategori"
+                        class="w-full md:w-auto block rounded-md px-3 py-2 text-sm border border-white/10 bg-white/90 text-gray-700 outline-none"
+                      >
+                        <option value="">Kategori</option>
+                        <option value="mandatory">Mandatory</option>
+                        <option value="functional-sop">Functional SOP</option>
+                        <option value="functional-skill">Functional Skill</option>
+                        <option value="development">Development</option>
+                      </select>
+                    </div>
+
+                    <div class="w-full md:w-auto select-shrink">
+                      <label class="sr-only" for="progress">Progress</label>
+                      <select
+                        id="progress"
+                        name="progress"
+                        class="w-full md:w-auto block rounded-md px-3 py-2 text-sm border border-white/10 bg-white/90 text-gray-700 outline-none"
+                      >
+                        <option value="">Progress</option>
+                        <option value="not-started">Belum Dimulai</option>
+                        <option value="in-progress">Berlangsung</option>
+                        <option value="completed">Selesai</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- COURSES GRID -->
+      <section
+        id="courseGrid"
+        class="grid gap-2 md:gap-6 grid-cols-2 lg:grid-cols-3 my-4"
+      >
+        <!-- CARD 1 -->
+        <article
+          class="card-item bg-white rounded-lg overflow-hidden shadow flex flex-col h-full"
+        >
+          <div
+            class="flex justify-between items-center px-3 py-2 gap-2 text-sm font-semibold"
+          >
+            <div title="Terbuka">🔓</div>
+            <span
+              class="bg-[#28A745] text-white px-1 md:px-3 py-0.5 md:py-1 text-[8px] md:text-base rounded-sm md:rounded-lg"
+              >Selesai</span
+            >
+          </div>
+          <div class="w-full h-auto overflow-hidden">
+            <img
+              src="../img/course1.png"
+              alt="course 1"
+              class="w-full h-full object-cover"
+            />
+          </div>
+          <div class="flex-1 flex flex-col">
+            <div class="md:p-4 w-full">
+              <div
+                class="flex justify-between items-center text-[#898989] progress-wrapper"
+              >
+                <div
+                  class="w-[80%] 2xl:w-[85%] bg-[#E7E7E7] rounded h-1 relative progress-bar"
+                >
+                  <div
+                    class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                    style="width: 0%"
+                    role="progressbar"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    aria-valuenow="0"
+                  ></div>
+                </div>
+                <span class="progress-text text-[8px] md:text-base px-1"
+                  >14 / 14</span
+                >
+              </div>
+            </div>
+            <h4 class="text-xs md:text-2xl font-bold text-center h-auto">
+              ALUR PROSES PENERIMAAN PESANAN
+            </h4>
+          </div>
+        </article>
+
+        <!-- CARD 2 -->
+        <article
+          class="card-item bg-white rounded-lg overflow-hidden shadow flex flex-col h-full"
+        >
+          <div
+            class="flex justify-between items-center px-3 py-2 gap-2 text-sm font-semibold"
+          >
+            <div title="Terbuka">🔓</div>
+            <span
+              class="bg-[#FFB300] text-white px-1 md:px-3 py-0.5 md:py-1 text-[8px] md:text-base rounded-sm md:rounded-lg"
+              >Lanjutkan</span
+            >
+          </div>
+          <div class="w-full h-auto overflow-hidden">
+            <img
+              src="../img/course2.png"
+              alt="course 2"
+              class="w-full h-full object-cover"
+            />
+          </div>
+          <div class="flex-1 flex flex-col">
+            <div class="md:p-4 w-full">
+              <div
+                class="flex justify-between items-center text-[#898989] progress-wrapper"
+              >
+                <div
+                  class="w-[80%] 2xl:w-[85%] bg-[#E7E7E7] rounded h-1 relative progress-bar"
+                >
+                  <div
+                    class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                    style="width: 0%"
+                    role="progressbar"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    aria-valuenow="0"
+                  ></div>
+                </div>
+                <span class="progress-text text-[8px] md:text-base px-1"
+                  >3 / 10</span
+                >
+              </div>
+            </div>
+            <h4 class="text-xs md:text-2xl font-bold text-center h-16">
+              PROSES PEMBUATAN DOKUMEN SALES ORDER (SO)
+            </h4>
+          </div>
+        </article>
+
+        <!-- CARD 3 -->
+        <article
+          class="card-item lg:flex bg-white rounded-lg overflow-hidden shadow flex-col h-full"
+        >
+          <div
+            class="flex justify-between items-center px-3 py-2 gap-2 text-sm font-semibold"
+          >
+            <div title="Terkunci">🔒</div>
+            <span
+              class="bg-[#a80308] text-white px-1 md:px-3 py-0.5 md:py-1 text-[8px] md:text-base rounded-sm md:rounded-lg"
+              >Mulai</span
+            >
+          </div>
+          <div class="w-full h-auto overflow-hidden">
+            <img
+              src="../img/course3.png"
+              alt="course 3"
+              class="w-full h-full object-cover"
+            />
+          </div>
+          <div class="flex-1 flex flex-col">
+            <div class="md:p-4 w-full">
+              <div
+                class="flex justify-between items-center text-[#898989] progress-wrapper"
+              >
+                <div
+                  class="w-[80%] 2xl:w-[85%] bg-[#E7E7E7] rounded h-1 relative progress-bar"
+                >
+                  <div
+                    class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                    style="width: 0%"
+                    role="progressbar"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    aria-valuenow="0"
+                  ></div>
+                </div>
+                <span class="progress-text text-[8px] md:text-base px-1"
+                  >0 / 6</span
+                >
+              </div>
+            </div>
+            <h4 class="text-xs md:text-2xl font-bold text-center h-16">
+              PERSIAPAN PENGIRIMAN BARANG
+            </h4>
+          </div>
+        </article>
+
+        <!-- CARD 4 -->
+        <article
+          class="card-item bg-white rounded-lg overflow-hidden shadow flex flex-col h-full"
+        >
+          <div
+            class="flex justify-between items-center px-3 py-2 gap-2 text-sm font-semibold"
+          >
+            <div title="Terbuka">🔓</div>
+            <span
+              class="bg-[#28A745] text-white px-1 md:px-3 py-0.5 md:py-1 text-[8px] md:text-base rounded-sm md:rounded-lg"
+              >Selesai</span
+            >
+          </div>
+          <div class="w-full h-auto overflow-hidden">
+            <img
+              src="../img/course1.png"
+              alt="course 1"
+              class="w-full h-full object-cover"
+            />
+          </div>
+          <div class="flex-1 flex flex-col">
+            <div class="md:p-4 w-full">
+              <div
+                class="flex justify-between items-center text-[#898989] progress-wrapper"
+              >
+                <div
+                  class="w-[80%] 2xl:w-[85%] bg-[#E7E7E7] rounded h-1 relative progress-bar"
+                >
+                  <div
+                    class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                    style="width: 0%"
+                    role="progressbar"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    aria-valuenow="0"
+                  ></div>
+                </div>
+                <span class="progress-text text-[8px] md:text-base px-1"
+                  >14 / 14</span
+                >
+              </div>
+            </div>
+            <h4 class="text-xs md:text-2xl font-bold text-center h-auto">
+              ALUR PROSES PENERIMAAN PESANAN
+            </h4>
+          </div>
+        </article>
+
+        <!-- CARD 5 -->
+        <article
+          class="card-item bg-white rounded-lg overflow-hidden shadow flex flex-col h-full"
+        >
+          <div
+            class="flex justify-between items-center px-3 py-2 gap-2 text-sm font-semibold"
+          >
+            <div title="Terbuka">🔓</div>
+            <span
+              class="bg-[#FFB300] text-white px-1 md:px-3 py-0.5 md:py-1 text-[8px] md:text-base rounded-sm md:rounded-lg"
+              >Lanjutkan</span
+            >
+          </div>
+          <div class="w-full h-auto overflow-hidden">
+            <img
+              src="../img/course2.png"
+              alt="course 2"
+              class="w-full h-full object-cover"
+            />
+          </div>
+          <div class="flex-1 flex flex-col">
+            <div class="md:p-4 w-full">
+              <div
+                class="flex justify-between items-center text-[#898989] progress-wrapper"
+              >
+                <div
+                  class="w-[80%] 2xl:w-[85%] bg-[#E7E7E7] rounded h-1 relative progress-bar"
+                >
+                  <div
+                    class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                    style="width: 0%"
+                    role="progressbar"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    aria-valuenow="0"
+                  ></div>
+                </div>
+                <span class="progress-text text-[8px] md:text-base px-1"
+                  >3 / 10</span
+                >
+              </div>
+            </div>
+            <h4 class="text-xs md:text-2xl font-bold text-center h-16">
+              PROSES PEMBUATAN DOKUMEN SALES ORDER (SO)
+            </h4>
+          </div>
+        </article>
+
+        <!-- CARD 6 -->
+        <article
+          class="card-item lg:flex bg-white rounded-lg overflow-hidden shadow flex-col h-full"
+        >
+          <div
+            class="flex justify-between items-center px-3 py-2 gap-2 text-sm font-semibold"
+          >
+            <div title="Terkunci">🔒</div>
+            <span
+              class="bg-[#a80308] text-white px-1 md:px-3 py-0.5 md:py-1 text-[8px] md:text-base rounded-sm md:rounded-lg"
+              >Mulai</span
+            >
+          </div>
+          <div class="w-full h-auto overflow-hidden">
+            <img
+              src="../img/course3.png"
+              alt="course 3"
+              class="w-full h-full object-cover"
+            />
+          </div>
+          <div class="flex-1 flex flex-col">
+            <div class="md:p-4 w-full">
+              <div
+                class="flex justify-between items-center text-[#898989] progress-wrapper"
+              >
+                <div
+                  class="w-[80%] 2xl:w-[85%] bg-[#E7E7E7] rounded h-1 relative progress-bar"
+                >
+                  <div
+                    class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                    style="width: 0%"
+                    role="progressbar"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    aria-valuenow="0"
+                  ></div>
+                </div>
+                <span class="progress-text text-[8px] md:text-base px-1"
+                  >0 / 6</span
+                >
+              </div>
+            </div>
+            <h4 class="text-xs md:text-2xl font-bold text-center h-16">
+              PERSIAPAN PENGIRIMAN BARANG
+            </h4>
+          </div>
+        </article>
+
+        <!-- CARD 7 -->
+        <article
+          class="card-item bg-white rounded-lg overflow-hidden shadow flex flex-col h-full"
+        >
+          <div
+            class="flex justify-between items-center px-3 py-2 gap-2 text-sm font-semibold"
+          >
+            <div title="Terbuka">🔓</div>
+            <span
+              class="bg-[#28A745] text-white px-1 md:px-3 py-0.5 md:py-1 text-[8px] md:text-base rounded-sm md:rounded-lg"
+              >Selesai</span
+            >
+          </div>
+          <div class="w-full h-auto overflow-hidden">
+            <img
+              src="../img/course1.png"
+              alt="course 1"
+              class="w-full h-full object-cover"
+            />
+          </div>
+          <div class="flex-1 flex flex-col">
+            <div class="md:p-4 w-full">
+              <div
+                class="flex justify-between items-center text-[#898989] progress-wrapper"
+              >
+                <div
+                  class="w-[80%] 2xl:w-[85%] bg-[#E7E7E7] rounded h-1 relative progress-bar"
+                >
+                  <div
+                    class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                    style="width: 0%"
+                    role="progressbar"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    aria-valuenow="0"
+                  ></div>
+                </div>
+                <span class="progress-text text-[8px] md:text-base px-1"
+                  >14 / 14</span
+                >
+              </div>
+            </div>
+            <h4 class="text-xs md:text-2xl font-bold text-center h-auto">
+              ALUR PROSES PENERIMAAN PESANAN
+            </h4>
+          </div>
+        </article>
+
+        <!-- CARD 8 -->
+        <article
+          class="card-item bg-white rounded-lg overflow-hidden shadow flex flex-col h-full"
+        >
+          <div
+            class="flex justify-between items-center px-3 py-2 gap-2 text-sm font-semibold"
+          >
+            <div title="Terbuka">🔓</div>
+            <span
+              class="bg-[#FFB300] text-white px-1 md:px-3 py-0.5 md:py-1 text-[8px] md:text-base rounded-sm md:rounded-lg"
+              >Lanjutkan</span
+            >
+          </div>
+          <div class="w-full h-auto overflow-hidden">
+            <img
+              src="../img/course2.png"
+              alt="course 2"
+              class="w-full h-full object-cover"
+            />
+          </div>
+          <div class="flex-1 flex flex-col">
+            <div class="md:p-4 w-full">
+              <div
+                class="flex justify-between items-center text-[#898989] progress-wrapper"
+              >
+                <div
+                  class="w-[80%] 2xl:w-[85%] bg-[#E7E7E7] rounded h-1 relative progress-bar"
+                >
+                  <div
+                    class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                    style="width: 0%"
+                    role="progressbar"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    aria-valuenow="0"
+                  ></div>
+                </div>
+                <span class="progress-text text-[8px] md:text-base px-1"
+                  >3 / 10</span
+                >
+              </div>
+            </div>
+            <h4 class="text-xs md:text-2xl font-bold text-center h-16">
+              PROSES PEMBUATAN DOKUMEN SALES ORDER (SO)
+            </h4>
+          </div>
+        </article>
+
+        <!-- CARD 9 -->
+        <article
+          class="card-item lg:flex bg-white rounded-lg overflow-hidden shadow flex-col h-full"
+        >
+          <div
+            class="flex justify-between items-center px-3 py-2 gap-2 text-sm font-semibold"
+          >
+            <div title="Terkunci">🔒</div>
+            <span
+              class="bg-[#a80308] text-white px-1 md:px-3 py-0.5 md:py-1 text-[8px] md:text-base rounded-sm md:rounded-lg"
+              >Mulai</span
+            >
+          </div>
+          <div class="w-full h-auto overflow-hidden">
+            <img
+              src="../img/course3.png"
+              alt="course 3"
+              class="w-full h-full object-cover"
+            />
+          </div>
+          <div class="flex-1 flex flex-col">
+            <div class="md:p-4 w-full">
+              <div
+                class="flex justify-between items-center text-[#898989] progress-wrapper"
+              >
+                <div
+                  class="w-[80%] 2xl:w-[85%] bg-[#E7E7E7] rounded h-1 relative progress-bar"
+                >
+                  <div
+                    class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                    style="width: 0%"
+                    role="progressbar"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    aria-valuenow="0"
+                  ></div>
+                </div>
+                <span class="progress-text text-[8px] md:text-base px-1"
+                  >0 / 6</span
+                >
+              </div>
+            </div>
+            <h4 class="text-xs md:text-2xl font-bold text-center h-16">
+              PERSIAPAN PENGIRIMAN BARANG
+            </h4>
+          </div>
+        </article>
+
+        <!-- CARD 10 -->
+        <article
+          class="card-item bg-white rounded-lg overflow-hidden shadow flex flex-col h-full"
+        >
+          <div
+            class="flex justify-between items-center px-3 py-2 gap-2 text-sm font-semibold"
+          >
+            <div title="Terbuka">🔓</div>
+            <span
+              class="bg-[#28A745] text-white px-1 md:px-3 py-0.5 md:py-1 text-[8px] md:text-base rounded-sm md:rounded-lg"
+              >Selesai</span
+            >
+          </div>
+          <div class="w-full h-auto overflow-hidden">
+            <img
+              src="../img/course1.png"
+              alt="course 1"
+              class="w-full h-full object-cover"
+            />
+          </div>
+          <div class="flex-1 flex flex-col">
+            <div class="md:p-4 w-full">
+              <div
+                class="flex justify-between items-center text-[#898989] progress-wrapper"
+              >
+                <div
+                  class="w-[80%] 2xl:w-[85%] bg-[#E7E7E7] rounded h-1 relative progress-bar"
+                >
+                  <div
+                    class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                    style="width: 0%"
+                    role="progressbar"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    aria-valuenow="0"
+                  ></div>
+                </div>
+                <span class="progress-text text-[8px] md:text-base px-1"
+                  >14 / 14</span
+                >
+              </div>
+            </div>
+            <h4 class="text-xs md:text-2xl font-bold text-center h-auto">
+              ALUR PROSES PENERIMAAN PESANAN
+            </h4>
+          </div>
+        </article>
+
+        <!-- CARD 11 -->
+        <article
+          class="card-item bg-white rounded-lg overflow-hidden shadow flex flex-col h-full"
+        >
+          <div
+            class="flex justify-between items-center px-3 py-2 gap-2 text-sm font-semibold"
+          >
+            <div title="Terbuka">🔓</div>
+            <span
+              class="bg-[#FFB300] text-white px-1 md:px-3 py-0.5 md:py-1 text-[8px] md:text-base rounded-sm md:rounded-lg"
+              >Lanjutkan</span
+            >
+          </div>
+          <div class="w-full h-auto overflow-hidden">
+            <img
+              src="../img/course2.png"
+              alt="course 2"
+              class="w-full h-full object-cover"
+            />
+          </div>
+          <div class="flex-1 flex flex-col">
+            <div class="md:p-4 w-full">
+              <div
+                class="flex justify-between items-center text-[#898989] progress-wrapper"
+              >
+                <div
+                  class="w-[80%] 2xl:w-[85%] bg-[#E7E7E7] rounded h-1 relative progress-bar"
+                >
+                  <div
+                    class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                    style="width: 0%"
+                    role="progressbar"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    aria-valuenow="0"
+                  ></div>
+                </div>
+                <span class="progress-text text-[8px] md:text-base px-1"
+                  >3 / 10</span
+                >
+              </div>
+            </div>
+            <h4 class="text-xs md:text-2xl font-bold text-center h-16">
+              PROSES PEMBUATAN DOKUMEN SALES ORDER (SO)
+            </h4>
+          </div>
+        </article>
+
+        <!-- CARD 12 -->
+        <article
+          class="card-item lg:flex bg-white rounded-lg overflow-hidden shadow flex-col h-full"
+        >
+          <div
+            class="flex justify-between items-center px-3 py-2 gap-2 text-sm font-semibold"
+          >
+            <div title="Terkunci">🔒</div>
+            <span
+              class="bg-[#a80308] text-white px-1 md:px-3 py-0.5 md:py-1 text-[8px] md:text-base rounded-sm md:rounded-lg"
+              >Mulai</span
+            >
+          </div>
+          <div class="w-full h-auto overflow-hidden">
+            <img
+              src="../img/course3.png"
+              alt="course 3"
+              class="w-full h-full object-cover"
+            />
+          </div>
+          <div class="flex-1 flex flex-col">
+            <div class="md:p-4 w-full">
+              <div
+                class="flex justify-between items-center text-[#898989] progress-wrapper"
+              >
+                <div
+                  class="w-[80%] 2xl:w-[85%] bg-[#E7E7E7] rounded h-1 relative progress-bar"
+                >
+                  <div
+                    class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                    style="width: 0%"
+                    role="progressbar"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    aria-valuenow="0"
+                  ></div>
+                </div>
+                <span class="progress-text text-[8px] md:text-base px-1"
+                  >0 / 6</span
+                >
+              </div>
+            </div>
+            <h4 class="text-xs md:text-2xl font-bold text-center h-16">
+              PERSIAPAN PENGIRIMAN BARANG
+            </h4>
+          </div>
+        </article>
+
+        <!-- CARD 13 -->
+        <article
+          class="card-item bg-white rounded-lg overflow-hidden shadow flex flex-col h-full"
+        >
+          <div
+            class="flex justify-between items-center px-3 py-2 gap-2 text-sm font-semibold"
+          >
+            <div title="Terbuka">🔓</div>
+            <span
+              class="bg-[#28A745] text-white px-1 md:px-3 py-0.5 md:py-1 text-[8px] md:text-base rounded-sm md:rounded-lg"
+              >Selesai</span
+            >
+          </div>
+          <div class="w-full h-auto overflow-hidden">
+            <img
+              src="../img/course1.png"
+              alt="course 1"
+              class="w-full h-full object-cover"
+            />
+          </div>
+          <div class="flex-1 flex flex-col">
+            <div class="md:p-4 w-full">
+              <div
+                class="flex justify-between items-center text-[#898989] progress-wrapper"
+              >
+                <div
+                  class="w-[80%] 2xl:w-[85%] bg-[#E7E7E7] rounded h-1 relative progress-bar"
+                >
+                  <div
+                    class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                    style="width: 0%"
+                    role="progressbar"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    aria-valuenow="0"
+                  ></div>
+                </div>
+                <span class="progress-text text-[8px] md:text-base px-1"
+                  >14 / 14</span
+                >
+              </div>
+            </div>
+            <h4 class="text-xs md:text-2xl font-bold text-center h-auto">
+              ALUR PROSES PENERIMAAN PESANAN
+            </h4>
+          </div>
+        </article>
+
+        <!-- CARD 14 -->
+        <article
+          class="card-item bg-white rounded-lg overflow-hidden shadow flex flex-col h-full"
+        >
+          <div
+            class="flex justify-between items-center px-3 py-2 gap-2 text-sm font-semibold"
+          >
+            <div title="Terbuka">🔓</div>
+            <span
+              class="bg-[#28A745] text-white px-1 md:px-3 py-0.5 md:py-1 text-[8px] md:text-base rounded-sm md:rounded-lg"
+              >Selesai</span
+            >
+          </div>
+          <div class="w-full h-auto overflow-hidden">
+            <img
+              src="../img/course1.png"
+              alt="course 1"
+              class="w-full h-full object-cover"
+            />
+          </div>
+          <div class="flex-1 flex flex-col">
+            <div class="md:p-4 w-full">
+              <div
+                class="flex justify-between items-center text-[#898989] progress-wrapper"
+              >
+                <div
+                  class="w-[80%] 2xl:w-[85%] bg-[#E7E7E7] rounded h-1 relative progress-bar"
+                >
+                  <div
+                    class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                    style="width: 0%"
+                    role="progressbar"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    aria-valuenow="0"
+                  ></div>
+                </div>
+                <span class="progress-text text-[8px] md:text-base px-1"
+                  >14 / 14</span
+                >
+              </div>
+            </div>
+            <h4 class="text-xs md:text-2xl font-bold text-center h-auto">
+              ALUR PROSES PENERIMAAN PESANAN
+            </h4>
+          </div>
+        </article>
+
+        <!-- CARD 15 -->
+        <article
+          class="card-item bg-white rounded-lg overflow-hidden shadow flex flex-col h-full"
+        >
+          <div
+            class="flex justify-between items-center px-3 py-2 gap-2 text-sm font-semibold"
+          >
+            <div title="Terbuka">🔓</div>
+            <span
+              class="bg-[#FFB300] text-white px-1 md:px-3 py-0.5 md:py-1 text-[8px] md:text-base rounded-sm md:rounded-lg"
+              >Lanjutkan</span
+            >
+          </div>
+          <div class="w-full h-auto overflow-hidden">
+            <img
+              src="../img/course2.png"
+              alt="course 2"
+              class="w-full h-full object-cover"
+            />
+          </div>
+          <div class="flex-1 flex flex-col">
+            <div class="md:p-4 w-full">
+              <div
+                class="flex justify-between items-center text-[#898989] progress-wrapper"
+              >
+                <div
+                  class="w-[80%] 2xl:w-[85%] bg-[#E7E7E7] rounded h-1 relative progress-bar"
+                >
+                  <div
+                    class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                    style="width: 0%"
+                    role="progressbar"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    aria-valuenow="0"
+                  ></div>
+                </div>
+                <span class="progress-text text-[8px] md:text-base px-1"
+                  >3 / 10</span
+                >
+              </div>
+            </div>
+            <h4 class="text-xs md:text-2xl font-bold text-center h-16">
+              PROSES PEMBUATAN DOKUMEN SALES ORDER (SO)
+            </h4>
+          </div>
+        </article>
+
+        <!-- CARD 16 -->
+        <article
+          class="card-item lg:flex bg-white rounded-lg overflow-hidden shadow flex-col h-full"
+        >
+          <div
+            class="flex justify-between items-center px-3 py-2 gap-2 text-sm font-semibold"
+          >
+            <div title="Terkunci">🔒</div>
+            <span
+              class="bg-[#a80308] text-white px-1 md:px-3 py-0.5 md:py-1 text-[8px] md:text-base rounded-sm md:rounded-lg"
+              >Mulai</span
+            >
+          </div>
+          <div class="w-full h-auto overflow-hidden">
+            <img
+              src="../img/course3.png"
+              alt="course 3"
+              class="w-full h-full object-cover"
+            />
+          </div>
+          <div class="flex-1 flex flex-col">
+            <div class="md:p-4 w-full">
+              <div
+                class="flex justify-between items-center text-[#898989] progress-wrapper"
+              >
+                <div
+                  class="w-[80%] 2xl:w-[85%] bg-[#E7E7E7] rounded h-1 relative progress-bar"
+                >
+                  <div
+                    class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                    style="width: 0%"
+                    role="progressbar"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    aria-valuenow="0"
+                  ></div>
+                </div>
+                <span class="progress-text text-[8px] md:text-base px-1"
+                  >0 / 6</span
+                >
+              </div>
+            </div>
+            <h4 class="text-xs md:text-2xl font-bold text-center h-16">
+              PERSIAPAN PENGIRIMAN BARANG
+            </h4>
+          </div>
+        </article>
+
+        <!-- CARD 17 -->
+        <article
+          class="card-item bg-white rounded-lg overflow-hidden shadow flex flex-col h-full"
+        >
+          <div
+            class="flex justify-between items-center px-3 py-2 gap-2 text-sm font-semibold"
+          >
+            <div title="Terbuka">🔓</div>
+            <span
+              class="bg-[#28A745] text-white px-1 md:px-3 py-0.5 md:py-1 text-[8px] md:text-base rounded-sm md:rounded-lg"
+              >Selesai</span
+            >
+          </div>
+          <div class="w-full h-auto overflow-hidden">
+            <img
+              src="../img/course1.png"
+              alt="course 1"
+              class="w-full h-full object-cover"
+            />
+          </div>
+          <div class="flex-1 flex flex-col">
+            <div class="md:p-4 w-full">
+              <div
+                class="flex justify-between items-center text-[#898989] progress-wrapper"
+              >
+                <div
+                  class="w-[80%] 2xl:w-[85%] bg-[#E7E7E7] rounded h-1 relative progress-bar"
+                >
+                  <div
+                    class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                    style="width: 0%"
+                    role="progressbar"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    aria-valuenow="0"
+                  ></div>
+                </div>
+                <span class="progress-text text-[8px] md:text-base px-1"
+                  >14 / 14</span
+                >
+              </div>
+            </div>
+            <h4 class="text-xs md:text-2xl font-bold text-center h-auto">
+              ALUR PROSES PENERIMAAN PESANAN
+            </h4>
+          </div>
+        </article>
+
+        <!-- CARD 18 -->
+        <article
+          class="card-item bg-white rounded-lg overflow-hidden shadow flex flex-col h-full"
+        >
+          <div
+            class="flex justify-between items-center px-3 py-2 gap-2 text-sm font-semibold"
+          >
+            <div title="Terbuka">🔓</div>
+            <span
+              class="bg-[#FFB300] text-white px-1 md:px-3 py-0.5 md:py-1 text-[8px] md:text-base rounded-sm md:rounded-lg"
+              >Lanjutkan</span
+            >
+          </div>
+          <div class="w-full h-auto overflow-hidden">
+            <img
+              src="../img/course2.png"
+              alt="course 2"
+              class="w-full h-full object-cover"
+            />
+          </div>
+          <div class="flex-1 flex flex-col">
+            <div class="md:p-4 w-full">
+              <div
+                class="flex justify-between items-center text-[#898989] progress-wrapper"
+              >
+                <div
+                  class="w-[80%] 2xl:w-[85%] bg-[#E7E7E7] rounded h-1 relative progress-bar"
+                >
+                  <div
+                    class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                    style="width: 0%"
+                    role="progressbar"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    aria-valuenow="0"
+                  ></div>
+                </div>
+                <span class="progress-text text-[8px] md:text-base px-1"
+                  >3 / 10</span
+                >
+              </div>
+            </div>
+            <h4 class="text-xs md:text-2xl font-bold text-center h-16">
+              PROSES PEMBUATAN DOKUMEN SALES ORDER (SO)
+            </h4>
+          </div>
+        </article>
+
+        <!-- CARD 19 -->
+        <article
+          class="card-item lg:flex bg-white rounded-lg overflow-hidden shadow flex-col h-full"
+        >
+          <div
+            class="flex justify-between items-center px-3 py-2 gap-2 text-sm font-semibold"
+          >
+            <div title="Terkunci">🔒</div>
+            <span
+              class="bg-[#a80308] text-white px-1 md:px-3 py-0.5 md:py-1 text-[8px] md:text-base rounded-sm md:rounded-lg"
+              >Mulai</span
+            >
+          </div>
+          <div class="w-full h-auto overflow-hidden">
+            <img
+              src="../img/course3.png"
+              alt="course 3"
+              class="w-full h-full object-cover"
+            />
+          </div>
+          <div class="flex-1 flex flex-col">
+            <div class="md:p-4 w-full">
+              <div
+                class="flex justify-between items-center text-[#898989] progress-wrapper"
+              >
+                <div
+                  class="w-[80%] 2xl:w-[85%] bg-[#E7E7E7] rounded h-1 relative progress-bar"
+                >
+                  <div
+                    class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                    style="width: 0%"
+                    role="progressbar"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    aria-valuenow="0"
+                  ></div>
+                </div>
+                <span class="progress-text text-[8px] md:text-base px-1"
+                  >0 / 6</span
+                >
+              </div>
+            </div>
+            <h4 class="text-xs md:text-2xl font-bold text-center h-16">
+              PERSIAPAN PENGIRIMAN BARANG
+            </h4>
+          </div>
+        </article>
+
+        <!-- CARD 20 -->
+        <article
+          class="card-item bg-white rounded-lg overflow-hidden shadow flex flex-col h-full"
+        >
+          <div
+            class="flex justify-between items-center px-3 py-2 gap-2 text-sm font-semibold"
+          >
+            <div title="Terbuka">🔓</div>
+            <span
+              class="bg-[#28A745] text-white px-1 md:px-3 py-0.5 md:py-1 text-[8px] md:text-base rounded-sm md:rounded-lg"
+              >Selesai</span
+            >
+          </div>
+          <div class="w-full h-auto overflow-hidden">
+            <img
+              src="../img/course1.png"
+              alt="course 1"
+              class="w-full h-full object-cover"
+            />
+          </div>
+          <div class="flex-1 flex flex-col">
+            <div class="md:p-4 w-full">
+              <div
+                class="flex justify-between items-center text-[#898989] progress-wrapper"
+              >
+                <div
+                  class="w-[80%] 2xl:w-[85%] bg-[#E7E7E7] rounded h-1 relative progress-bar"
+                >
+                  <div
+                    class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                    style="width: 0%"
+                    role="progressbar"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    aria-valuenow="0"
+                  ></div>
+                </div>
+                <span class="progress-text text-[8px] md:text-base px-1"
+                  >14 / 14</span
+                >
+              </div>
+            </div>
+            <h4 class="text-xs md:text-2xl font-bold text-center h-auto">
+              ALUR PROSES PENERIMAAN PESANAN
+            </h4>
+          </div>
+        </article>
+
+        <!-- ... (all other cards as you provided) ... -->
+        <!-- keep the rest of your cards unchanged -->
+      </section>
+
+      <!-- Load More -->
+      <div id="loadMoreSentinel" class="h-2"></div>
+
+      <!-- Load more wrapper (centered relative to content) -->
+      <div id="loadMoreWrapper" class="flex justify-center relative bottom-10">
+        <button
+          id="loadMoreBtn"
+          class="inline-flex items-center justify-center bg-white border border-gray-200 shadow-md px-4 py-2 rounded-full font-semibold"
+          aria-controls="courseGrid"
+          style="display: none"
+        >
+          Load more
+        </button>
+      </div>
+    </main>
+
+    <!-- Motion (ESM) -->
+    <script type="module">
+      import { animate } from "https://cdn.jsdelivr.net/npm/motion@latest/+esm";
+
+      // FORM handlers
+      window.handleSearch = function (e) {
+        e.preventDefault();
+        const f = e.target;
+        const q = f.q?.value || "";
+        const k = f.kategori?.value || "";
+        console.log("Search:", { q, k });
+        alert("Mencari: " + q + (k ? " (kategori: " + k + ")" : ""));
+      };
+      window.handleCreateCourse = function () {
+        window.location.href = "/course/create.html";
+      };
+
+      /* Progress */
+      function parseProgressText(text) {
+        const m = String(text).match(/(\d+)\s*\/\s*(\d+)/);
+        if (!m) return null;
+        return [parseInt(m[1], 10), parseInt(m[2], 10)];
+      }
+      function updateProgress(wrapper) {
+        const span = wrapper.querySelector(".progress-text");
+        const fill = wrapper.querySelector(".progress-fill");
+        if (!span || !fill) return;
+        const nums = parseProgressText(span.textContent);
+        if (!nums) {
+          animate(
+            fill,
+            { width: ["0%"] },
+            { duration: 0.35, easing: "ease-in-out" }
+          );
+          fill.setAttribute("aria-valuenow", 0);
+          return;
+        }
+        const [cur, total] = nums;
+        let pct = total === 0 ? 0 : (cur / total) * 100;
+        pct = Math.max(0, Math.min(100, +pct.toFixed(2)));
+        const pctStr = pct + "%";
+        animate(
+          fill,
+          { width: pctStr },
+          { duration: 0.45, easing: "cubic-bezier(.2,.9,.2,1)" }
+        );
+        fill.setAttribute("aria-valuenow", cur);
+        fill.setAttribute("aria-valuemax", total);
+        fill.setAttribute("aria-valuemin", 0);
+      }
+      function initProgressAll() {
+        document.querySelectorAll(".progress-wrapper").forEach((wrapper) => {
+          updateProgress(wrapper);
+          const span = wrapper.querySelector(".progress-text");
+          if (!span) return;
+          const mo = new MutationObserver(() => updateProgress(wrapper));
+          mo.observe(span, {
+            childList: true,
+            characterData: true,
+            subtree: true,
+          });
+        });
+      }
+
+      /* Entrance */
+      function initEntrance() {
+        const hero = document.getElementById("heroContent");
+        if (hero) {
+          hero.style.opacity = "0";
+          animate(
+            hero,
+            { x: [-18, 0], opacity: [0, 1] },
+            { duration: 0.6, easing: "ease-out" }
+          );
+        }
+        const cards = document.querySelectorAll(".card-item");
+        const io = new IntersectionObserver(
+          (entries, obs) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                const el = entry.target;
+                el.style.opacity = "0";
+                animate(
+                  el,
+                  { y: [12, 0], opacity: [0, 1] },
+                  { duration: 0.5, easing: "ease-out" }
+                );
+                obs.unobserve(el);
+              }
+            });
+          },
+          { threshold: 0.12 }
+        );
+        cards.forEach((c) => io.observe(c));
+      }
+
+      // --------- Robust Load More implementation ----------
+      function initLoadMore() {
+        const grid = document.getElementById("courseGrid");
+        if (!grid) return;
+
+        const allCards = Array.from(grid.querySelectorAll(".card-item"));
+        if (!allCards.length) return;
+
+        // record original computed display for each card (at current breakpoint)
+        const originalDisplay = new Map();
+        allCards.forEach((c) => {
+          originalDisplay.set(c, window.getComputedStyle(c).display);
+        });
+
+        // visibleCandidates = cards that are not responsively hidden (e.g. not `display: none`)
+        const visibleCandidates = allCards.filter(
+          (c) => originalDisplay.get(c) !== "none"
+        );
+
+        // hide all cards initially (we'll restore only those we want visible)
+        allCards.forEach((c) => {
+          c.style.display = "none";
+        });
+
+        let rowsToShow = 3; // number of rows to show at a time
+        const incrementRows = 3; // rows added per click
+
+        function computeGridColumns() {
+          try {
+            const cs = window.getComputedStyle(grid);
+            const template = cs.getPropertyValue("grid-template-columns") || "";
+            if (template && template.trim()) {
+              // split on whitespace to count tracks (works for "1fr 1fr" or "repeat(...)" resolved to tracks)
+              const parts = template.trim().split(/\s+/).filter(Boolean);
+              if (parts.length > 0) return Math.max(1, parts.length);
+            }
+            // fallback: estimate by measuring child width
+            const child = visibleCandidates[0] || allCards[0];
+            if (child) {
+              const gridWidth = grid.clientWidth || grid.getBoundingClientRect().width;
+              const childWidth = child.getBoundingClientRect().width || Math.max(1, gridWidth);
+              return Math.max(1, Math.floor(gridWidth / Math.max(1, Math.round(childWidth))));
+            }
+            return 1;
+          } catch (e) {
+            return 1;
+          }
+        }
+
+        const btn = document.getElementById("loadMoreBtn");
+        const sentinel = document.getElementById("loadMoreSentinel");
+
+        function updateVisibility(animateNew = true) {
+          const cols = computeGridColumns();
+          let itemsVisible = rowsToShow * cols;
+          itemsVisible = Math.min(itemsVisible, visibleCandidates.length);
+
+          visibleCandidates.forEach((c, idx) => {
+            if (idx < itemsVisible) {
+              // show
+              const orig = originalDisplay.get(c) || "block";
+              if (c.style.display === "none") {
+                c.style.display = orig;
+                if (animateNew) {
+                  c.style.opacity = "0";
+                  animate(
+                    c,
+                    { y: [18, 0], opacity: [0, 1] },
+                    { duration: 0.45, easing: "ease-out" }
+                  );
+                }
+              }
+            } else {
+              c.style.display = "none";
+            }
+          });
+
+          // hide any cards that were originally responsively hidden (just to be safe)
+          allCards
+            .filter((c) => originalDisplay.get(c) === "none")
+            .forEach((c) => (c.style.display = "none"));
+
+          // show/hide button
+          if (itemsVisible >= visibleCandidates.length) {
+            hideLoadMore();
+          } else {
+            showLoadMore();
+          }
+        }
+
+        function showLoadMore() {
+          if (!btn) return;
+          if (btn.dataset.visible === "1") return;
+          btn.dataset.visible = "1";
+          btn.style.display = "inline-flex";
+          animate(btn, { y: [12, 0], opacity: [0, 1] }, { duration: 0.36, easing: "ease-out" });
+        }
+        function hideLoadMore() {
+          if (!btn) return;
+          if (btn.dataset.visible !== "1") return;
+          btn.dataset.visible = "0";
+          const anim = animate(btn, { y: [0, 12], opacity: [1, 0] }, { duration: 0.28, easing: "ease-in" });
+          anim.finished
+            .then(() => {
+              btn.style.display = "none";
+            })
+            .catch(() => {
+              btn.style.display = "none";
+            });
+        }
+
+        // sentinel observer: show button when sentinel is in viewport
+        if (sentinel && btn) {
+          const sentinelObserver = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                  // show only if there are hidden items
+                  const cols = computeGridColumns();
+                  const itemsVisible = rowsToShow * cols;
+                  if (itemsVisible < visibleCandidates.length) {
+                    showLoadMore();
+                  }
+                }
+              });
+            },
+            { root: null, threshold: 0.05, rootMargin: "0px 0px 40px 0px" }
+          );
+          sentinelObserver.observe(sentinel);
+        }
+
+        if (btn) {
+          btn.addEventListener("click", () => {
+            rowsToShow += incrementRows;
+            updateVisibility(true);
+
+            // scroll to first newly shown item
+            const cols = computeGridColumns();
+            const firstNewIndex = Math.max(0, (rowsToShow - incrementRows) * cols);
+            const target = visibleCandidates[firstNewIndex];
+            if (target) {
+              const top = Math.max(window.scrollY + 20, target.getBoundingClientRect().top + window.scrollY - 90);
+              window.scrollTo({ top, behavior: "smooth" });
+            }
+          });
+        }
+
+        // respond to resize (recompute columns and update)
+        let resizeTimer = null;
+        window.addEventListener("resize", () => {
+          clearTimeout(resizeTimer);
+          resizeTimer = setTimeout(() => {
+            updateVisibility(false);
+          }, 120);
+        });
+
+        // initial update AFTER layout/images loaded (so measurement is correct)
+        // if document already loaded, run immediately; otherwise wait for load
+        function bootVisibility() {
+          updateVisibility(false);
+        }
+        if (document.readyState === "complete") {
+          bootVisibility();
+        } else {
+          window.addEventListener("load", bootVisibility, { once: true });
+        }
+      }
+
+      // boot
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", () => {
+          initProgressAll();
+          initEntrance();
+          initLoadMore();
+        });
+      } else {
+        initProgressAll();
+        initEntrance();
+        initLoadMore();
+      }
+    </script>
+  </body>
+</html>

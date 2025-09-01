@@ -43,7 +43,6 @@
       nav.relative {
         overflow: visible;
       }
-
     </style>
   </head>
   <body class="font-[Inter] text-[#0b1220] bg-white">
@@ -67,9 +66,9 @@
               >Dashboard</a
             >
             <a
-              href="../course/user.html"
+              href="../learningpath/index.html"
               class="text-base font-semibold text-black hover:bg-gray-100 px-3 py-1 rounded-full"
-              >MyCourse</a
+              >Learning Path</a
             >
             <a
               href="#"
@@ -183,7 +182,9 @@
           id="heroContent"
           class="text-white bg-black rounded-xl md:rounded-2xl flex-3 md:w-2/3 p-4 lg:p-8 my-auto"
         >
-          <h1 class="mb-1 md:mb-3 md:max-w-4xl text-lg lg:text-4xl font-bold capitalize">
+          <h1
+            class="mb-1 md:mb-3 md:max-w-4xl text-lg lg:text-4xl font-bold capitalize"
+          >
             Alur proses pembelian dan pelunasan cabang
           </h1>
           <p class="mb-1 md:mb-3 max-w-3xl text-xs lg:text-lg">
@@ -193,9 +194,9 @@
 
           <!-- Progress (hero) -->
           <div
-            class="flex mb-1 md:mb-3 justify-between items-center text-sm text-gray-500 progress-wrapper"
+            class="flex mb-1 md:mb-3 justify-between items-center text-xs md:text-sm text-gray-500 progress-wrapper"
           >
-            <div class="w-[85%] md:w-[90%] bg-gray-200 rounded h-1 relative">
+            <div class="w-[87%] md:w-[90%] bg-gray-200 rounded h-1 relative">
               <div
                 class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
                 style="width: 0%"
@@ -216,7 +217,9 @@
           </a>
         </div>
 
-        <div class="flex-1 flex flex-col gap-3 capitalize py-2 px-2 lg:py-4">
+        <div
+          class="flex-1 flex flex-col gap-1 md:gap-3 capitalize py-2 px-2 lg:py-4"
+        >
           <h3 class="font-bold text-base lg:text-xl">Upcoming</h3>
           <div
             class="border-l-2 border-red-700 pl-2 h-12 flex flex-col justify-center"
@@ -229,7 +232,9 @@
           <div
             class="border-l-2 border-red-700 pl-2 h-12 flex flex-col justify-center"
           >
-            <h6 class="font-semibold text-sm lg:text-base">Prosedur close sales order</h6>
+            <h6 class="font-semibold text-sm lg:text-base">
+              Prosedur close sales order
+            </h6>
             <p class="text-xs">15/10/2025</p>
           </div>
           <div
@@ -243,143 +248,373 @@
         </div>
       </section>
 
-      <!-- PELATIHAN Internal -->
-      <section id="pelatihan-internal" class="my-8">
-        <div class="flex flex-col mb-4">
+      <!-- PELATIHAN Internal-->
+      <section id="pelatihan" class="my-4 lg:my-8">
+        <div class="flex flex-col mb-1 md:mb-4">
           <h2
-            class="px-4 py-2 text-lg font-bold text-white bg-[#a80308] rounded-xl"
+            class="px-4 py-2 text-sm md:text-lg lg:text-3xl font-bold text-white bg-[#A80308] rounded-xl"
           >
             Pelatihan Internal
           </h2>
           <a
-            href="../course/user.html"
-            class="self-end mt-2 font-semibold text-gray-500"
+            href="../course/internal_user.html"
+            class="self-end mt-2 font-semibold text-[9px] md:text-base text-[#898989]"
             >Lihat Selengkapnya</a
           >
         </div>
-        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+
+        <div
+          id="courseGrid"
+          class="grid gap-2 md:gap-6 grid-cols-2 lg:grid-cols-3"
+        >
           <!-- CARD 1 -->
-          <div class="bg-white rounded-lg overflow-hidden shadow card-item">
+          <article
+            class="card-item bg-white rounded-lg overflow-hidden shadow flex flex-col h-full"
+          >
             <div
               class="flex justify-between items-center px-3 py-2 gap-2 text-sm font-semibold"
             >
               <div title="Terbuka">🔓</div>
-              <span class="bg-green-600 text-white px-3 py-1 rounded-lg"
+              <span
+                class="bg-[#28A745] text-white px-1 md:px-3 py-0.5 md:py-1 text-[8px] md:text-base rounded-sm md:rounded-lg"
                 >Selesai</span
               >
             </div>
-            <img src="../img/course1.png" alt="course 1" class="w-full" />
-            <div class="p-4">
-              <h4 class="text-2xl font-extrabold text-center mb-3 h-16">
+
+            <div class="w-full h-auto overflow-hidden">
+              <img
+                src="../img/course1.png"
+                alt="course 1"
+                class="w-full h-full object-cover"
+              />
+            </div>
+
+            <div class="flex-1 flex flex-col">
+              <div class="md:p-4 w-full">
+                <div
+                  class="flex justify-between items-center text-[#898989] progress-wrapper"
+                >
+                  <div
+                    class="w-[80%] 2xl:w-[85%] bg-[#E7E7E7] rounded h-1 relative progress-bar"
+                  >
+                    <div
+                      class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                      style="width: 0%"
+                      role="progressbar"
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                      aria-valuenow="0"
+                    ></div>
+                  </div>
+                  <span class="progress-text text-[8px] md:text-base px-1"
+                    >14 / 14</span
+                  >
+                </div>
+              </div>
+
+              <h4 class="text-xs md:text-2xl font-bold text-center h-auto">
                 ALUR PROSES PENERIMAAN PESANAN
               </h4>
-              <div
-                class="flex justify-between items-center text-sm text-gray-500 progress-wrapper"
-              >
-                <div class="w-[87%] bg-gray-200 rounded h-1 relative">
-                  <div
-                    class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
-                    style="width: 0%"
-                    role="progressbar"
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                    aria-valuenow="0"
-                  ></div>
-                </div>
-                <span class="progress-text pl-2">14 / 14</span>
-              </div>
             </div>
-          </div>
+          </article>
+
           <!-- CARD 2 -->
-          <div class="bg-white rounded-lg overflow-hidden shadow card-item">
+          <article
+            class="card-item bg-white rounded-lg overflow-hidden shadow flex flex-col h-full"
+          >
             <div
               class="flex justify-between items-center px-3 py-2 gap-2 text-sm font-semibold"
             >
               <div title="Terbuka">🔓</div>
-              <span class="bg-orange-500 text-white px-3 py-1 rounded-lg"
+              <span
+                class="bg-[#FFB300] text-white px-1 md:px-3 py-0.5 md:py-1 text-[8px] md:text-base rounded-sm md:rounded-lg"
                 >Lanjutkan</span
               >
             </div>
-            <img src="../img/course2.png" alt="course 2" class="w-full" />
-            <div class="p-4">
-              <h4 class="text-2xl font-extrabold text-center mb-3 h-16">
+
+            <div class="w-full h-auto overflow-hidden">
+              <img
+                src="../img/course2.png"
+                alt="course 2"
+                class="w-full h-full object-cover"
+              />
+            </div>
+
+            <div class="flex-1 flex flex-col">
+              <div class="md:p-4 w-full">
+                <div
+                  class="flex justify-between items-center text-[#898989] progress-wrapper"
+                >
+                  <div
+                    class="w-[80%] 2xl:w-[85%] bg-[#E7E7E7] rounded h-1 relative progress-bar"
+                  >
+                    <div
+                      class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                      style="width: 0%"
+                      role="progressbar"
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                      aria-valuenow="0"
+                    ></div>
+                  </div>
+                  <span class="progress-text text-[8px] md:text-base px-1"
+                    >3 / 10</span
+                  >
+                </div>
+              </div>
+
+              <h4 class="text-xs md:text-2xl font-bold text-center h-16">
                 PROSES PEMBUATAN DOKUMEN SALES ORDER (SO)
               </h4>
-              <div
-                class="flex justify-between items-center text-sm text-gray-500 progress-wrapper"
-              >
-                <div class="w-[87%] bg-gray-200 rounded h-1 relative">
-                  <div
-                    class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
-                    style="width: 0%"
-                    role="progressbar"
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                    aria-valuenow="0"
-                  ></div>
-                </div>
-                <span class="progress-text pl-2">3 / 10</span>
-              </div>
             </div>
-          </div>
+          </article>
+
           <!-- CARD 3 -->
-          <div class="bg-white rounded-lg overflow-hidden shadow card-item">
+          <article
+            class="card-item hidden lg:flex bg-white rounded-lg overflow-hidden shadow flex-col h-full"
+          >
             <div
               class="flex justify-between items-center px-3 py-2 gap-2 text-sm font-semibold"
             >
               <div title="Terkunci">🔒</div>
-              <span class="bg-[#a80308] text-white px-3 py-1 rounded-lg"
+              <span
+                class="bg-[#a80308] text-white px-1 md:px-3 py-0.5 md:py-1 text-[8px] md:text-base rounded-sm md:rounded-lg"
                 >Mulai</span
               >
             </div>
-            <img src="../img/course3.png" alt="course 3" class="w-full" />
-            <div class="p-4">
-              <h4 class="text-2xl font-extrabold text-center mb-3 h-16">
+
+            <div class="w-full h-auto overflow-hidden">
+              <img
+                src="../img/course3.png"
+                alt="course 3"
+                class="w-full h-full object-cover"
+              />
+            </div>
+
+            <div class="flex-1 flex flex-col">
+              <div class="md:p-4 w-full">
+                <div
+                  class="flex justify-between items-center text-[#898989] progress-wrapper"
+                >
+                  <div
+                    class="w-[80%] 2xl:w-[85%] bg-[#E7E7E7] rounded h-1 relative progress-bar"
+                  >
+                    <div
+                      class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                      style="width: 0%"
+                      role="progressbar"
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                      aria-valuenow="0"
+                    ></div>
+                  </div>
+                  <span class="progress-text text-[8px] md:text-base px-1"
+                    >0 / 6</span
+                  >
+                </div>
+              </div>
+
+              <h4 class="text-xs md:text-2xl font-bold text-center h-16">
                 PERSIAPAN PENGIRIMAN BARANG
               </h4>
-              <div
-                class="flex justify-between items-center text-sm text-gray-500 progress-wrapper"
-              >
-                <div class="w-[87%] bg-gray-200 rounded h-1 relative">
-                  <div
-                    class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
-                    style="width: 0%"
-                    role="progressbar"
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                    aria-valuenow="0"
-                  ></div>
-                </div>
-                <span class="progress-text pl-2">0 / 6</span>
-              </div>
             </div>
-          </div>
+          </article>
         </div>
       </section>
-      <!-- (Pelatihan Umum section kept omitted here for brevity in preview; original content stays the same) -->
+
+      <!-- PELATIHAN Umum-->
+      <section id="pelatihan" class="my-4 lg:my-8">
+        <div class="flex flex-col mb-1 md:mb-4">
+          <h2
+            class="px-4 py-2 text-sm md:text-lg lg:text-3xl font-bold text-white bg-[#A80308] rounded-xl"
+          >
+            Pelatihan Umum
+          </h2>
+          <a
+            href="../course/public.html"
+            class="self-end mt-2 font-semibold text-[9px] md:text-base text-[#898989]"
+            >Lihat Selengkapnya</a
+          >
+        </div>
+
+        <div
+          id="courseGrid"
+          class="grid gap-2 md:gap-6 grid-cols-2 lg:grid-cols-3"
+        >
+          <!-- CARD 1 -->
+          <article
+            class="card-item bg-white rounded-lg overflow-hidden shadow flex flex-col h-full"
+          >
+            <div
+              class="flex justify-between items-center px-3 py-2 gap-2 text-sm font-semibold"
+            >
+              <div title="Terbuka">🔓</div>
+              <span
+                class="bg-[#28A745] text-white px-1 md:px-3 py-0.5 md:py-1 text-[8px] md:text-base rounded-sm md:rounded-lg"
+                >Selesai</span
+              >
+            </div>
+
+            <div class="w-full h-auto overflow-hidden">
+              <img
+                src="../img/course1.png"
+                alt="course 1"
+                class="w-full h-full object-cover"
+              />
+            </div>
+
+            <div class="flex-1 flex flex-col">
+              <div class="md:p-4 w-full">
+                <div
+                  class="flex justify-between items-center text-[#898989] progress-wrapper"
+                >
+                  <div
+                    class="w-[80%] 2xl:w-[85%] bg-[#E7E7E7] rounded h-1 relative progress-bar"
+                  >
+                    <div
+                      class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                      style="width: 0%"
+                      role="progressbar"
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                      aria-valuenow="0"
+                    ></div>
+                  </div>
+                  <span class="progress-text text-[8px] md:text-base px-1"
+                    >14 / 14</span
+                  >
+                </div>
+              </div>
+
+              <h4 class="text-xs md:text-2xl font-bold text-center h-auto">
+                ALUR PROSES PENERIMAAN PESANAN
+              </h4>
+            </div>
+          </article>
+
+          <!-- CARD 2 -->
+          <article
+            class="card-item bg-white rounded-lg overflow-hidden shadow flex flex-col h-full"
+          >
+            <div
+              class="flex justify-between items-center px-3 py-2 gap-2 text-sm font-semibold"
+            >
+              <div title="Terbuka">🔓</div>
+              <span
+                class="bg-[#FFB300] text-white px-1 md:px-3 py-0.5 md:py-1 text-[8px] md:text-base rounded-sm md:rounded-lg"
+                >Lanjutkan</span
+              >
+            </div>
+
+            <div class="w-full h-auto overflow-hidden">
+              <img
+                src="../img/course2.png"
+                alt="course 2"
+                class="w-full h-full object-cover"
+              />
+            </div>
+
+            <div class="flex-1 flex flex-col">
+              <div class="md:p-4 w-full">
+                <div
+                  class="flex justify-between items-center text-[#898989] progress-wrapper"
+                >
+                  <div
+                    class="w-[80%] 2xl:w-[85%] bg-[#E7E7E7] rounded h-1 relative progress-bar"
+                  >
+                    <div
+                      class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                      style="width: 0%"
+                      role="progressbar"
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                      aria-valuenow="0"
+                    ></div>
+                  </div>
+                  <span class="progress-text text-[8px] md:text-base px-1"
+                    >3 / 10</span
+                  >
+                </div>
+              </div>
+
+              <h4 class="text-xs md:text-2xl font-bold text-center h-16">
+                PROSES PEMBUATAN DOKUMEN SALES ORDER (SO)
+              </h4>
+            </div>
+          </article>
+
+          <!-- CARD 3 -->
+          <article
+            class="card-item hidden lg:flex bg-white rounded-lg overflow-hidden shadow flex-col h-full"
+          >
+            <div
+              class="flex justify-between items-center px-3 py-2 gap-2 text-sm font-semibold"
+            >
+              <div title="Terkunci">🔒</div>
+              <span
+                class="bg-[#a80308] text-white px-1 md:px-3 py-0.5 md:py-1 text-[8px] md:text-base rounded-sm md:rounded-lg"
+                >Mulai</span
+              >
+            </div>
+
+            <div class="w-full h-auto overflow-hidden">
+              <img
+                src="../img/course3.png"
+                alt="course 3"
+                class="w-full h-full object-cover"
+              />
+            </div>
+
+            <div class="flex-1 flex flex-col">
+              <div class="md:p-4 w-full">
+                <div
+                  class="flex justify-between items-center text-[#898989] progress-wrapper"
+                >
+                  <div
+                    class="w-[80%] 2xl:w-[85%] bg-[#E7E7E7] rounded h-1 relative progress-bar"
+                  >
+                    <div
+                      class="progress-fill bg-[#a80308] h-1 rounded absolute left-0 top-0"
+                      style="width: 0%"
+                      role="progressbar"
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                      aria-valuenow="0"
+                    ></div>
+                  </div>
+                  <span class="progress-text text-[8px] md:text-base px-1"
+                    >0 / 6</span
+                  >
+                </div>
+              </div>
+
+              <h4 class="text-xs md:text-2xl font-bold text-center h-16">
+                PERSIAPAN PENGIRIMAN BARANG
+              </h4>
+            </div>
+          </article>
+        </div>
+      </section>
+
       <!-- FAQ -->
-      <section class="my-8">
+      <section class="my-4 lg:my-8">
         <h2
-          class="px-4 py-2 mb-4 text-lg font-bold text-white bg-[#a80308] rounded-xl"
+          class="px-4 py-2 text-sm md:text-lg lg:text-3xl font-bold text-white bg-[#A80308] rounded-xl"
         >
           Frequently Asked Question
         </h2>
-        <div class="bg-white rounded-lg shadow-sm">
+        <div class="text-[10px] md:text-base">
           <!-- FAQ Item -->
           <div class="faq-item">
             <button
-              class="faq-btn flex items-center w-full p-4 text-left font-semibold gap-3"
+              class="faq-btn flex items-center w-full p-2 md:p-4 text-left font-bold gap-3"
               aria-expanded="false"
             >
               <span class="toggle-icon text-[#a80308]">+</span>
               <span>Bagaimana cara login?</span>
             </button>
-            <div
-              class="faq-content"
-              aria-hidden="true"
-              style="display: none; height: 0; opacity: 0; overflow: hidden"
-            >
-              <div class="text-gray-700 ml-10 p-2">
+            <div class="faq-content" aria-hidden="true">
+              <div class="text-[#001122] ml-8 md:ml-10 font-medium">
                 Untuk login ke LMS Ekatunggal, klik tombol "Masuk Sekarang" di
                 halaman utama.<br />
                 Masukkan username dan password yang sudah diberikan oleh
@@ -389,77 +624,65 @@
               </div>
             </div>
           </div>
+
           <div class="faq-item">
             <button
-              class="faq-btn flex items-center w-full p-4 text-left font-semibold gap-3"
+              class="faq-btn flex items-center w-full p-2 md:p-4 text-left font-bold gap-3"
               aria-expanded="false"
             >
               <span class="toggle-icon text-[#a80308]">+</span>
               <span>Lupa password, harus bagaimana?</span>
             </button>
-            <div
-              class="faq-content"
-              aria-hidden="true"
-              style="display: none; height: 0; opacity: 0; overflow: hidden"
-            >
-              <div class="text-gray-700 ml-10 p-2">
+            <div class="faq-content" aria-hidden="true">
+              <div class="text-[#001122] ml-8 md:ml-10 font-medium">
                 Hubungi Admin Learning &amp; Development untuk reset password.
               </div>
             </div>
           </div>
+
           <div class="faq-item">
             <button
-              class="faq-btn flex items-center w-full p-4 text-left font-semibold gap-3"
+              class="faq-btn flex items-center w-full p-2 md:p-4 text-left font-bold gap-3"
               aria-expanded="false"
             >
               <span class="toggle-icon text-[#a80308]">+</span>
               <span>Apa itu Learning Path?</span>
             </button>
-            <div
-              class="faq-content"
-              aria-hidden="true"
-              style="display: none; height: 0; opacity: 0; overflow: hidden"
-            >
-              <div class="text-gray-700 ml-10 p-2">
+            <div class="faq-content" aria-hidden="true">
+              <div class="text-[#001122] ml-8 md:ml-10 font-medium">
                 Learning Path adalah urutan materi belajar sesuai jalur karier
                 Anda.
               </div>
             </div>
           </div>
+
           <div class="faq-item">
             <button
-              class="faq-btn flex items-center w-full p-4 text-left font-semibold gap-3"
+              class="faq-btn flex items-center w-full p-2 md:p-4 text-left font-bold gap-3"
               aria-expanded="false"
             >
               <span class="toggle-icon text-[#a80308]">+</span>
               <span>Apa perbedaan Modul Private dan Public?</span>
             </button>
-            <div
-              class="faq-content"
-              aria-hidden="true"
-              style="display: none; height: 0; opacity: 0; overflow: hidden"
-            >
-              <div class="text-gray-700 ml-10 p-2">
+            <div class="faq-content" aria-hidden="true">
+              <div class="text-[#001122] ml-8 md:ml-10 font-medium">
                 Modul Private hanya dapat diakses oleh pengguna tertentu yang
                 sudah login, sedangkan Modul Public dapat diakses oleh semua
                 pengguna tanpa login.
               </div>
             </div>
           </div>
+
           <div class="faq-item">
             <button
-              class="faq-btn flex items-center w-full p-4 text-left font-semibold gap-3"
+              class="faq-btn flex items-center w-full p-2 md:p-4 text-left font-bold gap-3"
               aria-expanded="false"
             >
               <span class="toggle-icon text-[#a80308]">+</span>
               <span>Bagaimana cara mendapatkan sertifikat pelatihan?</span>
             </button>
-            <div
-              class="faq-content"
-              aria-hidden="true"
-              style="display: none; height: 0; opacity: 0; overflow: hidden"
-            >
-              <div class="text-gray-700 ml-10 p-2">
+            <div class="faq-content" aria-hidden="true">
+              <div class="text-[#001122] ml-8 md:ml-10 font-medium">
                 Sertifikat pelatihan dapat diperoleh setelah menyelesaikan semua
                 modul dalam suatu program pelatihan. Pastikan Anda telah
                 menyelesaikan semua tugas dan ujian yang diperlukan.
@@ -468,14 +691,15 @@
           </div>
         </div>
       </section>
+
       <!-- CONTACT -->
-      <section class="my-8">
+      <section class="my-4 lg:my-8">
         <h2
-          class="px-4 py-2 mb-4 text-lg font-bold text-white bg-[#a80308] rounded-xl"
+          class="px-4 py-2 text-sm md:text-lg lg:text-3xl font-bold text-white bg-[#A80308] rounded-xl"
         >
           Kontak
         </h2>
-        <div class="p-6 rounded-lg bg-gray-50">
+        <div class="p-6 rounded-lg bg-gray-50 text-[10px] md:text-base">
           <p class="mb-2">
             Ada pertanyaan atau kendala saat menggunakan LMS? Tim Learning &
             Development siap membantu Anda!
@@ -496,267 +720,303 @@
 
     <!-- Motion One (ESM) + JS: progress, FAQ, entrance animations, mobile nav -->
     <script type="module">
-  import { animate } from "https://cdn.jsdelivr.net/npm/motion@latest/+esm";
+      import { animate } from "https://cdn.jsdelivr.net/npm/motion@latest/+esm";
 
-  // ------ Mobile nav: overlay dropdown using scale (no layout shift)
-  function initMobileNav() {
-    const toggle = document.getElementById("mobileNavToggle");
-    const menu = document.getElementById("mobileMenu");
-    const hamburgerIcon = document.getElementById("hamburgerIcon");
-    const closeIcon = document.getElementById("closeIcon");
+      // ------ Mobile nav: overlay dropdown using scale (no layout shift)
+      function initMobileNav() {
+        const toggle = document.getElementById("mobileNavToggle");
+        const menu = document.getElementById("mobileMenu");
+        const hamburgerIcon = document.getElementById("hamburgerIcon");
+        const closeIcon = document.getElementById("closeIcon");
 
-    if (!toggle || !menu) return;
+        if (!toggle || !menu) return;
 
-    // initial ARIA / style
-    toggle.setAttribute("aria-expanded", "false");
-    menu.setAttribute("aria-hidden", "true");
-    menu.style.display = "none";
-    menu.style.transform = "scaleY(0)";
-    menu.style.opacity = "0";
-    menu.style.transformOrigin = "top";
+        // initial ARIA / style
+        toggle.setAttribute("aria-expanded", "false");
+        menu.setAttribute("aria-hidden", "true");
+        menu.style.display = "none";
+        menu.style.transform = "scaleY(0)";
+        menu.style.opacity = "0";
+        menu.style.transformOrigin = "top";
 
-    let open = false;
-    let currentAnim = null;
+        let open = false;
+        let currentAnim = null;
 
-    const openMenu = () => {
-      if (currentAnim && currentAnim.cancel) currentAnim.cancel();
-      menu.style.display = "block";
-      menu.style.transformOrigin = "top";
-      currentAnim = animate(
-        menu,
-        { scale: [0, 1], opacity: [0, 1] },
-        { duration: 0.28, easing: "cubic-bezier(.2,.9,.2,1)" }
-      );
+        const openMenu = () => {
+          if (currentAnim && currentAnim.cancel) currentAnim.cancel();
+          menu.style.display = "block";
+          menu.style.transformOrigin = "top";
+          currentAnim = animate(
+            menu,
+            { scale: [0, 1], opacity: [0, 1] },
+            { duration: 0.28, easing: "cubic-bezier(.2,.9,.2,1)" }
+          );
 
-      toggle.setAttribute("aria-expanded", "true");
-      menu.setAttribute("aria-hidden", "false");
-      hamburgerIcon.classList.add("hidden");
-      closeIcon.classList.remove("hidden");
+          toggle.setAttribute("aria-expanded", "true");
+          menu.setAttribute("aria-hidden", "false");
+          hamburgerIcon.classList.add("hidden");
+          closeIcon.classList.remove("hidden");
 
-      currentAnim.finished
-        .then(() => {
-          menu.style.transform = "none";
-          menu.style.opacity = "1";
-          currentAnim = null;
-        })
-        .catch(() => {
-          menu.style.transform = "none";
-          menu.style.opacity = "1";
-          currentAnim = null;
+          currentAnim.finished
+            .then(() => {
+              menu.style.transform = "none";
+              menu.style.opacity = "1";
+              currentAnim = null;
+            })
+            .catch(() => {
+              menu.style.transform = "none";
+              menu.style.opacity = "1";
+              currentAnim = null;
+            });
+
+          open = true;
+        };
+
+        const closeMenu = () => {
+          if (!open) return;
+          if (currentAnim && currentAnim.cancel) currentAnim.cancel();
+
+          currentAnim = animate(
+            menu,
+            { scale: [1, 0], opacity: [1, 0] },
+            { duration: 0.22, easing: "ease-in" }
+          );
+
+          toggle.setAttribute("aria-expanded", "false");
+          menu.setAttribute("aria-hidden", "true");
+          hamburgerIcon.classList.remove("hidden");
+          closeIcon.classList.add("hidden");
+
+          currentAnim.finished
+            .then(() => {
+              menu.style.display = "none";
+              menu.style.transform = "scaleY(0)";
+              menu.style.opacity = "0";
+              currentAnim = null;
+            })
+            .catch(() => {
+              menu.style.display = "none";
+              menu.style.transform = "scaleY(0)";
+              menu.style.opacity = "0";
+              currentAnim = null;
+            });
+
+          open = false;
+        };
+
+        // toggle click
+        toggle.addEventListener("click", (e) => {
+          e.stopPropagation();
+          if (open) closeMenu();
+          else openMenu();
         });
 
-      open = true;
-    };
-
-    const closeMenu = () => {
-      if (!open) return;
-      if (currentAnim && currentAnim.cancel) currentAnim.cancel();
-
-      currentAnim = animate(
-        menu,
-        { scale: [1, 0], opacity: [1, 0] },
-        { duration: 0.22, easing: "ease-in" }
-      );
-
-      toggle.setAttribute("aria-expanded", "false");
-      menu.setAttribute("aria-hidden", "true");
-      hamburgerIcon.classList.remove("hidden");
-      closeIcon.classList.add("hidden");
-
-      currentAnim.finished
-        .then(() => {
-          menu.style.display = "none";
-          menu.style.transform = "scaleY(0)";
-          menu.style.opacity = "0";
-          currentAnim = null;
-        })
-        .catch(() => {
-          menu.style.display = "none";
-          menu.style.transform = "scaleY(0)";
-          menu.style.opacity = "0";
-          currentAnim = null;
+        // close when clicking outside
+        document.addEventListener("click", (ev) => {
+          if (!open) return;
+          const clickTarget = ev.target;
+          if (!(clickTarget instanceof Node)) return;
+          if (!menu.contains(clickTarget) && !toggle.contains(clickTarget)) {
+            closeMenu();
+          }
         });
 
-      open = false;
-    };
+        // close on scroll (passive)
+        window.addEventListener(
+          "scroll",
+          () => {
+            if (open) closeMenu();
+          },
+          { passive: true }
+        );
 
-    // toggle click
-    toggle.addEventListener("click", (e) => {
-      e.stopPropagation();
-      if (open) closeMenu();
-      else openMenu();
-    });
-
-    // close when clicking outside
-    document.addEventListener("click", (ev) => {
-      if (!open) return;
-      const clickTarget = ev.target;
-      if (!(clickTarget instanceof Node)) return;
-      if (!menu.contains(clickTarget) && !toggle.contains(clickTarget)) {
-        closeMenu();
+        // close on resize to >= lg
+        window.addEventListener("resize", () => {
+          if (window.innerWidth >= 1024 && menu.style.display !== "none") {
+            if (currentAnim && currentAnim.cancel) currentAnim.cancel();
+            closeMenu();
+          }
+        });
       }
-    });
 
-    // close on scroll (passive)
-    window.addEventListener(
-      "scroll",
-      () => {
-        if (open) closeMenu();
-      },
-      { passive: true }
-    );
-
-    // close on resize to >= lg
-    window.addEventListener("resize", () => {
-      if (window.innerWidth >= 1024 && menu.style.display !== "none") {
-        if (currentAnim && currentAnim.cancel) currentAnim.cancel();
-        closeMenu();
+      // ------ UTIL: parse "X / Y"
+      function parseProgressText(text) {
+        const m = String(text).match(/(\d+)\s*\/\s*(\d+)/);
+        if (!m) return null;
+        return [parseInt(m[1], 10), parseInt(m[2], 10)];
       }
-    });
-  }
 
-  // ------ UTIL: parse "X / Y"
-  function parseProgressText(text) {
-    const m = String(text).match(/(\d+)\s*\/\s*(\d+)/);
-    if (!m) return null;
-    return [parseInt(m[1], 10), parseInt(m[2], 10)];
-  }
+      // ------ PROGRESS: update dengan Motion One animate
+      function updateProgress(wrapper) {
+        const span = wrapper.querySelector(".progress-text");
+        const fill = wrapper.querySelector(".progress-fill");
+        if (!span || !fill) return;
 
-  // ------ PROGRESS: update dengan Motion One animate
-  function updateProgress(wrapper) {
-    const span = wrapper.querySelector(".progress-text");
-    const fill = wrapper.querySelector(".progress-fill");
-    if (!span || !fill) return;
-
-    const nums = parseProgressText(span.textContent);
-    if (!nums) {
-      animate(fill, { width: ["0%"] }, { duration: 0.35, easing: "ease-in-out" });
-      fill.setAttribute("aria-valuenow", 0);
-      return;
-    }
-
-    const [cur, total] = nums;
-    let pct = total === 0 ? 0 : (cur / total) * 100;
-    pct = Math.max(0, Math.min(100, +pct.toFixed(2)));
-    const pctStr = pct + "%";
-
-    // animate width (smooth)
-    animate(fill, { width: pctStr }, { duration: 0.45, easing: "cubic-bezier(.2,.9,.2,1)" });
-
-    fill.setAttribute("aria-valuenow", cur);
-    fill.setAttribute("aria-valuemax", total);
-    fill.setAttribute("aria-valuemin", 0);
-  }
-
-  function initProgressWrappers() {
-    document.querySelectorAll(".progress-wrapper").forEach((wrapper) => {
-      // initial update
-      updateProgress(wrapper);
-
-      // observe perubahan teks
-      const span = wrapper.querySelector(".progress-text");
-      if (!span) return;
-
-      const mo = new MutationObserver(() => updateProgress(wrapper));
-      mo.observe(span, { childList: true, characterData: true, subtree: true });
-    });
-  }
-
-  // ------ FAQ: animate open/close menggunakan Motion One
-  function initFAQ() {
-    document.querySelectorAll(".faq-item").forEach((item) => {
-      const btn = item.querySelector(".faq-btn");
-      const content = item.querySelector(".faq-content");
-      const icon = btn.querySelector(".toggle-icon");
-
-      // starting collapsed state
-      content.style.display = "none";
-      content.style.height = "0px";
-      content.style.opacity = "0";
-      content.setAttribute("aria-hidden", "true");
-      btn.setAttribute("aria-expanded", "false");
-
-      btn.addEventListener("click", () => {
-        const isClosed = content.style.display === "none" || content.getBoundingClientRect().height <= 1;
-
-        if (isClosed) {
-          // show and measure
-          content.style.display = "block";
-          const target = content.scrollHeight;
-
-          // animate height + opacity
-          const anim = animate(content, { height: [0, target + "px"], opacity: [0, 1] }, { duration: 0.45, easing: "ease-in-out" });
-
-          btn.setAttribute("aria-expanded", "true");
-          content.setAttribute("aria-hidden", "false");
-          icon.textContent = "−";
-
-          anim.finished.then(() => {
-            content.style.height = "auto"; // allow wrapping
-          }).catch(() => {
-            content.style.height = "auto";
-          });
-        } else {
-          // collapse: fix current height then animate to 0
-          const from = content.scrollHeight;
-          content.style.height = from + "px";
-
-          const anim = animate(content, { height: [from + "px", "0px"], opacity: [1, 0] }, { duration: 0.35, easing: "ease-in-out" });
-
-          anim.finished.then(() => {
-            content.style.display = "none";
-            btn.setAttribute("aria-expanded", "false");
-            content.setAttribute("aria-hidden", "true");
-            icon.textContent = "+";
-          }).catch(() => {
-            content.style.display = "none";
-            btn.setAttribute("aria-expanded", "false");
-            content.setAttribute("aria-hidden", "true");
-            icon.textContent = "+";
-          });
+        const nums = parseProgressText(span.textContent);
+        if (!nums) {
+          animate(
+            fill,
+            { width: ["0%"] },
+            { duration: 0.35, easing: "ease-in-out" }
+          );
+          fill.setAttribute("aria-valuenow", 0);
+          return;
         }
-      });
-    });
-  }
 
-  // ------ Entrance animations: hero + cards
-  function initEntranceAnimations() {
-    const hero = document.getElementById("heroContent");
-    if (hero) {
-      hero.style.opacity = "0";
-      hero.style.transform = "translateX(-18px)";
-      animate(hero, { x: [-18, 0], opacity: [0, 1] }, { duration: 0.6, easing: "ease-out" });
-    }
+        const [cur, total] = nums;
+        let pct = total === 0 ? 0 : (cur / total) * 100;
+        pct = Math.max(0, Math.min(100, +pct.toFixed(2)));
+        const pctStr = pct + "%";
 
-    const items = document.querySelectorAll(".card-item");
-    const io = new IntersectionObserver((entries, observer) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const el = entry.target;
-          el.style.opacity = "0";
-          animate(el, { y: [12, 0], opacity: [0, 1] }, { duration: 0.5, easing: "ease-out" });
-          observer.unobserve(el);
+        // animate width (smooth)
+        animate(
+          fill,
+          { width: pctStr },
+          { duration: 0.45, easing: "cubic-bezier(.2,.9,.2,1)" }
+        );
+
+        fill.setAttribute("aria-valuenow", cur);
+        fill.setAttribute("aria-valuemax", total);
+        fill.setAttribute("aria-valuemin", 0);
+      }
+
+      function initProgressWrappers() {
+        document.querySelectorAll(".progress-wrapper").forEach((wrapper) => {
+          // initial update
+          updateProgress(wrapper);
+
+          // observe perubahan teks
+          const span = wrapper.querySelector(".progress-text");
+          if (!span) return;
+
+          const mo = new MutationObserver(() => updateProgress(wrapper));
+          mo.observe(span, {
+            childList: true,
+            characterData: true,
+            subtree: true,
+          });
+        });
+      }
+
+      // ------ FAQ: animate open/close menggunakan Motion One
+      function initFAQ() {
+        document.querySelectorAll(".faq-item").forEach((item) => {
+          const btn = item.querySelector(".faq-btn");
+          const content = item.querySelector(".faq-content");
+          const icon = btn.querySelector(".toggle-icon");
+
+          // starting collapsed state
+          content.style.display = "none";
+          content.style.height = "0px";
+          content.style.opacity = "0";
+          content.setAttribute("aria-hidden", "true");
+          btn.setAttribute("aria-expanded", "false");
+
+          btn.addEventListener("click", () => {
+            const isClosed =
+              content.style.display === "none" ||
+              content.getBoundingClientRect().height <= 1;
+
+            if (isClosed) {
+              // show and measure
+              content.style.display = "block";
+              const target = content.scrollHeight;
+
+              // animate height + opacity
+              const anim = animate(
+                content,
+                { height: [0, target + "px"], opacity: [0, 1] },
+                { duration: 0.45, easing: "ease-in-out" }
+              );
+
+              btn.setAttribute("aria-expanded", "true");
+              content.setAttribute("aria-hidden", "false");
+              icon.textContent = "−";
+
+              anim.finished
+                .then(() => {
+                  content.style.height = "auto"; // allow wrapping
+                })
+                .catch(() => {
+                  content.style.height = "auto";
+                });
+            } else {
+              // collapse: fix current height then animate to 0
+              const from = content.scrollHeight;
+              content.style.height = from + "px";
+
+              const anim = animate(
+                content,
+                { height: [from + "px", "0px"], opacity: [1, 0] },
+                { duration: 0.35, easing: "ease-in-out" }
+              );
+
+              anim.finished
+                .then(() => {
+                  content.style.display = "none";
+                  btn.setAttribute("aria-expanded", "false");
+                  content.setAttribute("aria-hidden", "true");
+                  icon.textContent = "+";
+                })
+                .catch(() => {
+                  content.style.display = "none";
+                  btn.setAttribute("aria-expanded", "false");
+                  content.setAttribute("aria-hidden", "true");
+                  icon.textContent = "+";
+                });
+            }
+          });
+        });
+      }
+
+      // ------ Entrance animations: hero + cards
+      function initEntranceAnimations() {
+        const hero = document.getElementById("heroContent");
+        if (hero) {
+          hero.style.opacity = "0";
+          hero.style.transform = "translateX(-18px)";
+          animate(
+            hero,
+            { x: [-18, 0], opacity: [0, 1] },
+            { duration: 0.6, easing: "ease-out" }
+          );
         }
-      });
-    }, { threshold: 0.12 });
 
-    items.forEach((it) => io.observe(it));
-  }
+        const items = document.querySelectorAll(".card-item");
+        const io = new IntersectionObserver(
+          (entries, observer) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                const el = entry.target;
+                el.style.opacity = "0";
+                animate(
+                  el,
+                  { y: [12, 0], opacity: [0, 1] },
+                  { duration: 0.5, easing: "ease-out" }
+                );
+                observer.unobserve(el);
+              }
+            });
+          },
+          { threshold: 0.12 }
+        );
 
-  // ------ Init on DOM ready
-  function initAll() {
-    initProgressWrappers();
-    initFAQ();
-    initEntranceAnimations();
-    initMobileNav(); // <-- mobile nav init
-  }
+        items.forEach((it) => io.observe(it));
+      }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initAll);
-  } else {
-    initAll();
-  }
-</script>
+      // ------ Init on DOM ready
+      function initAll() {
+        initProgressWrappers();
+        initFAQ();
+        initEntranceAnimations();
+        initMobileNav(); // <-- mobile nav init
+      }
 
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initAll);
+      } else {
+        initAll();
+      }
+    </script>
   </body>
 </html>
